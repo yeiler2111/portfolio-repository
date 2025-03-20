@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilos globales de fondo y encabezados */
+
+html {
+  --header-bg: #f3f4f6; /* Modo claro */
+  --header-text: #1f2937; /* Modo claro */
+  --body-bg: #ffffff; /* Fondo claro para body */
+  --body-text: #1f2937; /* Texto claro para body */
+}
+
+html.dark {
+  --header-bg: #1f2937; /* Modo oscuro */
+  --header-text: #f3f4f6; /* Modo oscuro */
+  --body-bg: #1a202c; /* Fondo oscuro para body */
+  --body-text: #f3f4f6; /* Texto claro para body */
+}
+
+/* Estilo del header */
+header {
+  background-color: var(--header-bg);
+  color: var(--header-text);
+}
+
+/* Estilo del body */
+body {
+  background-color: var(--body-bg);
+  color: var(--body-text);
+}
+
+/* Otros elementos que necesiten aplicar el modo oscuro */
+h1, h2, h3, p {
+  color: var(--body-text);
+}
