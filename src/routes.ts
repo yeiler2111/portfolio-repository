@@ -3,7 +3,8 @@ import { createMemoryHistory, createRouter } from 'vue-router'
 
 const routes = [
     { path: '/', component: Home },
-    { path: '/contactMe', component: () => import('@/components/ContactMe.vue') },
+    { path: '/contactme', component: () => import('@/components/ContactMe.vue') },
+    { path: '/portfolio', component: () => import('@/components/Portfolio.vue') }
 ]
 
 export const router = createRouter({

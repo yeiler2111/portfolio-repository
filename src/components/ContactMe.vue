@@ -44,7 +44,13 @@ const sendMessage = async () => {
   errors.value = {};
 
   try {
-    const res = await sendEmail(form);
+    const res = await sendEmail({
+      to_name: form.name,
+      reply_to: form.email,
+      from_name: form.affair,
+      message: form.message,
+    });
+    debugger
     $q.notify({
       message: `Transacción Exitosa ${
         res.status == 201

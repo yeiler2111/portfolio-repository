@@ -4,9 +4,14 @@ export const MenuItem = [
         name: 'Inicio',
     },
     {
-        path: '/contactMe',
+        path: '/portfolio',
+        name: 'Portafolio',
+    },
+    {
+        path: '/ContactMe',
         name: 'Contáctame',
     },
+
 ]
 
 export const CardItems = [

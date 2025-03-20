@@ -11,8 +11,10 @@ init({
 });
 
 interface ParamsEmail {
-    name: string;
-    email: string;
+    from_name: string,
+    to_name: "yeiler simons",
+    reply_to: string,
+    message:string,
 }
 
 export const sendEmail = async (templateParams: ParamsEmail) => {
