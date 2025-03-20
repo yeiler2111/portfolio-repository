@@ -1,6 +1,6 @@
 <script setup>
 import networking from "@/components/shared/networkingContact.vue";
-import Card from "@/components/shared/Card.vue";
+import Section from "@/components/shared/Section.vue";
 import {CardItems} from "@/data/data"
 console.log(CardItems)
 </script>
@@ -37,7 +37,7 @@ console.log(CardItems)
           :key="index"
           class="flex justify-center text-center mb-12"
         >
-          <Card :card="item" />
+          <Section :card="item" />
         </div>
       </div>
     </section>
