@@ -29,10 +29,10 @@ onMounted(() => {
 
 <template>
   <header
-    class="fixed top-0 left-0 w-full z-50 bg-gray-50 bg-opacity-40 dark:bg-gray-900 dark:bg-opacity-40 text-gray-900 dark:text-gray-200 h-16 flex items-center justify-between px-4 shadow-md backdrop-blur-md"
+    class="fixed pt-5 top-0 left-0 w-full z-50 bg-gray-50 bg-opacity-40 dark:bg-gray-900 dark:bg-opacity-40 text-gray-900 dark:text-gray-200 h-16 flex items-center justify-between flex-nowrap px-4 shadow-md backdrop-blur-md"
   >
     <div
-      class="flex items-center hover:cursor-pointer"
+      class="sm:hidden md:w-36 flex items-center hover:cursor-pointer"
       @click="$router.push({ path: '/' })"
     >
       <Logo :isDarkMode="isDarkMode" />
@@ -67,7 +67,7 @@ onMounted(() => {
         </ul>
 
         <!-- Menú desplegable para pantallas pequeñas -->
-        <div class="sm:flex md:hidden lg:hidden xl:hidden 2xl:hidden">
+        <div class="sm:flex lg:hidden xl:hidden 2xl:hidden">
           <button
             class="flex items-center px-3 py-2 border rounded text-gray-800 border-gray-400 dark:text-gray-300 dark:border-gray-600"
             @click="isMenuOpen = !isMenuOpen"
@@ -100,6 +100,17 @@ onMounted(() => {
                 "
               >
                 Contáctame
+              </li>
+              <li
+                class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                @click="
+                  () => {
+                    $router.push({ path: '/portfolio' });
+                    isMenuOpen = false;
+                  }
+                "
+              >
+                Portafolio
               </li>
             </ul>
           </transition>

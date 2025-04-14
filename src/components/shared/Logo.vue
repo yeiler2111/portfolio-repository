@@ -8,7 +8,7 @@ const props = defineProps<{ isDarkMode: boolean }>();
     viewBox="0 0 300 100"
     class="w-full h-auto"
   >
-    <rect width="300" height="100" fill="transparent" />
+    <rect width="250" height="100" fill="transparent" />
 
     <g v-if="!props.isDarkMode">
       <text x="15" y="35" class="font-mono text-3xl font-bold fill-gray-900">

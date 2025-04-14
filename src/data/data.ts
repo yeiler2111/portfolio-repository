@@ -16,25 +16,17 @@ export const MenuItem = [
 
 export const CardItems = [
     {
-        title: " ¿Quién soy?",
-        textContent: ` Soy un desarrollador web autodidacta con un enfoque en diseño y
-                funcionalidad. Actualmente, estudio Ingeniería de Sistemas
-                (noveno semestre), lo que complementa mi pasión por crear
-                soluciones innovadoras. Siempre busco mejorar mis habilidades y
-                enfrentar nuevos desafíos en el desarrollo de software.`,
+      title: "¿Quién soy?",
+      textContent: `Soy un desarrollador autodidacta con enfoque en diseño y funcionalidad. Estudio Ingeniería de Sistemas (noveno semestre), y me apasiona crear soluciones útiles y bien estructuradas. Siempre estoy en búsqueda de nuevos retos para seguir creciendo profesionalmente.`,
     },
     {
-        title: " Sobre mí",
-        textContent: `Soy un desarrollador web con pasión por crear experiencias digitales
-              únicas. Tengo experiencia en tecnologías modernas como Vue.js,
-              Tailwind CSS y más. Mi enfoque siempre está en la calidad del
-              código, la optimización del rendimiento y la experiencia del
-              usuario.`,
+      title: "Sobre mí",
+      textContent: `Me apasiona la tecnología y aprender de forma constante. Disfruto trabajar en equipo, colaborar con otros y enfrentar desafíos que me permitan aportar desde la escucha, el análisis y la creatividad.`,
     },
     {
-        title: " Mi filosofía",
-        textContent:
-            "    El desarrollo web es más que escribir código; se trata de crear soluciones que impacten positivamente en las personas. Valoro el aprendizaje continuo, la humildad y la mejora constante en cada proyecto.",
+      title: "Mi filosofía",
+      textContent: `Veo el desarrollo como un medio para generar un impacto positivo en la sociedad. Valoro la mejora continua, la humildad para aprender, y el compromiso con proyectos que realmente aporten valor. Creo que la colaboración y la empatía son claves para construir soluciones que marquen la diferencia.`,
     },
-];
+  ];
+  
 

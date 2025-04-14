@@ -35,7 +35,7 @@ const validateForm = async () => {
 };
 
 const sendMessage = async () => {
-  debugger;
+  debugger
   const { validated, errors } = await validateForm();
   if (!validated) {
     errors.value = errors;
@@ -50,7 +50,7 @@ const sendMessage = async () => {
       from_name: form.affair,
       message: form.message,
     });
-    debugger
+    
     $q.notify({
       message: `Transacción Exitosa ${
         res.status == 201
