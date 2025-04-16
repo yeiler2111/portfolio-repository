@@ -1,61 +1,17 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="">
   <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <!-- Ícono del sitio -->
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
-    <!-- Estilos externos (Font Awesome) -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-      rel="stylesheet"
-    />
-
-    <!-- Título dinámico (desde Vue CLI) -->
     <title><%= htmlWebpackPlugin.options.title %></title>
-
-    <!-- Verificación con Google Search Console -->
-    <meta name="google-site-verification" content="google880cdd5af604488d" />
-
-    <!-- SEO Básico -->
-    <meta name="description" content="Portafolio de Yeiler Simons Romero, desarrollador de software especializado en frontend y backend. Descubre sus proyectos, habilidades y contacto." />
-    <meta name="keywords" content="Yeiler Simons Romero, desarrollador web, frontend, backend, JavaScript, Vue, React, Node.js" />
-    <meta name="author" content="Yeiler Simons Romero" />
-    <meta name="robots" content="index, follow" />
-
-    <!-- Open Graph para redes sociales -->
-    <meta property="og:title" content="Yeiler Simons Romero - Desarrollador de Software" />
-    <meta property="og:description" content="Explora el portafolio de Yeiler Simons Romero, desarrollador web especializado en tecnologías modernas." />
-    <meta property="og:image" content="https://portfolio-yeiler.netlify.app/" />
-    <meta property="og:url" content="https://portfolio-yeiler.netlify.app/" />
-    <meta property="og:type" content="website" />
-
-    <!-- Datos estructurados Schema.org (JSON-LD) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Yeiler Simons Romero",
-      "url": "https://tudominio.com",
-      "sameAs": [
-        "https://github.com/yeiler2111",
-        "https://linkedin.com/in/yeiler-simons-romero"
-      ],
-      "jobTitle": "Desarrollador de Software",
-      "worksFor": {
-        "@type": "Organization",
-        "name": "Independiente"
-      }
-    }
-    </script>
   </head>
-
   <body>
     <noscript>
-      <strong>Lo sentimos, pero <%= htmlWebpackPlugin.options.title %> no funciona correctamente sin JavaScript habilitado. Por favor, actívalo para continuar.</strong>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
