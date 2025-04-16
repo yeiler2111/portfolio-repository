@@ -1,27 +1,40 @@
 <script setup>
 import networking from "@/components/shared/networkingContact.vue";
 import Section from "@/components/shared/Section.vue";
-import {CardItems} from "@/data/data"
-console.log(CardItems)
+import { CardItems } from "@/data/data";
+console.log(CardItems);
 </script>
 
 <template>
   <div class="bg-gray-50 dark:bg-gray-950 text-gray-800 dark:text-gray-100">
-    <section
+  <section
   class="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-500 to-teal-500 dark:from-blue-600 dark:to-teal-700 shadow-md dark:shadow-lg w-full"
 >
-  <div class="text-center px-4 flex flex-col md:flex-row justify-center items-center">
-    <div class="mb-4 md:mb-0">
-      <img src="/img/imagen_mia.jpg" alt="Yeiler Simons" class="rounded-lg w-64 h-67 object-cover border-4 border-white shadow-lg" />
+  <div
+    class="text-center px-4 flex flex-col md:flex-col justify-center items-center"
+  >
+    <div class="mb-4">
+      <img
+        src="/img/imagen_mia.jpg"
+        alt="Yeiler Simons"
+        class="rounded-lg w-60 h-65 object-cover border-4 border-white shadow-lg"
+      />
     </div>
-    <div class="md:ml-8">
-      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 animate__animated animate__fadeIn">
+    <div class="md:ml-0">
+      <h1
+        class="text-4xl md:text-5xl font-bold text-white mb-4 animate__animated animate__fadeIn"
+      >
         Hola, soy Yeiler Simons
       </h1>
-      <p class="text-lg md:text-xl text-gray-100 dark:text-gray-300 mb-8 animate__animated animate__fadeIn animate__delay-1s">
+      <p
+        class="text-lg md:text-xl text-gray-100 dark:text-gray-300 mb-8 animate__animated animate__fadeIn animate__delay-1s"
+      >
         Desarrollador web | Apasionado por la tecnología y el diseño
       </p>
-      <a href="#about" class="bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-400 py-2 px-5 rounded-full text-lg font-semibold hover:bg-gray-200 transition-all duration-300">
+      <a
+        href="#about"
+        class="bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-400 py-2 px-5 rounded-full text-lg font-semibold hover:bg-gray-200 transition-all duration-300"
+      >
         Conoce más sobre mí
       </a>
     </div>
