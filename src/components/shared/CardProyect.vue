@@ -1,6 +1,6 @@
 <template>
   <div
-    class="group relative dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-transform hover:scale-105 duration-300 max-w-xl mx-auto"
+    class="h-3/4 group relative w-3/4 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-transform hover:scale-105 duration-300 max-w-xl mx-auto"
   >
     <!-- Carrusel -->
      <div class="relative w-full h-64 overflow-hidden"> <!-- Ajustamos la altura al contenedor -->
@@ -9,7 +9,7 @@
           :key="images[currentIndex]"
           :src="images[currentIndex]"
           alt="Project image"
-          class="w-full h-full object-cover object-center transition-opacity duration-700"
+          class="w-full h-full object-contain object-center transition-opacity duration-700"
         />
       </transition>
 
