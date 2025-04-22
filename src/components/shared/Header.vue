@@ -29,7 +29,7 @@
 
   <template>
     <header
-      class="fixed pt-5 top-0 left-0 w-full z-50 bg-gray-50 bg-opacity-40 dark:bg-gray-900 dark:bg-opacity-40 text-gray-900 dark:text-gray-200 h-16 flex items-center justify-between flex-nowrap px-4 shadow-md backdrop-blur-md"
+      class="fixed py-3 top-0 left-0 w-full z-50 bg-gray-50 bg-opacity-40 dark:bg-gray-900 dark:bg-opacity-40 text-gray-900 dark:text-gray-200 h-16 flex items-center justify-between flex-nowrap px-4 shadow-md backdrop-blur-md"
     >
       <div
         class="max-sm:w-40  flex items-center hover:cursor-pointer"
@@ -38,7 +38,7 @@
         <Logo :isDarkMode="isDarkMode" />
       </div>
       <div>
-        <nav class="flex items-center mb-5">
+        <nav class="flex items-center ">
           <label class="inline-flex items-center cursor-pointer mr-4 max-md:w-1/2">
             <span class="mr-1 text-sm">{{
               isDarkMode ? "Modo oscuro" : "Modo claro"
