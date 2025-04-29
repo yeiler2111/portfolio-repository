@@ -1,5 +1,5 @@
-export const messageEmail = (name:string) => {
-    return `<html>
+export const messageEmail = (name: string) => {
+  return `<html>
     <head>
       <style>
         body {
