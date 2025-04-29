@@ -28,7 +28,7 @@ const technologies = [
           :key="tech.name"
           class="bg-gray-100 dark:bg-gray-800 rounded-2xl shadow p-3 flex flex-col items-center justify-center hover:scale-105 transition-transform"
         >
-          <i :class="tech.icon" class="text-4xl text-indigo-500 mb-3"></i>
+          <i :class="tech.icon" class="text-4xl bg-gradient-to-r from-blue-500 to-teal-500 dark:from-blue-600 dark:to-teal-700 inline-block text-transparent  bg-clip-text"></i>
           <span class="text-lg font-medium text-gray-700 dark:text-gray-200">
             {{ tech.name }}
           </span>

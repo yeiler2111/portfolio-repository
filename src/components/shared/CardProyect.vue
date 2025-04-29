@@ -3,23 +3,39 @@
     class="h-3/4 group relative w-3/4 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-transform hover:scale-105 duration-300 max-w-xl mx-auto"
   >
     <!-- Carrusel -->
-     <div class="relative w-full h-64 overflow-hidden"> <!-- Ajustamos la altura al contenedor -->
+    <div
+      class="relative w-full h-64 overflow-hidden flex justify-center items-center"
+    >
+      <!-- Loader encima de la imagen -->
+      <div
+        v-if="isLoading"
+        class="absolute z-10 flex justify-center items-center w-full h-full bg-white/50 dark:bg-gray-800/50"
+      >
+        <div class="loader"></div>
+      </div>
+
       <transition name="fade" mode="out-in">
         <img
           :key="images[currentIndex]"
           :src="images[currentIndex]"
           alt="Project image"
+          @load="handleImageLoad"
           class="w-full h-full object-contain object-center transition-opacity duration-700"
+          :class="{ 'opacity-0': isLoading, 'opacity-100': !isLoading }"
         />
       </transition>
 
       <!-- Indicadores -->
-      <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
+      <div
+        class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1 z-20"
+      >
         <span
           v-for="(img, index) in images"
           :key="index"
           class="w-2 h-2 rounded-full transition-colors duration-300"
-          :class="index === currentIndex ? 'bg-white' : 'bg-gray-400 opacity-70'"
+          :class="
+            index === currentIndex ? 'bg-white' : 'bg-gray-400 opacity-70'
+          "
         ></span>
       </div>
     </div>
@@ -29,11 +45,9 @@
       <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">
         {{ title }}
       </h3>
-
       <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
         {{ description }}
       </p>
-
       <div class="flex flex-wrap gap-2 mb-4">
         <span
           v-for="tech in technologies"
@@ -43,7 +57,6 @@
           {{ tech }}
         </span>
       </div>
-
       <a
         :href="link"
         target="_blank"
@@ -56,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, defineProps } from "vue";
+import { ref, onMounted, onBeforeUnmount, defineProps, watch } from "vue";
 
 export interface ValueCardProject {
   title: string;
@@ -69,7 +82,13 @@ export interface ValueCardProject {
 const props = defineProps<ValueCardProject>();
 
 const currentIndex = ref(0);
+const isLoading = ref(true); // <- aquí controlamos el estado de carga
 let intervalId: number | null = null;
+
+// Cada vez que cambie la imagen, mostramos el loader
+watch(currentIndex, () => {
+  isLoading.value = true;
+});
 
 onMounted(() => {
   intervalId = window.setInterval(() => {
@@ -80,6 +99,11 @@ onMounted(() => {
 onBeforeUnmount(() => {
   if (intervalId !== null) clearInterval(intervalId);
 });
+
+// Cuando la imagen termine de cargar
+const handleImageLoad = () => {
+  isLoading.value = false;
+};
 </script>
 
 <style scoped>
