@@ -12,20 +12,15 @@ const onImageLoad = () => {
 };
 
 onBeforeMount(() => {
-  const link = document.createElement("link");
-  link.rel = "preload";
-  link.as = "image";
-  link.href = "/img/imagen_mia_480.webp";
-  link.setAttribute(
-    "imagesrcset",
-    "/img/imagen_mia_240.webp 240w, /img/imagen_mia_480.webp 480w, /img/imagen_mia_768.webp 768w"
-  );
-  link.setAttribute(
-    "imagesizes",
-    "(max-width: 640px) 240px, (max-width: 768px) 480px, 768px"
-  );
-
-  document.head.appendChild(link);
+  const preloadImages = ["/img/imagen_mia_480.webp"];
+  preloadImages.forEach((src) => {
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
+    link.href = src;
+    link.fetchPriority = "high";
+    document.head.appendChild(link);
+  });
 });
 </script>
 
@@ -33,40 +28,40 @@ onBeforeMount(() => {
   <div class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100">
     <!-- Hero Section -->
     <section
-      class="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-500 to-teal-500 dark:from-blue-600 dark:to-teal-700 shadow-md dark:shadow-lg w-full max-sm:p-2"
+      class="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-500 to-teal-500 dark:from-blue-600 dark:to-teal-700 shadow-md dark:shadow-lg w-full p-2"
     >
-      <div
-        class="text-center px-4 flex flex-col md:flex-col justify-center items-center"
-      >
-        <div v-if="loading" class="loader"></div>
-
+      <div class="text-center px-4 flex flex-col justify-center items-center">
+        <!-- Imagen LCP -->
         <picture class="w-[280px] aspect-[12/13]">
           <source
+            srcset="/img/imagen_mia_768.webp"
+            media="(min-width: 1024px)"
             type="image/webp"
-            srcset="
-              /img/imagen_mia_240.webp 240w,
-              /img/imagen_mia_480.webp 480w,
-              /img/imagen_mia_768.webp 768w
-            "
-            sizes="(max-width: 640px) 240px, (max-width: 768px) 480px, 768px"
           />
-          <!-- Fallback a imagen en formato JPG si WebP no es soportado -->
+          <source
+            srcset="/img/imagen_mia_480.webp"
+            media="(min-width: 641px)"
+            type="image/webp"
+          />
           <img
-            src="/img/imagen_mia.jpg"
+            src="/img/imagen_mia_240.webp"
             alt="Yeiler Simons"
             width="240"
             height="260"
-            loading="lazy"
+            fetchpriority="high"
             @load="onImageLoad"
             :class="[
-              'rounded-lg w-full h-full object-fill border-4 border-white shadow-lg transition-opacity duration-500 ',
+              'rounded-lg w-full h-full object-fill border-4 border-white shadow-lg transition-opacity duration-500',
               loading ? 'opacity-0' : 'opacity-100',
             ]"
           />
         </picture>
 
+        <!-- Loader -->
+        <div v-if="loading" class="loader mt-4"></div>
+
         <!-- Introduction -->
-        <div class="md:ml-0">
+        <div class="mt-6">
           <h1
             class="text-4xl md:text-5xl font-bold text-white mb-4 animate__animated animate__fadeIn"
           >
