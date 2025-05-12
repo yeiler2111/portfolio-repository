@@ -33,7 +33,7 @@ const gmail = process.env.VUE_APP_LOCATION_GMAIL;
         :href="urlGit"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-2xl text-gray-800 hover:text-gray-900"
+        class="text-2xl dark:text-white dark:hover:text-gray-700 text-gray-800 hover:text-gray-400"
       >
         <i class="fab fa-github"></i>
       </a>

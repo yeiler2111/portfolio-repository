@@ -3,35 +3,69 @@ import networking from "@/components/shared/networkingContact.vue";
 import Section from "@/components/shared/Section.vue";
 import { CardItems } from "@/data/data";
 import TechStackSection from "@/components/shared/Tecnologies.vue";
-import { ref } from "vue";
+import { ref, onBeforeMount } from "vue";
 
 const loading = ref(true);
 
 const onImageLoad = () => {
   loading.value = false;
 };
+
+onBeforeMount(() => {
+  const link = document.createElement("link");
+  link.rel = "preload";
+  link.as = "image";
+  link.href = "/img/imagen_mia_480.webp";
+  link.setAttribute(
+    "imagesrcset",
+    "/img/imagen_mia_240.webp 240w, /img/imagen_mia_480.webp 480w, /img/imagen_mia_768.webp 768w"
+  );
+  link.setAttribute(
+    "imagesizes",
+    "(max-width: 640px) 240px, (max-width: 768px) 480px, 768px"
+  );
+
+  document.head.appendChild(link);
+});
 </script>
 
 <template>
   <div class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+    <!-- Hero Section -->
     <section
-      class="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-500 to-teal-500 dark:from-blue-600 dark:to-teal-700 shadow-md dark:shadow-lg w-full"
+      class="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-500 to-teal-500 dark:from-blue-600 dark:to-teal-700 shadow-md dark:shadow-lg w-full max-sm:p-2"
     >
       <div
         class="text-center px-4 flex flex-col md:flex-col justify-center items-center"
       >
         <div v-if="loading" class="loader"></div>
 
-        <!-- Imagen (siempre renderizada, pero invisible hasta que cargue) -->
-        <img
-          :src="'/img/imagen_mia.jpg'"
-          alt="Yeiler Simons"
-          @load="onImageLoad"
-          :class="[
-            'rounded-lg w-60 h-65 object-cover border-4 border-white shadow-lg transition-opacity duration-500',
-            loading ? 'opacity-0' : 'opacity-100',
-          ]"
-        />
+        <picture class="w-[280px] aspect-[12/13]">
+          <source
+            type="image/webp"
+            srcset="
+              /img/imagen_mia_240.webp 240w,
+              /img/imagen_mia_480.webp 480w,
+              /img/imagen_mia_768.webp 768w
+            "
+            sizes="(max-width: 640px) 240px, (max-width: 768px) 480px, 768px"
+          />
+          <!-- Fallback a imagen en formato JPG si WebP no es soportado -->
+          <img
+            src="/img/imagen_mia.jpg"
+            alt="Yeiler Simons"
+            width="240"
+            height="260"
+            loading="lazy"
+            @load="onImageLoad"
+            :class="[
+              'rounded-lg w-full h-full object-fill border-4 border-white shadow-lg transition-opacity duration-500 ',
+              loading ? 'opacity-0' : 'opacity-100',
+            ]"
+          />
+        </picture>
+
+        <!-- Introduction -->
         <div class="md:ml-0">
           <h1
             class="text-4xl md:text-5xl font-bold text-white mb-4 animate__animated animate__fadeIn"
@@ -53,10 +87,12 @@ const onImageLoad = () => {
       </div>
     </section>
 
+    <!-- Tech Stack -->
     <section class="bg-gray-100 dark:bg-gray-900">
       <TechStackSection />
     </section>
 
+    <!-- About Section -->
     <section id="about" class="py-20 bg-gray-100 dark:bg-gray-900">
       <div class="max-w-6xl mx-auto px-6">
         <div
@@ -69,6 +105,7 @@ const onImageLoad = () => {
       </div>
     </section>
 
+    <!-- Contact Section -->
     <section class="py-20 bg-gray-50 dark:bg-gray-950">
       <div class="max-w-6xl mx-auto px-6 text-center">
         <h2
@@ -82,7 +119,7 @@ const onImageLoad = () => {
         </p>
         <a
           @click="$router.push({ path: '/contactMe' })"
-          class="bg-blue-500 text-white py-2 px-6 rounded-full text-lg font-semibold hover:bg-blue-600 dark:hover:bg-blue-400 transition-all duration-300 cursor-pointer"
+          class="bg-blue-800 text-white py-2 px-6 rounded-full text-lg font-semibold hover:bg-blue-700 dark:hover:bg-blue-900 transition-all duration-300 cursor-pointer"
         >
           Contáctame
         </a>
@@ -112,4 +149,3 @@ const onImageLoad = () => {
   }
 }
 </style>
->

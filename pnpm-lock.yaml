@@ -90,6 +90,9 @@ importers:
       eslint-plugin-vue:
         specifier: ^8.0.3
         version: 8.7.1(eslint@7.32.0)
+      html-webpack-tags-plugin:
+        specifier: ^3.0.2
+        version: 3.0.2(html-webpack-plugin@5.6.3(webpack@5.99.5))(webpack@5.99.5)
       postcss:
         specifier: ^8.5.3
         version: 8.5.3
@@ -2705,6 +2708,13 @@ packages:
         optional: true
       webpack:
         optional: true
+
+  html-webpack-tags-plugin@3.0.2:
+    resolution: {integrity: sha512-jZ4IHjT8AWyNa4RJ+8p0+AGkunLf1H5E/IjzW+9BOQbJ39Dy2jZULnxseXsEAiFxu6DX6z+sOZKV9rhbEDtpqA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      html-webpack-plugin: ^5.0.0
+      webpack: ^5.0.0
 
   htmlparser2@6.1.0:
     resolution: {integrity: sha512-gyyPk6rgonLFEDGoeRgQNaEUvdJ4ktTmmUh/h2t7s+M8oPpIPxgNACWa+6ESR57kXstwqPiCut0V8NRpcwgU7A==}
@@ -7859,6 +7869,14 @@ snapshots:
       pretty-error: 4.0.0
       tapable: 2.2.1
     optionalDependencies:
+      webpack: 5.99.5
+
+  html-webpack-tags-plugin@3.0.2(html-webpack-plugin@5.6.3(webpack@5.99.5))(webpack@5.99.5):
+    dependencies:
+      glob: 7.2.3
+      html-webpack-plugin: 5.6.3(webpack@5.99.5)
+      minimatch: 3.1.2
+      slash: 3.0.0
       webpack: 5.99.5
 
   htmlparser2@6.1.0:

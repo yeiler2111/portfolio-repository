@@ -22,7 +22,8 @@ module.exports = {
     'vue/multi-word-component-names': 'off',
     'no-debugger': 'off', 
     'no-undef': 'off',
-    'eslint-disable-next-line':'off'
+    'eslint-disable-next-line':'off',
+    'import/order': 'off',
 
   },
   parserOptions: {
