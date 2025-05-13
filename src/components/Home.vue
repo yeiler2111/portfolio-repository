@@ -12,15 +12,22 @@ const onImageLoad = () => {
 };
 
 onBeforeMount(() => {
-  const preloadImages = ["/img/imagen_mia_480.webp"];
-  preloadImages.forEach((src) => {
-    const link = document.createElement("link");
-    link.rel = "preload";
-    link.as = "image";
-    link.href = src;
-    link.fetchPriority = "high";
-    document.head.appendChild(link);
-  });
+  const preloadImage = document.createElement("link");
+  preloadImage.rel = "preload";
+  preloadImage.as = "image";
+  preloadImage.href = "/img/imagen_mia_240.webp"; // <- imagen realmente usada al inicio
+  preloadImage.fetchPriority = "high";
+  document.head.appendChild(preloadImage);
+
+  // Si más adelante quieres preload condicional según media, puedes hacer:
+  /*
+  const preloadMedium = document.createElement("link");
+  preloadMedium.rel = "preload";
+  preloadMedium.as = "image";
+  preloadMedium.href = "/img/imagen_mia_480.webp";
+  preloadMedium.media = "(min-width: 641px)";
+  document.head.appendChild(preloadMedium);
+  */
 });
 </script>
 
@@ -124,7 +131,7 @@ onBeforeMount(() => {
   </div>
 </template>
 
-<style lang="css" scoped>
+<style scoped>
 .loader {
   width: 50px;
   padding: 8px;
