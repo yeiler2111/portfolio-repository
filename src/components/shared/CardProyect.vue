@@ -1,15 +1,13 @@
 <template>
   <div
-    class="h-3/4 group relative w-3/4 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transition-transform hover:scale-105 duration-300 max-w-xl mx-auto"
+    class="group relative max-w-md w-full dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden"
   >
-    <!-- Carrusel -->
-    <div
-      class="relative w-full h-64 overflow-hidden flex justify-center items-center"
-    >
-      <!-- Loader encima de la imagen -->
+    <!-- Carrusel de imágenes -->
+    <div class="relative w-full h-64 overflow-hidden bg-gray-50 dark:bg-gray-900">
+      <!-- Loader sobre la imagen -->
       <div
         v-if="isLoading"
-        class="absolute z-10 flex justify-center items-center w-full h-full bg-white/50 dark:bg-gray-800/50"
+        class="absolute inset-0 flex justify-center items-center bg-white/50 dark:bg-gray-800/60 z-10"
       >
         <div class="loader"></div>
       </div>
@@ -26,41 +24,39 @@
       </transition>
 
       <!-- Indicadores -->
-      <div
-        class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1 z-20"
-      >
+      <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
         <span
-          v-for="(img, index) in images"
-          :key="index"
-          class="w-2 h-2 rounded-full transition-colors duration-300"
-          :class="
-            index === currentIndex ? 'bg-white' : 'bg-gray-400 opacity-70'
-          "
-        ></span>
+          v-for="(img, idx) in images"
+          :key="idx"
+          class="w-3 h-3 rounded-full transition-colors duration-300"
+          :class="idx === currentIndex ? 'bg-blue-600' : 'bg-gray-400/70'"
+        />
       </div>
     </div>
 
     <!-- Contenido -->
-    <div class="p-5">
-      <h3 class="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+    <div class="p-6 space-y-4">
+      <h3 class="text-2xl font-semibold text-gray-800 dark:text-white">
         {{ title }}
       </h3>
-      <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
+      <p class="text-gray-600 dark:text-gray-300 text-base">
         {{ description }}
       </p>
-      <div class="flex flex-wrap gap-2 mb-4">
+
+      <div class="flex flex-wrap gap-3">
         <span
           v-for="tech in technologies"
           :key="tech"
-          class="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full"
+          class="px-3 py-1 text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full"
         >
           {{ tech }}
         </span>
       </div>
+
       <a
         :href="link"
         target="_blank"
-        class="inline-block px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white text-sm font-medium rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 transition"
+        class="inline-block w-full text-center py-2 bg-blue-600 dark:bg-blue-500 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition"
       >
         Ver proyecto
       </a>
@@ -69,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, defineProps, watch } from "vue";
+import { ref, onMounted, onBeforeUnmount, defineProps, watch } from 'vue';
 
 export interface ValueCardProject {
   title: string;
@@ -82,10 +78,9 @@ export interface ValueCardProject {
 const props = defineProps<ValueCardProject>();
 
 const currentIndex = ref(0);
-const isLoading = ref(true); // <- aquí controlamos el estado de carga
+const isLoading = ref(true);
 let intervalId: number | null = null;
 
-// Cada vez que cambie la imagen, mostramos el loader
 watch(currentIndex, () => {
   isLoading.value = true;
 });
@@ -100,13 +95,12 @@ onBeforeUnmount(() => {
   if (intervalId !== null) clearInterval(intervalId);
 });
 
-// Cuando la imagen termine de cargar
 const handleImageLoad = () => {
   isLoading.value = false;
 };
 </script>
 
-<style scoped>
+<style scoped lang="postcss">
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.7s ease;
@@ -114,5 +108,9 @@ const handleImageLoad = () => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.loader {
+  @apply w-10 h-10 rounded-full border-4 border-t-blue-600 border-gray-200 dark:border-gray-700 animate-spin;
 }
 </style>

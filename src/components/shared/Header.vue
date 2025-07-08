@@ -101,7 +101,7 @@
                 >
                   Contáctame
                 </li>
-                <li
+                <!-- <li
                   class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
                   @click="
                     () => {
@@ -111,7 +111,7 @@
                   "
                 >
                   Portafolio
-                </li>
+                </li> -->
               </ul>
             </transition>
           </div>
