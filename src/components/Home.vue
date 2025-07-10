@@ -101,7 +101,7 @@
           Si tienes alguna pregunta o quieres discutir un proyecto, ¡no dudes en ponerte
           en contacto!
         </p>
-        <a @click="$router.push('/contactMe')" class="btn-contact mx-auto">Contáctame</a>
+        <a @click="$router.push('/contactMe')" class="btn-contact mx-auto cursor-pointer">Contáctame</a>
       </div>
       <networking />
     </section>
@@ -118,11 +118,11 @@ import { CardItems } from "@/data/data";
 import ProjectCard, { ValueCardProject } from "@/components/shared/CardProyect.vue";
 
 const options = [
-  { label: "Technologies", id: "technologies" },
-  { label: "Experience", id: "experience" },
-  { label: "Projects", id: "projects" },
-  { label: "About me", id: "about" },
-  { label: "Contact me", id: "contact" },
+  { label: "Tecnologias", id: "technologies" },
+  { label: "Experiencia", id: "experience" },
+  { label: "Proyectos", id: "projects" },
+  { label: "Sobre mi", id: "about" },
+  { label: "Contactame", id: "contact" },
 ];
 
 const loading = ref(true);

@@ -1,13 +1,4 @@
 export const MenuItem = [
-  {
-    path: '/',
-    name: 'Inicio',
-  },
-
-  {
-    path: '/ContactMe',
-    name: 'Contáctame',
-  },
 
 
 ]
