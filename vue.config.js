@@ -11,7 +11,7 @@ module.exports = {
   },
 
   configureWebpack: (config) => {
-    // 💡 Elimina instancias duplicadas de HtmlWebpackPlugin
+    
     config.plugins = config.plugins.filter(
       (plugin) => !(plugin instanceof HtmlWebpackPlugin)
     );
@@ -31,7 +31,7 @@ module.exports = {
       })
     );
 
-    // ✅ Optimización de chunks
+    
     config.optimization = {
       splitChunks: {
         cacheGroups: {
@@ -46,7 +46,7 @@ module.exports = {
   },
 
   chainWebpack: (config) => {
-    // ✅ Preload explícito con tipos correctos (evita warning de Google Fonts)
+    
     config.plugin("preload").use(PreloadWebpackPlugin, [
       {
         rel: "preload",
