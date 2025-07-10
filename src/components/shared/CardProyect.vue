@@ -1,13 +1,13 @@
 <template>
   <div
-    class="group relative max-w-md w-full dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden"
+    class="group relative max-w-md w-full dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden"
   >
     <!-- Carrusel de imágenes -->
-    <div class="relative w-full h-64 overflow-hidden bg-gray-50 dark:bg-gray-900">
+    <div class="relative w-full h-64 overflow-hidden bg-gray-50 dark:bg-gray-800">
       <!-- Loader sobre la imagen -->
       <div
         v-if="isLoading"
-        class="absolute inset-0 flex justify-center items-center bg-white/50 dark:bg-gray-800/60 z-10"
+        class="absolute inset-0 flex justify-center items-center bg-white/50 dark:bg-gray-900/60 z-10"
       >
         <div class="loader"></div>
       </div>
@@ -29,7 +29,7 @@
           v-for="(img, idx) in images"
           :key="idx"
           class="w-3 h-3 rounded-full transition-colors duration-300"
-          :class="idx === currentIndex ? 'bg-blue-600' : 'bg-gray-400/70'"
+          :class="idx === currentIndex ? 'bg-blue-600 dark:bg-blue-400' : 'bg-gray-400/70 dark:bg-gray-600/50'"
         />
       </div>
     </div>
@@ -39,7 +39,7 @@
       <h3 class="text-2xl font-semibold text-gray-800 dark:text-white">
         {{ title }}
       </h3>
-      <p class="text-gray-600 dark:text-gray-300 text-base">
+      <p class="text-gray-600 dark:text-gray-400 text-base">
         {{ description }}
       </p>
 
@@ -56,13 +56,14 @@
       <a
         :href="link"
         target="_blank"
-        class="inline-block w-full text-center py-2 bg-blue-600 dark:bg-blue-500 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition"
+        class="inline-block w-full text-center py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white text-sm font-semibold rounded-lg transition"
       >
         Ver proyecto
       </a>
     </div>
   </div>
 </template>
+
 
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, defineProps, watch } from 'vue';

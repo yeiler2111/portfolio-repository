@@ -11,6 +11,9 @@ importers:
       '@emailjs/browser':
         specifier: ^4.4.1
         version: 4.4.1
+      '@quasar/extras':
+        specifier: ^1.17.0
+        version: 1.17.0
       '@vee-validate/zod':
         specifier: ^4.14.7
         version: 4.15.0(vue@3.5.13(typescript@5.8.3))(zod@3.24.2)
@@ -33,7 +36,7 @@ importers:
         specifier: ^6.14.2
         version: 6.15.0
       quasar:
-        specifier: ^2.17.5
+        specifier: ^2.18.1
         version: 2.18.1
       sass:
         specifier: ^1.83.0
@@ -826,6 +829,9 @@ packages:
 
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
+
+  '@quasar/extras@1.17.0':
+    resolution: {integrity: sha512-KqAHdSJfIDauiR1nJ8rqHWT0diqD0QradZKoVIZJAilHAvgwyPIY7MbyR2z4RIMkUIMUSqBZcbshMpEw+9A30w==}
 
   '@sideway/address@4.1.5':
     resolution: {integrity: sha512-IqO/DUQHUkPeixNQ8n0JA6102hT9CmaljNTPmQ1u8MEhBo/R4Q8eKLN/vGZxuebwOroDB4cbpjheD4+/sKFK4Q==}
@@ -6643,6 +6649,8 @@ snapshots:
     optional: true
 
   '@polka/url@1.0.0-next.29': {}
+
+  '@quasar/extras@1.17.0': {}
 
   '@sideway/address@4.1.5':
     dependencies:

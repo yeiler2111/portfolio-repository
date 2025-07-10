@@ -33,11 +33,11 @@
           <p
             class="hero__subtitle animate__animated animate__fadeIn animate__delay-1s"
           >
-            Desarrollador Fullstack<br />Apasionado por la informática y brindar
-            soluciones digitales
+            Desarrollador Fullstack<br />
+            Apasionado por la informática y brindar soluciones digitales
           </p>
           <div class="flex justify-center space-x-4">
-            <a href="#about" class="btn-primary">Conoce más sobre mí</a>
+            <a href="#about" class="btn-secondary">Conoce más sobre mí</a>
             <a href="#projects" class="btn-secondary">Ver mis proyectos</a>
           </div>
         </div>
@@ -46,26 +46,22 @@
 
     <!-- Tech Stack -->
     <section class="section--tech">
-      <TechStackSection />
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="section--about">
-      <div class="container">
-        <div
-          v-for="(item, index) in CardItems"
-          :key="index"
-          class="card-wrapper"
-        >
-          <Section :card="item" />
-        </div>
+      <div class="container text-center">
+        <TechStackSection />
       </div>
     </section>
 
-    <!-- Projects Section -->
+    <!-- Experiencia laboral -->
+    <section class="section--experience">
+      <div class="w-full">
+        <ExperienceWork />
+      </div>
+    </section>
+
+    <!-- Proyectos -->
     <section id="projects" class="section--projects">
       <div class="container">
-        <h2 class="section__heading mb-8 text-center">Proyectos</h2>
+        <h2 class="section__heading mb-8 text-center">Proyectos destacados</h2>
         <div class="projects-grid">
           <div
             v-for="(pro, index) in proyects"
@@ -84,15 +80,29 @@
       </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- Sobre mí -->
+    <section id="about" class="section--about">
+      <div class="container">
+        <h2 class="section__heading text-center mb-12">Sobre mí</h2>
+        <div
+          v-for="(item, index) in CardItems"
+          :key="index"
+          class="card-wrapper"
+        >
+          <Section :card="item" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Contacto -->
     <section class="section--contact">
-      <div class="container text-center">
+      <div class="text-center">
         <h2 class="section__heading">¿Te gustaría trabajar conmigo?</h2>
         <p class="section__text">
           Si tienes alguna pregunta o quieres discutir un proyecto, ¡no dudes en
           ponerte en contacto!
         </p>
-        <a @click="$router.push('/contactMe')" class="btn-contact"
+        <a @click="$router.push('/contactMe')" class="btn-contact mx-auto"
           >Contáctame</a
         >
       </div>
@@ -106,6 +116,7 @@ import { ref, computed, onBeforeMount } from "vue";
 import networking from "@/components/shared/networkingContact.vue";
 import Section from "@/components/shared/Section.vue";
 import TechStackSection from "@/components/shared/Tecnologies.vue";
+import ExperienceWork from "@/components/shared/ExperienceWork.vue";
 import { CardItems } from "@/data/data";
 import ProjectCard, {
   ValueCardProject,
@@ -198,23 +209,26 @@ const proyects: ValueCardProject[] = [
   @apply text-lg md:text-xl text-gray-100 dark:text-gray-300;
 }
 .btn-primary {
-  @apply bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-full text-lg font-semibold transition duration-300;
+  @apply bg-gray-900 border-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-full text-lg font-semibold transition duration-300 dark:text-blue-300  dark:border-blue-300;
 }
 .btn-secondary {
-  @apply border-2 border-blue-500 text-blue-600 hover:bg-blue-500 hover:text-white py-2 px-5 rounded-full text-lg font-semibold transition duration-300 dark:border-blue-300 dark:text-blue-300 dark:hover:bg-blue-300 dark:hover:text-gray-900;
+  @apply bg-gray-900 border-2 border-blue-500 text-white hover:bg-blue-500 hover:text-white py-2 px-5 rounded-full text-lg font-semibold transition duration-300 dark:border-blue-300 dark:text-blue-300 dark:hover:bg-blue-300 dark:hover:text-gray-900;
 }
 
 /* Tech Stack */
 .section--tech {
-  @apply py-12 bg-white dark:bg-gray-800;
+  @apply py-12 bg-white dark:bg-gray-950 flex justify-center flex-row;
 }
 
+.section--experience {
+  @apply py-2 bg-white dark:bg-gray-800 flex justify-center flex-row;
+}
 /* About Section */
 .section--about {
-  @apply py-20 bg-gray-50 dark:bg-gray-900;
+  @apply py-20 bg-gray-50 dark:bg-gray-900 flex justify-center;
 }
 .container {
-  @apply max-w-6xl mx-auto px-6;
+  @apply max-w-6xl px-6 m-0;
 }
 .card-wrapper {
   @apply flex justify-center text-center mb-12;
@@ -222,7 +236,7 @@ const proyects: ValueCardProject[] = [
 
 /* Projects Section */
 .section--projects {
-  @apply py-20 bg-white dark:bg-gray-800;
+  @apply py-20 bg-white dark:bg-gray-800 flex justify-center;
 }
 .projects-grid {
   @apply flex flex-wrap gap-8 justify-center;
@@ -233,7 +247,7 @@ const proyects: ValueCardProject[] = [
 
 /* Contact Section */
 .section--contact {
-  @apply py-20 bg-gray-50 dark:bg-gray-900;
+  @apply py-20 bg-gray-50 dark:bg-gray-900 flex flex-col justify-center;
 }
 .section__heading {
   @apply text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-6;

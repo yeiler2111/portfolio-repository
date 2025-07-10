@@ -4,7 +4,8 @@ import { createMemoryHistory, createRouter } from 'vue-router'
 const routes = [
     { path: '/', component: Home },
     { path: '/contactme', component: () => import('@/components/ContactMe.vue') },
-    { path: '/portfolio', component: () => import('@/components/Portfolio.vue') }
+    { path: '/portfolio', component: () => import('@/components/Portfolio.vue') },
+    { path: '/experience', component: () => import('@/components/shared/ExperienceWork.vue') }
 ]
 
 export const router = createRouter({

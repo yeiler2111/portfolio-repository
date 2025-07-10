@@ -1,5 +1,5 @@
 <template>
-  <footer class="py-8 bg-gray-200 dark:bg-gray-900 mt-auto">
+  <footer class="py-8 bg-gray-200 dark:bg-gray-950 mt-auto">
     <div class="max-w-6xl mx-auto text-center">
       <p class="text-gray-800 dark:text-gray-200">
         © 2025 Yeiler Simons. Todos los derechos reservados.

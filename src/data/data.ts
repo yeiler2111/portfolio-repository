@@ -3,14 +3,12 @@ export const MenuItem = [
     path: '/',
     name: 'Inicio',
   },
-  // {
-  //   path: '/portfolio',
-  //   name: 'Portafolio',
-  // },
+
   {
     path: '/ContactMe',
     name: 'Contáctame',
   },
+
 
 ]
 
