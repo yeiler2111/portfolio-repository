@@ -5,7 +5,9 @@
         Mi Experiencia Laboral
       </h2>
 
-      <q-card class="q-pa-lg shadow-3 dark:bg-gray-950 text-gray-800 dark:text-gray-100">
+      <q-card
+        class="q-pa-lg shadow-3 dark:bg-gray-950 text-gray-800 dark:text-gray-100"
+      >
         <q-card-section>
           <q-timeline color="primary" layout="dense">
             <q-timeline-entry
@@ -24,7 +26,11 @@
                   size="sm"
                   color="primary"
                   flat
-                  :label="expanded === index ? 'Ocultar descripción' : 'Ver descripción'"
+                  :label="
+                    expanded === index
+                      ? 'Ocultar descripción'
+                      : 'Ver descripción'
+                  "
                   @click="toggleDetails(index)"
                 />
                 <q-btn
@@ -39,7 +45,10 @@
               </div>
 
               <q-slide-transition>
-                <div v-show="expanded === index" class="q-mt-sm text-gray-700 dark:text-gray-300">
+                <div
+                  v-show="expanded === index"
+                  class="q-mt-sm text-gray-700 dark:text-gray-300"
+                >
                   {{ job.description }}
                 </div>
               </q-slide-transition>
@@ -76,7 +85,7 @@ const jobs = [
     icon: "code",
     period: "3 a 4 meses",
     description:
-      "Realicé desarrollos como freelance sin contrato formal, incluyendo sistemas de autenticación, landing pages y servicios backend. Trabajé con Python, Angular, Java y .NET. También gestioné versiones y despliegues usando Git.",
+      "Realicé desarrollos como freelance, incluyendo sistemas de autenticación, landing pages y servicios backend. Trabajé con Python, Angular, Java y .NET.",
     link: "https://www.unoycerodigital.com.co/",
   },
   {
@@ -85,7 +94,7 @@ const jobs = [
     icon: "engineering",
     period: "6 a 7 meses",
     description:
-      "Desarrollé soluciones tanto en frontend como backend utilizando Vue 3, React y NestJS. Participé en el desarrollo de plataformas empresariales e integraciones con APIs externas.",
+      "Desarrollé soluciones tanto en frontend como backend utilizando Vue 3, React y NestJS. Participé en el desarrollo de plataformas empresariales e integraciones.",
     link: "https://mitconsulting.com.co/",
   },
   {

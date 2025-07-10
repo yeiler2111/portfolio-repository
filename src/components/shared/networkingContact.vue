@@ -10,7 +10,7 @@ const gmail = process.env.VUE_APP_LOCATION_GMAIL;
   <div class="mt-8 text-center">
     <h3 class="text-xl text-gray-800 dark:text-white mb-4">Conéctame en</h3>
     <div class="flex justify-center space-x-6">
-      <!-- WhatsApp -->
+      
       <a
         :href="`https://wa.me/+${numberPhone}`"
         target="_blank"

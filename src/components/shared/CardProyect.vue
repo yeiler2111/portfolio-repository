@@ -2,9 +2,9 @@
   <div
     class="group relative max-w-md w-full dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden"
   >
-    <!-- Carrusel de imágenes -->
+    
     <div class="relative w-full h-64 overflow-hidden bg-gray-50 dark:bg-gray-800">
-      <!-- Loader sobre la imagen -->
+      
       <div
         v-if="isLoading"
         class="absolute inset-0 flex justify-center items-center bg-white/50 dark:bg-gray-900/60 z-10"
@@ -23,7 +23,7 @@
         />
       </transition>
 
-      <!-- Indicadores -->
+      
       <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
         <span
           v-for="(img, idx) in images"
@@ -34,7 +34,7 @@
       </div>
     </div>
 
-    <!-- Contenido -->
+    
     <div class="p-6 space-y-4">
       <h3 class="text-2xl font-semibold text-gray-800 dark:text-white">
         {{ title }}

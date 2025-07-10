@@ -54,7 +54,7 @@
             ></div>
           </label>
 
-          <!-- Menú completo para pantallas grandes -->
+          
           <ul class=" max-md:hidden md:flex space-x-5 align-baseline">
             <li
               v-for="(item, index) in MenuItem"
@@ -66,7 +66,7 @@
             </li>
           </ul>
 
-          <!-- Menú desplegable para pantallas pequeñas -->
+          
           <div class="sm:flex md:hidden lg:hidden xl:hidden">
             <button
               class="flex items-center px-3 py-2 border rounded text-gray-800 border-gray-400 dark:text-gray-300 dark:border-gray-600"

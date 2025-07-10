@@ -1,6 +1,6 @@
 import { init, send } from "@emailjs/browser";
 
-// Inicialización
+
 init({
   publicKey: process.env.VUE_APP_PUBLIC_KEY,
   blockHeadless: true,
@@ -19,14 +19,14 @@ interface ParamsEmail {
 
 export const sendEmail = async (templateParams: ParamsEmail) => {
   try {
-    // Enviar correo al usuario
+    
     const userRes = send(
       process.env.VUE_APP_ID_SERVICES as string,
       process.env.VUE_APP_ID_TEMPLATE as string,
       templateParams as {}
     );
 
-    // Enviar correo al admin
+    
     const adminRes = send(
       process.env.VUE_APP_ID_SERVICES as string,
       process.env.VUE_APP_ID_TEMPLATE_ADMIN as string,
@@ -36,7 +36,7 @@ export const sendEmail = async (templateParams: ParamsEmail) => {
       }
     );
 
-    // Esperar a que ambas llamadas se resuelvan
+    
     const [userResponse, adminResponse] = await Promise.all([userRes, adminRes]);
 
     console.log("Correos enviados:", userResponse, adminResponse);

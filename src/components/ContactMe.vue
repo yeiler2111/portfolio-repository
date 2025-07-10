@@ -125,7 +125,7 @@ const sendMessage = async () => {
           </p>
         </div>
 
-        <!-- Asunto -->
+        
         <div>
           <label class="text-gray-700 dark:text-gray-300">Asunto</label>
           <input
@@ -184,14 +184,14 @@ const sendMessage = async () => {
 }
 
 .input-field:focus {
-  border-color: #3b82f6; /* Color azul */
+  border-color: #3b82f6; 
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
   outline: none;
 }
 
 .dark .input-field {
-  background-color: #1f2937; /* Fondo más oscuro */
-  color: #e5e7eb; /* Texto más claro */
+  background-color: #1f2937; 
+  color: #e5e7eb; 
 }
 
 .dark .input-field:focus {

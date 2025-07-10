@@ -1,12 +1,4 @@
-// quasar.config.js
 module.exports = configure(() => ({
-  // …
-  components: [
-    "QTimeline",
-    "QTimelineEntry",
-    
-    // …otros
-  ],
+  components: ["QTimeline", "QTimelineEntry"],
   boot: ["quasar"],
-  // …
 }));
