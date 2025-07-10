@@ -1,6 +1,5 @@
 <template>
   <div class="page">
-    
     <section class="hero">
       <div class="hero__inner">
         <picture class="hero__picture">
@@ -30,7 +29,9 @@
           <h1 class="hero__title animate__animated animate__fadeIn">
             Hola, soy Yeiler Simons
           </h1>
-          <p class="hero__subtitle animate__animated animate__fadeIn animate__delay-1s">
+          <p
+            class="hero__subtitle animate__animated animate__fadeIn animate__delay-1s"
+          >
             Desarrollador Fullstack<br />
             Apasionado por la informática y brindar soluciones digitales
           </p>
@@ -51,26 +52,27 @@
       </div>
     </section>
 
-    
     <section id="technologies" class="section--tech">
       <div class="container text-center">
         <TechStackSection />
       </div>
     </section>
 
-    
     <section id="experience" class="section--experience">
       <div class="w-full">
         <ExperienceWork />
       </div>
     </section>
 
-    
     <section id="projects" class="section--projects">
       <div class="container">
         <h2 class="section__heading mb-8 text-center">Proyectos destacados</h2>
         <div class="projects-grid">
-          <div v-for="(pro, index) in proyects" :key="index" class="project-wrapper">
+          <div
+            v-for="(pro, index) in proyects"
+            :key="index"
+            class="project-wrapper"
+          >
             <ProjectCard
               :title="pro.title"
               :description="pro.description"
@@ -83,25 +85,31 @@
       </div>
     </section>
 
-    
     <section id="about" class="section--about">
       <div class="container">
         <h2 class="section__heading text-center mb-12">Sobre mí</h2>
-        <div v-for="(item, index) in CardItems" :key="index" class="card-wrapper">
+        <div
+          v-for="(item, index) in CardItems"
+          :key="index"
+          class="card-wrapper"
+        >
           <Section :card="item" />
         </div>
       </div>
     </section>
 
-    
     <section id="contact" class="section--contact">
       <div class="text-center">
         <h2 class="section__heading">¿Te gustaría trabajar conmigo?</h2>
         <p class="section__text">
-          Si tienes alguna pregunta o quieres discutir un proyecto, ¡no dudes en ponerte
-          en contacto!
+          Si tienes alguna pregunta o quieres discutir un proyecto, ¡no dudes en
+          ponerte en contacto!
         </p>
-        <a @click="$router.push('/contactMe')" class="btn-contact mx-auto cursor-pointer">Contáctame</a>
+        <a
+          @click="$router.push('/contactMe')"
+          class="btn-contact mx-auto cursor-pointer"
+          >Contáctame</a
+        >
       </div>
       <networking />
     </section>
@@ -115,7 +123,9 @@ import Section from "@/components/shared/Section.vue";
 import TechStackSection from "@/components/shared/Tecnologies.vue";
 import ExperienceWork from "@/components/shared/ExperienceWork.vue";
 import { CardItems } from "@/data/data";
-import ProjectCard, { ValueCardProject } from "@/components/shared/CardProyect.vue";
+import ProjectCard, {
+  ValueCardProject,
+} from "@/components/shared/CardProyect.vue";
 
 const options = [
   { label: "Tecnologias", id: "technologies" },
@@ -151,7 +161,8 @@ onBeforeMount(() => {
 const proyects: ValueCardProject[] = [
   {
     title: "Mi Marketplace en .NET 8",
-    description: "Marketplace minimalista desarrollado con **.NET 8**...",
+    description:
+      "Marketplace minimalista desarrollado con .NET 8 y C# utilizando una arquitectura monolítica, donde el backend está dividido en dos aplicaciones: una para la autenticación y otra para la lógica del core del negocio. Ambas aplicaciones están desplegadas en Azure App Services y utilizan SQL Server como base de datos, lo que garantiza una gestión eficiente de los datos y un rendimiento robusto. El frontend está desarrollado en Next.js y desplegado en Netlify, ofreciendo una experiencia de usuario rápida y dinámica. La interfaz se ha estilizado con Tailwind CSS para lograr un diseño limpio y moderno.",
     images: [
       "/img/market/login.png",
       "/img/market/dashboard.png",
@@ -171,8 +182,13 @@ const proyects: ValueCardProject[] = [
   },
   {
     title: "PUC App (Plan Unico De Cuentas)",
-    description: "Prueba de concepto (PUC) desarrollada con React y React Native...",
-    images: ["/img/puc/pageWeb.png", "/img/puc/appMobil.jpg", "/img/puc/appMobil2.jpg"],
+    description:
+      "Prueba de concepto (PUC) desarrollada con React y React Native, enfocada en validar la experiencia de usuario y la interfaz en plataformas web y móviles. El frontend web ha sido construido con React y la aplicación móvil con React Native, compartiendo lógica y estilos para mantener consistencia entre ambos entornos. La aplicación consume datos locales simulados, lo que permite probar funcionalidades clave sin necesidad de una conexión a servicios externos. La interfaz ha sido diseñada con Tailwind CSS, logrando un diseño moderno, limpio y adaptable, ideal para evaluar la usabilidad y el flujo de navegación en distintas plataformas.",
+    images: [
+      "/img/puc/pageWeb.png",
+      "/img/puc/appMobil.jpg",
+      "/img/puc/appMobil2.jpg",
+    ],
     technologies: ["React", "React native"],
     link: "https://puc-app-mobile.netlify.app/",
   },
@@ -185,7 +201,6 @@ const scrollToSection = (id: string) => {
   }
 };
 </script>
-
 
 <style scoped lang="postcss">
 .page {
@@ -252,7 +267,6 @@ const scrollToSection = (id: string) => {
   @apply w-12 h-12 rounded-full border-4 border-t-blue-500 border-gray-200 dark:border-gray-700 animate-spin;
 }
 </style>
-
 
 <style lang="postcss">
 html {
