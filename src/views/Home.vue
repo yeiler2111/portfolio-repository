@@ -207,9 +207,9 @@ const scrollToSection = (id: string) => {
 .page {
   @apply bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100;
 }
-.hero {
-  @apply flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-500 to-teal-500 dark:from-blue-600 dark:to-teal-700 shadow-md dark:shadow-lg w-full px-4;
-}
+  .hero {
+    @apply flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-700 to-teal-700 dark:from-blue-800 dark:to-teal-900 shadow-md dark:shadow-lg w-full px-4;
+  }
 .hero__inner {
   @apply w-full py-2 max-w-4xl mx-auto text-center flex flex-col justify-center items-center;
 }
@@ -225,12 +225,12 @@ const scrollToSection = (id: string) => {
 .hero__title {
   @apply text-5xl md:text-6xl font-extrabold text-white drop-shadow-md;
 }
-.hero__subtitle {
-  @apply text-lg md:text-xl text-gray-100 dark:text-gray-300;
-}
-.btn-contact {
-  @apply bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-full text-lg font-semibold transition duration-300;
-}
+  .hero__subtitle {
+    @apply text-lg md:text-xl text-white dark:text-gray-200;
+  }
+  .btn-contact {
+    @apply bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-full text-lg font-semibold transition duration-300;
+  }
 .section--tech {
   @apply py-12 bg-white dark:bg-gray-950 flex justify-center flex-row;
 }
