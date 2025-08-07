@@ -57,14 +57,14 @@ onMounted(() => {
         </label>
 
         <ul class="max-md:hidden md:flex space-x-5 align-baseline">
-          <li
+          <router-link
             v-for="(item, index) in MenuItem"
             :key="index"
-            class="hover:bg-gray-300 rounded-xl px-4 py-2 hover:cursor-pointer dark:hover:bg-gray-600"
-            @click="$router.push({ path: item.path })"
+            :to="item.path"
+            class="block hover:bg-gray-300 rounded-xl px-4 py-2 hover:cursor-pointer dark:hover:bg-gray-600"
           >
             {{ item.name }}
-          </li>
+          </router-link>
         </ul>
 
         <div class="sm:flex md:hidden lg:hidden xl:hidden">
