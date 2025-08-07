@@ -72,7 +72,7 @@ onMounted(() => {
             class="flex items-center px-3 py-2 border rounded text-gray-800 border-gray-400 dark:text-gray-300 dark:border-gray-600"
             @click="isMenuOpen = !isMenuOpen"
           >
-            <i class="fas fa-bars"></i>
+            <font-awesome-icon :icon="['fas','bars']" />
           </button>
           <transition name="fade">
             <ul

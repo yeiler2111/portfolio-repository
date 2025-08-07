@@ -28,7 +28,7 @@ const validateForm = async () => {
       timeout: 3000,
       position: "top",
       color: "red-8",
-      icon: "fa fa-exclamation-triangle",
+      icon: 'warning',
     });
   }
   return { validated: validated, errors: validationErrors };
@@ -60,7 +60,7 @@ const sendMessage = async () => {
       timeout: 3000,
       color: "green-6",
       position: "top",
-      icon: "fa fa-check",
+      icon: 'check',
     });
     Object.assign(form, {
       name: "",
@@ -75,7 +75,7 @@ const sendMessage = async () => {
       timeout: 3000,
       color: "red-8",
       position: "top",
-      icon: "fa fa-window-close",
+      icon: 'close',
     });
   }
 };

@@ -17,7 +17,7 @@ const gmail = process.env.VUE_APP_LOCATION_GMAIL;
         rel="noopener noreferrer"
         class="text-2xl text-green-700 hover:text-green-800"
       >
-        <i class="fab fa-whatsapp"></i>
+        <font-awesome-icon :icon="['fab','whatsapp']" />
       </a>
 
       <a
@@ -26,7 +26,7 @@ const gmail = process.env.VUE_APP_LOCATION_GMAIL;
         rel="noopener noreferrer"
         class="text-2xl text-blue-600 hover:text-blue-700"
       >
-        <i class="fab fa-linkedin"></i>
+        <font-awesome-icon :icon="['fab','linkedin']" />
       </a>
 
       <a
@@ -35,14 +35,14 @@ const gmail = process.env.VUE_APP_LOCATION_GMAIL;
         rel="noopener noreferrer"
         class="text-2xl text-gray-800 hover:text-gray-600 dark:text-white dark:hover:text-gray-300"
       >
-        <i class="fab fa-github"></i>
+        <font-awesome-icon :icon="['fab','github']" />
       </a>
       <a
         :href="`maito:${gmail}`"
         target="_blank"
         class="text-2xl text-red-700 hover:text-red-800"
       >
-        <i class="fas fa-envelope"></i>
+        <font-awesome-icon :icon="['fas','envelope']" />
       </a>
     </div>
   </div>

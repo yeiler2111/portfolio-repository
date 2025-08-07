@@ -1,19 +1,19 @@
 <script setup>
 const technologies = [
-  { name: "React", icon: "fab fa-react" },
-  { name: "Angular", icon: "fab fa-angular" },
-  { name: "Vue", icon: "fab fa-vuejs" },
-  { name: "NestJS", icon: "fas fa-server" },
-  { name: "Next.js", icon: "fas fa-code" },
-  { name: "Express", icon: "fas fa-network-wired" },
-  { name: ".NET", icon: "fas fa-laptop-code" },
-  { name: "C#", icon: "fas fa-code" },
-  { name: "Git", icon: "fab fa-git-alt" },
-  { name: "Bootstrap", icon: "fab fa-bootstrap" },
-  { name: "Tailwind", icon: "fas fa-wind" },
-  { name: "Quasar", icon: "fas fa-gem" },
-  { name: "React Native", icon: "fab fa-react" },
-];
+  { name: 'React', icon: ['fab', 'react'] },
+  { name: 'Angular', icon: ['fab', 'angular'] },
+  { name: 'Vue', icon: ['fab', 'vuejs'] },
+  { name: 'NestJS', icon: ['fas', 'server'] },
+  { name: 'Next.js', icon: ['fas', 'code'] },
+  { name: 'Express', icon: ['fas', 'network-wired'] },
+  { name: '.NET', icon: ['fas', 'laptop-code'] },
+  { name: 'C#', icon: ['fas', 'code'] },
+  { name: 'Git', icon: ['fab', 'git-alt'] },
+  { name: 'Bootstrap', icon: ['fab', 'bootstrap'] },
+  { name: 'Tailwind', icon: ['fas', 'wind'] },
+  { name: 'Quasar', icon: ['fas', 'gem'] },
+  { name: 'React Native', icon: ['fab', 'react'] }
+]
 </script>
 
 <template>
@@ -28,7 +28,7 @@ const technologies = [
           :key="tech.name"
           class="bg-gray-100 dark:bg-gray-800 rounded-2xl shadow p-3 flex flex-col items-center justify-center hover:scale-105 transition-transform"
         >
-          <i :class="tech.icon" class="text-4xl bg-gradient-to-r from-blue-500 to-teal-500 dark:from-blue-600 dark:to-teal-700 inline-block text-transparent  bg-clip-text"></i>
+          <font-awesome-icon :icon="tech.icon" class="text-4xl bg-gradient-to-r from-blue-500 to-teal-500 dark:from-blue-600 dark:to-teal-700 inline-block text-transparent bg-clip-text" />
           <span class="text-lg font-medium text-gray-700 dark:text-gray-200">
             {{ tech.name }}
           </span>
