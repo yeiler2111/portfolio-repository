@@ -58,7 +58,7 @@
       <a
         :href="link"
         target="_blank"
-        class="inline-block w-full text-center py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white text-sm font-semibold rounded-lg transition"
+        class="inline-block w-full text-center py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition"
       >
         Ver proyecto
       </a>

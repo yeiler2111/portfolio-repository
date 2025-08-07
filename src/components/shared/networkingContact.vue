@@ -15,7 +15,7 @@ const gmail = process.env.VUE_APP_LOCATION_GMAIL;
         :href="`https://wa.me/+${numberPhone}`"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-2xl text-green-500 hover:text-green-600"
+        class="text-2xl text-green-700 hover:text-green-800"
       >
         <i class="fab fa-whatsapp"></i>
       </a>
@@ -33,14 +33,14 @@ const gmail = process.env.VUE_APP_LOCATION_GMAIL;
         :href="urlGit"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-2xl dark:text-white dark:hover:text-gray-700 text-gray-800 hover:text-gray-400"
+        class="text-2xl text-gray-800 hover:text-gray-600 dark:text-white dark:hover:text-gray-300"
       >
         <i class="fab fa-github"></i>
       </a>
       <a
         :href="`maito:${gmail}`"
         target="_blank"
-        class="text-2xl text-red-600 hover:text-red-700"
+        class="text-2xl text-red-700 hover:text-red-800"
       >
         <i class="fas fa-envelope"></i>
       </a>
