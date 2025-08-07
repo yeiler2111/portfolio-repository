@@ -42,20 +42,26 @@ const proyects: ValueCardProject[] = [
 
 <template>
   <section
-    class="h-auto mt-10 mb-10 p-5 gap-5 flex items-center justify-center bg-gray-100 dark:bg-gray-900 transition-colors duration-300"
+    class="h-auto mt-10 mb-10 p-5 flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 transition-colors duration-300"
   >
-    <div
-      v-for="(pro, index) in proyects"
-      :key="index"
-      class="w-full md:w-[500px] max-w-[500px] min-h-[550px] flex"
-    >
-      <ProjectCard
-        :title="pro.title"
-        :description="pro.description"
-        :images="pro.images"
-        :technologies="pro.technologies"
-        :link="pro.link"
-      />
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-8">
+      Portafolio
+    </h1>
+    <h2 class="sr-only">Proyectos</h2>
+    <div class="flex flex-wrap gap-5 justify-center">
+      <div
+        v-for="(pro, index) in proyects"
+        :key="index"
+        class="w-full md:w-[500px] max-w-[500px] min-h-[550px] flex"
+      >
+        <ProjectCard
+          :title="pro.title"
+          :description="pro.description"
+          :images="pro.images"
+          :technologies="pro.technologies"
+          :link="pro.link"
+        />
+      </div>
     </div>
   </section>
 </template>

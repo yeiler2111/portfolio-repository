@@ -164,6 +164,11 @@ const sendMessage = async () => {
           Enviar Mensaje
         </button>
       </form>
+      <h2
+        class="mt-8 mb-4 text-xl font-semibold text-gray-800 dark:text-white"
+      >
+        Redes sociales
+      </h2>
       <div class="dark:bg-gray-950 w-100">
         <networkingContact />
       </div>
