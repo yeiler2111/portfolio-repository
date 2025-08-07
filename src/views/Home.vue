@@ -17,6 +17,7 @@
             src="/img/imagen_mia_240.webp"
             alt="Retrato de Yeiler Simons"
             loading="lazy"
+            decoding="async"
             fetchpriority="high"
             @load="onImageLoad"
             :class="imgClasses"

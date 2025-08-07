@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive } from "vue";
-import networkingContact from "./shared/networkingContact.vue";
+import networkingContact from "@/components/shared/networkingContact.vue";
 import Validator from "@/utils/Validator";
 import { descriptorContact } from "@/assets/descriptors/Contact";
 import { useQuasar } from "quasar";

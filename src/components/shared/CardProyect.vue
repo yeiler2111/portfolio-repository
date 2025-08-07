@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="cardRef"
     class="group relative max-w-md w-full dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden"
   >
     
@@ -17,6 +18,7 @@
           :key="images[currentIndex]"
           :src="images[currentIndex]"
           alt="Project image"
+          loading="lazy"
           @load="handleImageLoad"
           class="w-full h-full object-contain object-center transition-opacity duration-700"
           :class="{ 'opacity-0': isLoading, 'opacity-100': !isLoading }"
@@ -80,20 +82,32 @@ const props = defineProps<ValueCardProject>();
 
 const currentIndex = ref(0);
 const isLoading = ref(true);
+const cardRef = ref<HTMLElement | null>(null);
 let intervalId: number | null = null;
+let observer: IntersectionObserver | null = null;
 
 watch(currentIndex, () => {
   isLoading.value = true;
 });
 
 onMounted(() => {
-  intervalId = window.setInterval(() => {
-    currentIndex.value = (currentIndex.value + 1) % props.images.length;
-  }, 3000);
+  observer = new IntersectionObserver((entries) => {
+    const entry = entries[0];
+    if (entry.isIntersecting && intervalId === null) {
+      intervalId = window.setInterval(() => {
+        currentIndex.value = (currentIndex.value + 1) % props.images.length;
+      }, 3000);
+    } else if (!entry.isIntersecting && intervalId !== null) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+  });
+  if (cardRef.value) observer.observe(cardRef.value);
 });
 
 onBeforeUnmount(() => {
   if (intervalId !== null) clearInterval(intervalId);
+  if (observer && cardRef.value) observer.unobserve(cardRef.value);
 });
 
 const handleImageLoad = () => {
