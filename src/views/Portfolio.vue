@@ -3,27 +3,27 @@ import ProjectCard from "@/components/shared/CardProyect.vue";
 import { ValueCardProject } from "@/components/shared/CardProyect.vue";
 
 const proyects: ValueCardProject[] = [
-  {
-    title: "Mi Marketplace en .NET 8",
-    description:
-      "Marketplace minimalista desarrollado con **.NET 8** y **C#** utilizando una arquitectura monolítica, donde el backend está dividido en dos aplicaciones: una para la autenticación y otra para la lógica del core del negocio. Ambas aplicaciones están desplegadas en **Azure App Services** y utilizan **SQL Server** como base de datos, lo que garantiza una gestión eficiente de los datos y un rendimiento robusto. El frontend está desarrollado en **Next.js** y desplegado en **Netlify**, ofreciendo una experiencia de usuario rápida y dinámica. La interfaz se ha estilizado con **Tailwind CSS** para lograr un diseño limpio y moderno.",
-    images: [
-      "/img/market/login.png",
-      "/img/market/dashboard.png",
-      "/img/market/products.png",
-      "/img/market/car.png",
-      "/img/market/order.png",
-    ],
-    technologies: [
-      ".NET 8",
-      "C#",
-      "SQL Server",
-      "Next.js",
-      "Azure App Services",
-      "Tailwind CSS",
-    ],
-    link: "https://marketplaceproject-net.netlify.app/auth/login",
-  },
+  // {
+  //   title: "Mi Marketplace en .NET 8",
+  //   description:
+  //     "Marketplace minimalista desarrollado con **.NET 8** y **C#** utilizando una arquitectura monolítica, donde el backend está dividido en dos aplicaciones: una para la autenticación y otra para la lógica del core del negocio. Ambas aplicaciones están desplegadas en **Azure App Services** y utilizan **SQL Server** como base de datos, lo que garantiza una gestión eficiente de los datos y un rendimiento robusto. El frontend está desarrollado en **Next.js** y desplegado en **Netlify**, ofreciendo una experiencia de usuario rápida y dinámica. La interfaz se ha estilizado con **Tailwind CSS** para lograr un diseño limpio y moderno.",
+  //   images: [
+  //     "/img/market/login.png",
+  //     "/img/market/dashboard.png",
+  //     "/img/market/products.png",
+  //     "/img/market/car.png",
+  //     "/img/market/order.png",
+  //   ],
+  //   technologies: [
+  //     ".NET 8",
+  //     "C#",
+  //     "SQL Server",
+  //     "Next.js",
+  //     "Azure App Services",
+  //     "Tailwind CSS",
+  //   ],
+  //   link: "https://marketplaceproject-net.netlify.app/auth/login",
+  // },
   {
     title: "PUC App (Plan Unico De Cuentas)",
     description:
