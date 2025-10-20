@@ -161,25 +161,26 @@ onBeforeMount(() => {
 
 const proyects: ValueCardProject[] = [
   {
-    title: "Mi Marketplace en .NET 8",
+    title: "Trabajo Final ML — Clasificación de caracteres japoneses",
     description:
-      "Marketplace minimalista desarrollado con .NET 8 y C# utilizando una arquitectura monolítica, donde el backend está dividido en dos aplicaciones: una para la autenticación y otra para la lógica del core del negocio. Ambas aplicaciones están desplegadas en Azure App Services y utilizan SQL Server como base de datos, lo que garantiza una gestión eficiente de los datos y un rendimiento robusto. El frontend está desarrollado en Next.js y desplegado en Netlify, ofreciendo una experiencia de usuario rápida y dinámica. La interfaz se ha estilizado con Tailwind CSS para lograr un diseño limpio y moderno.",
+      "Proyecto académico de **Machine Learning** centrado en la clasificación de caracteres japoneses (hiragana) a partir de imágenes 28x28 píxeles. El notebook principal (`TrabajoFinalML.ipynb`) desarrolla todo el flujo de análisis: desde la carga y limpieza de datos hasta la reducción de dimensionalidad con PCA y la evaluación de un modelo de Regresión Logística multinomial. El dataset contiene 10.000 registros de 10 clases distintas y permite estudiar la varianza explicada por los componentes principales. El modelo final alcanza un accuracy aproximado del 63.5%, con visualización de resultados mediante gráficos de Plotly y seaborn. El proyecto fue desarrollado en un entorno virtual de Python 3.12 sobre Linux, empleando bibliotecas como scikit-learn, pandas, numpy, matplotlib y scipy.",
     images: [
-      "/img/market/login.png",
-      "/img/market/dashboard.png",
-      "/img/market/products.png",
-      "/img/market/car.png",
-      "/img/market/order.png",
+      "/img/ml/caracteres_dataset.png",
+      "/img/ml/matriz_confusion.png",
+      "/img/ml/correlacion_pca.png",
     ],
     technologies: [
-      ".NET 8",
-      "C#",
-      "SQL Server",
-      "Next.js",
-      "Azure App Services",
-      "Tailwind CSS",
+      "Python 3.12",
+      "scikit-learn",
+      "pandas",
+      "numpy",
+      "matplotlib",
+      "seaborn",
+      "plotly",
+      "scipy",
+      "Jupyter Notebook",
     ],
-    link: "https://marketplaceproject-net.netlify.app/auth/login",
+    link: "https://github.com/yeiler2111/portfolio-repository",
   },
   {
     title: "PUC App (Plan Unico De Cuentas)",
@@ -207,9 +208,9 @@ const scrollToSection = (id: string) => {
 .page {
   @apply bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100;
 }
-  .hero {
-    @apply flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-700 to-teal-700 dark:from-blue-800 dark:to-teal-900 shadow-md dark:shadow-lg w-full px-4;
-  }
+.hero {
+  @apply flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-700 to-teal-700 dark:from-blue-800 dark:to-teal-900 shadow-md dark:shadow-lg w-full px-4;
+}
 .hero__inner {
   @apply w-full py-2 max-w-4xl mx-auto text-center flex flex-col justify-center items-center;
 }
@@ -225,12 +226,12 @@ const scrollToSection = (id: string) => {
 .hero__title {
   @apply text-5xl md:text-6xl font-extrabold text-white drop-shadow-md;
 }
-  .hero__subtitle {
-    @apply text-lg md:text-xl text-white dark:text-gray-200;
-  }
-  .btn-contact {
-    @apply bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-full text-lg font-semibold transition duration-300;
-  }
+.hero__subtitle {
+  @apply text-lg md:text-xl text-white dark:text-gray-200;
+}
+.btn-contact {
+  @apply bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-full text-lg font-semibold transition duration-300;
+}
 .section--tech {
   @apply py-12 bg-white dark:bg-gray-950 flex justify-center flex-row;
 }

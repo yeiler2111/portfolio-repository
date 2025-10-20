@@ -3,27 +3,28 @@ import ProjectCard from "@/components/shared/CardProyect.vue";
 import { ValueCardProject } from "@/components/shared/CardProyect.vue";
 
 const proyects: ValueCardProject[] = [
-  // {
-  //   title: "Mi Marketplace en .NET 8",
-  //   description:
-  //     "Marketplace minimalista desarrollado con **.NET 8** y **C#** utilizando una arquitectura monolítica, donde el backend está dividido en dos aplicaciones: una para la autenticación y otra para la lógica del core del negocio. Ambas aplicaciones están desplegadas en **Azure App Services** y utilizan **SQL Server** como base de datos, lo que garantiza una gestión eficiente de los datos y un rendimiento robusto. El frontend está desarrollado en **Next.js** y desplegado en **Netlify**, ofreciendo una experiencia de usuario rápida y dinámica. La interfaz se ha estilizado con **Tailwind CSS** para lograr un diseño limpio y moderno.",
-  //   images: [
-  //     "/img/market/login.png",
-  //     "/img/market/dashboard.png",
-  //     "/img/market/products.png",
-  //     "/img/market/car.png",
-  //     "/img/market/order.png",
-  //   ],
-  //   technologies: [
-  //     ".NET 8",
-  //     "C#",
-  //     "SQL Server",
-  //     "Next.js",
-  //     "Azure App Services",
-  //     "Tailwind CSS",
-  //   ],
-  //   link: "https://marketplaceproject-net.netlify.app/auth/login",
-  // },
+  {
+    title: "Trabajo Final ML — Clasificación de caracteres japoneses",
+    description:
+      "Proyecto académico de **Machine Learning** centrado en la clasificación de caracteres japoneses (hiragana) a partir de imágenes 28x28 píxeles. El notebook principal (`TrabajoFinalML.ipynb`) desarrolla todo el flujo de análisis: desde la carga y limpieza de datos hasta la reducción de dimensionalidad con PCA y la evaluación de un modelo de Regresión Logística multinomial. El dataset contiene 10.000 registros de 10 clases distintas y permite estudiar la varianza explicada por los componentes principales. El modelo final alcanza un accuracy aproximado del 63.5%, con visualización de resultados mediante gráficos de Plotly y seaborn. El proyecto fue desarrollado en un entorno virtual de Python 3.12 sobre Linux, empleando bibliotecas como scikit-learn, pandas, numpy, matplotlib y scipy.",
+    images: [
+      "/img/ml/caracteres_dataset.png",
+      "/img/ml/matriz_confusion.png",
+      "/img/ml/correlacion_pca.png",
+    ],
+    technologies: [
+      "Python 3.12",
+      "scikit-learn",
+      "pandas",
+      "numpy",
+      "matplotlib",
+      "seaborn",
+      "plotly",
+      "scipy",
+      "Jupyter Notebook",
+    ],
+    link: "https://github.com/yeiler2111/TrabajoFinalML",
+  },
   {
     title: "PUC App (Plan Unico De Cuentas)",
     description:
@@ -36,7 +37,6 @@ const proyects: ValueCardProject[] = [
     technologies: ["React", "React native"],
     link: "https://puc-app-mobile.netlify.app/",
   },
-  
 ];
 </script>
 
