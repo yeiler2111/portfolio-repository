@@ -1,11 +1,10 @@
 const { DefinePlugin } = require("webpack");
 
 module.exports = {
-  // ...
   plugins: [
     new HtmlWebpackPlugin({
       template: "./public/index.html",
-      inject: false, // 🔥 No inyecta scripts automáticamente
+      inject: false, 
       scriptLoading: "defer",
       minify: false,
       templateParameters: (compilation, assets) => ({
@@ -31,9 +30,9 @@ module.exports = {
     }),
 
     new DefinePlugin({
-      __VUE_OPTIONS_API__: true, // o false si no usas Options API
+      __VUE_OPTIONS_API__: true, 
       __VUE_PROD_DEVTOOLS__: false,
-      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false, // <--- esta es la que pide
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false, 
     }),
   ],
 };

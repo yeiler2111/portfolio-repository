@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import ProjectCard from "@/components/shared/CardProyect.vue";
-import { ValueCardProject } from "@/components/shared/CardProyect.vue";
+import ProjectCard, { ValueCardProject } from "@/components/shared/CardProyect.vue";
 
 const proyects: ValueCardProject[] = [
   {

@@ -1,6 +1,6 @@
 import { AxiosProvider } from "@/api/interceptor";
 import { messageEmail } from "@/utils/emailMessage";
-import { Contact } from "@/utils/interfaces";
+import { Contact } from "@/utils/types";
 
 export const ServicesContact = {
     async sendMessageContact(data: Contact) {

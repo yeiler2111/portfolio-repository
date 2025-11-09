@@ -51,7 +51,6 @@
 </template>
 
 <script setup>
-// No se requiere lógica aquí, es solo contenido estático
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
 <script setup>
-import { ref, onMounted } from "vue";
 import Logo from "@/components/shared/Logo.vue";
 import { MenuItem } from "@/data/data";
+import { onMounted, ref } from "vue";
 const isDarkMode = ref(false);
 const isMenuOpen = ref(false);
 
@@ -79,17 +79,7 @@ onMounted(() => {
               v-if="isMenuOpen"
               class="absolute right-4 top-16 w-40 bg-white border border-gray-300 text-gray-900 dark:bg-gray-800 dark:text-gray-400 rounded shadow-lg"
             >
-              <!-- <li
-                  class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
-                  @click="
-                    () => {
-                      $router.push({ path: '/portfolio' });
-                      isMenuOpen = false;
-                    }
-                  "
-                >
-                  Portafolio
-                </li> -->
+         
             </ul>
           </transition>
         </div>
@@ -99,7 +89,7 @@ onMounted(() => {
 </template>
 
 <style>
-/* Animación del menú desplegable */
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s ease;

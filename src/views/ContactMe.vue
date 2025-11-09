@@ -1,67 +1,225 @@
-<script setup>
-import { ref, reactive } from "vue";
-import networkingContact from "@/components/shared/networkingContact.vue";
-import Validator from "@/utils/Validator";
+<template>
+  <div class="contact-page">
+    <section class="contact-section">
+      <div class="contact-container">
+        <!-- Header -->
+        <div class="contact-header">
+          <h1 class="heading-2">Contáctame</h1>
+          <p class="contact-description">
+            Completa el formulario y me pondré en contacto contigo lo antes
+            posible
+          </p>
+        </div>
+
+        <!-- Contact Form -->
+        <form @submit.prevent="sendMessage" class="contact-form" novalidate>
+          <!-- Name Field -->
+          <div class="form-group">
+            <label for="name" class="form-label">
+              Nombre completo
+              <span class="text-error">*</span>
+            </label>
+            <input
+              id="name"
+              v-model="form.name"
+              type="text"
+              placeholder="Tu nombre"
+              :class="['input', { 'input-error': errors.name }]"
+              aria-required="true"
+              aria-describedby="name-error"
+            />
+            <p v-if="errors.name" id="name-error" class="form-error">
+              {{ errors.name }}
+            </p>
+          </div>
+
+          <!-- Email Field -->
+          <div class="form-group">
+            <label for="email" class="form-label">
+              Correo Electrónico
+              <span class="text-error">*</span>
+            </label>
+            <input
+              id="email"
+              v-model="form.email"
+              type="email"
+              placeholder="tu@email.com"
+              :class="['input', { 'input-error': errors.email }]"
+              aria-required="true"
+              aria-describedby="email-error"
+            />
+            <p v-if="errors.email" id="email-error" class="form-error">
+              {{ errors.email }}
+            </p>
+          </div>
+
+          <!-- Subject Field -->
+          <div class="form-group">
+            <label for="affair" class="form-label">
+              Asunto
+              <span class="text-error">*</span>
+            </label>
+            <input
+              id="affair"
+              v-model="form.affair"
+              type="text"
+              placeholder="¿De qué trata tu mensaje?"
+              :class="['input', { 'input-error': errors.affair }]"
+              aria-required="true"
+              aria-describedby="affair-error"
+            />
+            <p v-if="errors.affair" id="affair-error" class="form-error">
+              {{ errors.affair }}
+            </p>
+          </div>
+
+          <!-- Message Field -->
+          <div class="form-group">
+            <label for="message" class="form-label">
+              Mensaje
+              <span class="text-error">*</span>
+            </label>
+            <textarea
+              id="message"
+              v-model="form.message"
+              rows="6"
+              placeholder="Escribe tu mensaje aquí..."
+              :class="['input', { 'input-error': errors.message }]"
+              aria-required="true"
+              aria-describedby="message-error"
+            ></textarea>
+            <p v-if="errors.message" id="message-error" class="form-error">
+              {{ errors.message }}
+            </p>
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            :disabled="isSubmitting"
+            class="btn-primary w-full"
+            :class="{ 'opacity-50 cursor-not-allowed': isSubmitting }"
+          >
+            <span v-if="!isSubmitting">Enviar Mensaje</span>
+            <span v-else class="flex items-center justify-center gap-2">
+              <svg
+                class="animate-spin h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              Enviando...
+            </span>
+          </button>
+        </form>
+
+        <!-- Social Networks -->
+        <div class="social-section">
+          <h2 class="heading-4 mb-6">También puedes encontrarme en</h2>
+          <NetworkingContact />
+        </div>
+      </div>
+    </section>
+  </div>
+</template>
+
+<script setup lang="ts">
 import { descriptorContact } from "@/assets/descriptors/Contact";
-import { useQuasar } from "quasar";
+import NetworkingContact from "@/components/home/networkingContact.vue";
 import { sendEmail } from "@/services/email.services";
+import type { ContactForm, EmailData, ValidationErrors } from "@/utils/types";
+import Validator from "@/utils/Validator";
+import { useQuasar } from "quasar";
+import { reactive, ref } from "vue";
 
 const $q = useQuasar();
 
-const form = reactive({
+
+const form = reactive<ContactForm>({
   name: "",
   email: "",
   affair: "",
   message: "",
 });
 
-const errors = ref({});
+const errors = ref<ValidationErrors>({});
+const isSubmitting = ref<boolean>(false);
 
-const validateForm = async () => {
+
+const validateForm = async (): Promise<{
+  validated: boolean;
+  errors: ValidationErrors;
+}> => {
   const validator = new Validator(descriptorContact);
   const { validated, errors: validationErrors } = await validator.run(form);
+
   if (!validated) {
     errors.value = validationErrors;
-    console.log(errors.value);
+
     $q.notify({
-      message: "Por favor, completa los campos correctamente.",
+      message: "Por favor, completa todos los campos correctamente.",
       timeout: 3000,
       position: "top",
-      color: "red-8",
-      icon: "fa fa-exclamation-triangle",
+      color: "negative",
+      icon: "warning",
     });
   }
-  return { validated: validated, errors: validationErrors };
+
+  return { validated, errors: validationErrors };
 };
 
-const sendMessage = async () => {
-  debugger
-  const { validated, errors } = await validateForm();
-  if (!validated) {
-    errors.value = errors;
-    return;
-  }
+
+const sendMessage = async (): Promise<void> => {
+  
   errors.value = {};
 
+  
+  const { validated, errors: validationErrors } = await validateForm();
+
+  if (!validated) {
+    errors.value = validationErrors;
+    return;
+  }
+
+  
+  isSubmitting.value = true;
+
   try {
-    const res = await sendEmail({
+    const emailData: EmailData = {
       to_name: form.name,
       reply_to: form.email,
       from_name: form.affair,
       message: form.message,
-    });
-    
+    };
+
+    const res = await sendEmail(emailData);
+
     $q.notify({
-      message: `Transacción Exitosa ${
-        res.status == 201
-          ? ", enviamos un mensaje a tu correo electrónico!"
-          : ""
-      }`,
-      timeout: 3000,
-      color: "green-6",
+      message:
+        res?.status === 201
+          ? "¡Mensaje enviado exitosamente! Te responderé pronto."
+          : "Mensaje enviado con éxito.",
+      timeout: 4000,
+      color: "positive",
       position: "top",
-      icon: "fa fa-check",
+      icon: "check_circle",
     });
+
+    
     Object.assign(form, {
       name: "",
       email: "",
@@ -69,138 +227,65 @@ const sendMessage = async () => {
       message: "",
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error al enviar mensaje:", error);
+
     $q.notify({
-      message: "Error al enviar el mensaje. Inténtalo de nuevo.",
+      message: "Error al enviar el mensaje. Por favor, inténtalo de nuevo.",
       timeout: 3000,
-      color: "red-8",
+      color: "negative",
       position: "top",
-      icon: "fa fa-window-close",
+      icon: "error",
     });
+  } finally {
+    isSubmitting.value = false;
   }
 };
 </script>
 
-<template>
-  <div class="flex justify-center">
-    <section
-      class="p-6 mt-5 w-3/5 bg-gray-100 dark:bg-gray-800 rounded-2xl shadow-lg transition-all duration-300"
-    >
-      <h1 class="text-2xl font-semibold text-gray-800 dark:text-white mb-6">
-        Contáctame
-      </h1>
-
-      <form @submit.prevent="sendMessage" class="space-y-6">
-        <div>
-          <label class="text-gray-700 dark:text-gray-300">Nombre</label>
-          <input
-            v-model="form.name"
-            name="name"
-            type="text"
-            :class="[
-              'input-field',
-              errors?.name ? 'border-red-500' : 'border-gray-300',
-            ]"
-          />
-          <p v-if="errors?.name" class="text-red-500 text-sm mt-1">
-            {{ errors.name }}
-          </p>
-        </div>
-
-        <div>
-          <label class="text-gray-700 dark:text-gray-300"
-            >Correo Electrónico</label
-          >
-          <input
-            v-model="form.email"
-            name="email"
-            type="email"
-            :class="[
-              'input-field',
-              errors?.email ? 'border-red-500' : 'border-gray-300',
-            ]"
-          />
-          <p v-if="errors?.email" class="text-red-500 text-sm mt-1">
-            {{ errors.email }}
-          </p>
-        </div>
-
-        
-        <div>
-          <label class="text-gray-700 dark:text-gray-300">Asunto</label>
-          <input
-            v-model="form.affair"
-            name="affair"
-            type="text"
-            :class="[
-              'input-field',
-              errors?.affair ? 'border-red-500' : 'border-gray-300',
-            ]"
-          />
-          <p v-if="errors?.affair" class="text-red-500 text-sm mt-1">
-            {{ errors.affair }}
-          </p>
-        </div>
-        <div>
-          <label class="text-gray-700 dark:text-gray-300">Mensaje</label>
-          <textarea
-            v-model="form.message"
-            name="message"
-            rows="4"
-            :class="[
-              'input-field',
-              errors?.message ? 'border-red-500' : 'border-gray-300',
-            ]"
-          ></textarea>
-          <p v-if="errors?.message" class="text-red-500 text-sm mt-1">
-            {{ errors.message }}
-          </p>
-        </div>
-
-        <button
-          type="submit"
-          class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-all duration-300"
-        >
-          Enviar Mensaje
-        </button>
-      </form>
-      <h2
-        class="mt-8 mb-4 text-xl font-semibold text-gray-800 dark:text-white"
-      >
-        Redes sociales
-      </h2>
-      <div class="dark:bg-gray-950 w-100">
-        <networkingContact />
-      </div>
-    </section>
-  </div>
-</template>
-
-<style scoped>
-.input-field {
-  width: 100%;
-  padding: 0.75rem;
-  margin-top: 0.5rem;
-  border-radius: 0.5rem;
-  border: 1px solid;
-  background-color: #f9fafb;
-  color: #333;
-  transition: border-color 0.3s, box-shadow 0.3s;
+<style scoped lang="postcss">
+.contact-page {
+  @apply min-h-screen bg-gray-50 dark:bg-gray-950 
+         py-20 px-4 transition-colors duration-300;
 }
 
-.input-field:focus {
-  border-color: #3b82f6; 
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-  outline: none;
+.contact-section {
+  @apply flex justify-center items-start;
 }
 
-.dark .input-field {
-  background-color: #1f2937; 
-  color: #e5e7eb; 
+.contact-container {
+  @apply w-full max-w-3xl mx-auto;
 }
 
-.dark .input-field:focus {
-  border-color: #60a5fa; /* Azul claro */
-  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+
+.contact-header {
+  @apply text-center mb-12;
+}
+
+.contact-description {
+  @apply text-lg text-gray-600 dark:text-gray-400 mt-4;
+}
+
+
+.contact-form {
+  @apply bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 
+         rounded-2xl shadow-md p-8 md:p-10 space-y-6 mb-12 transition-colors;
+}
+
+.form-group {
+  @apply space-y-2;
+}
+
+.form-label {
+  @apply block text-sm font-semibold text-gray-700 dark:text-gray-300;
+}
+
+.form-error {
+  @apply text-error text-sm mt-1 animate-slide-up;
+}
+
+
+.social-section {
+  @apply bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 
+         rounded-2xl shadow-md p-8 text-center transition-colors;
 }
 </style>

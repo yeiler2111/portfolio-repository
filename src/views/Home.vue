@@ -1,169 +1,90 @@
 <template>
   <div class="page">
-    <section class="hero">
-      <div class="hero__inner">
-        <picture class="hero__picture">
-          <source
-            srcset="/img/imagen_mia_768.webp"
-            media="(min-width: 1024px)"
-            type="image/webp"
-          />
-          <source
-            srcset="/img/imagen_mia_480.webp"
-            media="(min-width: 641px)"
-            type="image/webp"
-          />
-          <img
-            src="/img/imagen_mia_240.webp"
-            alt="Retrato de Yeiler Simons"
-            loading="eager"
-            decoding="async"
-            fetchpriority="high"
-            @load="onImageLoad"
-            :class="imgClasses"
-          />
-        </picture>
+    <HeroSection
+      :navigation-options="navigationOptions"
+      @navigate="scrollToSection"
+    />
 
-        <div v-if="loading" class="loader mt-4"></div>
-
-        <div class="hero__text">
-          <h1 class="hero__title animate__animated animate__fadeIn">
-            Hola, soy Yeiler Simons
-          </h1>
-          <p
-            class="hero__subtitle animate__animated animate__fadeIn animate__delay-1s"
-          >
-            Desarrollador Fullstack<br />
-            Apasionado por la informática y brindar soluciones digitales
-          </p>
-          <div class="flex justify-center space-x-4">
-            <div class="flex flex-wrap justify-center gap-2 py-4">
-              <q-chip
-                v-for="option in options"
-                :key="option.id"
-                clickable
-                @click="scrollToSection(option.id)"
-                :label="option.label"
-                :color="'gray-3'"
-                class="text-sm rounded-full px-4 py-2 cursor-pointer transition dark:bg-gray-800 dark:text-white dark:hover:bg-blue-700"
-              />
-            </div>
-          </div>
-        </div>
+    <section id="technologies" class="section section-alt">
+      <div class="container-wide">
+        <Tecnologies />
       </div>
     </section>
 
-    <section id="technologies" class="section--tech">
-      <div class="container text-center">
-        <TechStackSection />
-      </div>
-    </section>
-
-    <section id="experience" class="section--experience">
-      <div class="w-full">
+    <section id="experience" class="section">
+      <div>
         <ExperienceWork />
       </div>
     </section>
 
-    <section id="projects" class="section--projects">
-      <div class="container">
-        <h2 class="section__heading mb-8 text-center">Proyectos destacados</h2>
-        <div class="projects-grid">
-          <div
-            v-for="(pro, index) in proyects"
-            :key="index"
-            class="project-wrapper"
-          >
-            <ProjectCard
-              :title="pro.title"
-              :description="pro.description"
-              :images="pro.images"
-              :technologies="pro.technologies"
-              :link="pro.link"
-            />
-          </div>
+    <section id="projects" class="section section-alt py-20 px-6">
+      <div class="container-wide">
+        <SectionHeader
+          title="Proyectos destacados"
+          subtitle="Explora algunos de los proyectos en los que he trabajado, aplicando las mejores prácticas y tecnologías modernas"
+        />
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <ProjectCard
+            class="dark:bg-gray-900"
+            v-for="project in projects"
+            :key="project.id"
+            v-bind="project"
+          />
         </div>
       </div>
     </section>
 
-    <section id="about" class="section--about">
-      <div class="container">
-        <h2 class="section__heading text-center mb-12">Sobre mí</h2>
+    <section id="about" class="section py-20 px-6">
+      <div class="container-wide">
+        <SectionHeader
+          title="Sobre mí"
+          subtitle="Conoce más sobre mi trayectoria, habilidades y pasión por el desarrollo"
+        />
+
         <div
-          v-for="(item, index) in CardItems"
-          :key="index"
-          class="card-wrapper"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10"
         >
-          <Section :card="item" />
+          <Section
+            v-for="(item, key) in aboutCards"
+            :key="key"
+            :card="item"
+            class="p-8 rounded-2xl bg-white/60 dark:bg-gray-800/50 shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-700 leading-relaxed text-gray-700 dark:text-gray-300 tracking-wide transform hover:-translate-y-1 hover:scale-105 transition-all duration-300"
+          />
         </div>
       </div>
     </section>
 
-    <section id="contact" class="section--contact">
-      <div class="text-center">
-        <h2 class="section__heading">¿Te gustaría trabajar conmigo?</h2>
-        <p class="section__text">
-          Si tienes alguna pregunta o quieres discutir un proyecto, ¡no dudes en
-          ponerte en contacto!
-        </p>
-        <a
-          @click="$router.push('/contactMe')"
-          class="btn-contact mx-auto cursor-pointer"
-          >Contáctame</a
-        >
-      </div>
-      <networking />
-    </section>
+    <ContactSection />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onBeforeMount } from "vue";
-import networking from "@/components/shared/networkingContact.vue";
-import Section from "@/components/shared/Section.vue";
-import TechStackSection from "@/components/shared/Tecnologies.vue";
-import ExperienceWork from "@/components/shared/ExperienceWork.vue";
+import ProjectCard from "@/components/home/CardProyect.vue";
+import ContactSection from "@/components/home/ContactSection.vue";
+import ExperienceWork from "@/components/home/ExperienceWork.vue";
+import HeroSection from "@/components/home/HeroSection.vue";
+import Section from "@/components/home/Section.vue";
+import SectionHeader from "@/components/home/SectionHeader.vue";
+import Tecnologies from "@/components/shared/Tecnologies.vue";
 import { CardItems } from "@/data/data";
-import ProjectCard, {
-  ValueCardProject,
-} from "@/components/shared/CardProyect.vue";
+import type { NavigationOption, Project } from "@/utils/types";
 
-const options = [
-  { label: "Tecnologias", id: "technologies" },
-  { label: "Experiencia", id: "experience" },
-  { label: "Proyectos", id: "projects" },
-  { label: "Sobre mi", id: "about" },
-  { label: "Contactame", id: "contact" },
+const navigationOptions: NavigationOption[] = [
+  { id: "technologies", label: "Tecnologías" },
+  { id: "experience", label: "Experiencia" },
+  { id: "projects", label: "Proyectos" },
+  { id: "about", label: "Sobre mí" },
 ];
 
-const loading = ref(true);
-const onImageLoad = () => {
-  loading.value = false;
-};
+const aboutCards = CardItems;
 
-const imgClasses = computed(() => [
-  "hero__image",
-  loading.value ? "opacity-0" : "opacity-100",
-]);
-
-onBeforeMount(() => {
-  const preload = (href: string, media?: string) => {
-    const link = document.createElement("link");
-    link.rel = "preload";
-    link.as = "image";
-    link.href = href;
-    link.fetchPriority = "high";
-    if (media) link.media = media;
-    document.head.appendChild(link);
-  };
-  preload("/img/imagen_mia_240.webp");
-});
-
-const proyects: ValueCardProject[] = [
+const projects: Project[] = [
   {
+    id: "ml-japanese-characters",
     title: "Trabajo Final ML — Clasificación de caracteres japoneses",
     description:
-      "Proyecto académico de **Machine Learning** centrado en la clasificación de caracteres japoneses (hiragana) a partir de imágenes 28x28 píxeles. El notebook principal (`TrabajoFinalML.ipynb`) desarrolla todo el flujo de análisis: desde la carga y limpieza de datos hasta la reducción de dimensionalidad con PCA y la evaluación de un modelo de Regresión Logística multinomial. El dataset contiene 10.000 registros de 10 clases distintas y permite estudiar la varianza explicada por los componentes principales. El modelo final alcanza un accuracy aproximado del 63.5%, con visualización de resultados mediante gráficos de Plotly y seaborn. El proyecto fue desarrollado en un entorno virtual de Python 3.12 sobre Linux, empleando bibliotecas como scikit-learn, pandas, numpy, matplotlib y scipy.",
+      "Proyecto académico de **Machine Learning** centrado en la clasificación de caracteres japoneses (hiragana) a partir de imágenes 28x28 píxeles. El notebook principal desarrolla todo el flujo de análisis: desde la carga y limpieza de datos hasta la reducción de dimensionalidad con PCA y la evaluación de un modelo de Regresión Logística multinomial. El dataset contiene 10.000 registros de 10 clases distintas. El modelo final alcanza un accuracy aproximado del 63.5%, con visualización de resultados mediante gráficos de Plotly y seaborn.",
     images: [
       "/img/ml/caracteres_dataset.png",
       "/img/ml/matriz_confusion.png",
@@ -180,23 +101,26 @@ const proyects: ValueCardProject[] = [
       "scipy",
       "Jupyter Notebook",
     ],
-    link: "https://github.com/yeiler2111/portfolio-repository",
+    link: "https://github.com/yeiler2111/classificationHiraganaCharacters",
+    featured: true,
   },
   {
-    title: "PUC App (Plan Unico De Cuentas)",
+    id: "puc-app",
+    title: "PUC App (Plan Único De Cuentas)",
     description:
-      "Prueba de concepto (PUC) desarrollada con React y React Native, enfocada en validar la experiencia de usuario y la interfaz en plataformas web y móviles. El frontend web ha sido construido con React y la aplicación móvil con React Native, compartiendo lógica y estilos para mantener consistencia entre ambos entornos. La aplicación consume datos locales simulados, lo que permite probar funcionalidades clave sin necesidad de una conexión a servicios externos. La interfaz ha sido diseñada con Tailwind CSS, logrando un diseño moderno, limpio y adaptable, ideal para evaluar la usabilidad y el flujo de navegación en distintas plataformas.",
+      "Prueba de concepto (PUC) desarrollada con React y React Native, enfocada en validar la experiencia de usuario y la interfaz en plataformas web y móviles. El frontend web ha sido construido con React y la aplicación móvil con React Native, compartiendo lógica y estilos para mantener consistencia entre ambos entornos. La aplicación consume datos locales simulados, lo que permite probar funcionalidades clave sin necesidad de una conexión a servicios externos. La interfaz ha sido diseñada con Tailwind CSS, logrando un diseño moderno, limpio y adaptable.",
     images: [
       "/img/puc/pageWeb.png",
       "/img/puc/appMobil.jpg",
       "/img/puc/appMobil2.jpg",
     ],
-    technologies: ["React", "React native"],
+    technologies: ["React", "React Native", "Tailwind CSS"],
     link: "https://puc-app-mobile.netlify.app/",
+    featured: true,
   },
 ];
 
-const scrollToSection = (id: string) => {
+const scrollToSection = (id: string): void => {
   const element = document.getElementById(id);
   if (element) {
     element.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -206,72 +130,26 @@ const scrollToSection = (id: string) => {
 
 <style scoped lang="postcss">
 .page {
-  @apply bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100;
+  @apply bg-gray-50 dark:bg-gray-950 text-gray-800 dark:text-gray-100 transition-colors duration-300;
 }
-.hero {
-  @apply flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-700 to-teal-700 dark:from-blue-800 dark:to-teal-900 shadow-md dark:shadow-lg w-full px-4;
-}
-.hero__inner {
-  @apply w-full py-2 max-w-4xl mx-auto text-center flex flex-col justify-center items-center;
-}
-.hero__picture {
-  @apply w-[350px] sm:w-[180px] md:w-[220px] lg:w-[260px] xl:w-[300px] 2xl:w-[340px] aspect-[12/13];
-}
-.hero__image {
-  @apply rounded-xl w-full h-full object-cover border-4 border-white shadow-lg transition-opacity duration-500;
-}
-.hero__text {
-  @apply mt-8 space-y-4;
-}
-.hero__title {
-  @apply text-5xl md:text-6xl font-extrabold text-white drop-shadow-md;
-}
-.hero__subtitle {
-  @apply text-lg md:text-xl text-white dark:text-gray-200;
-}
-.btn-contact {
-  @apply bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-full text-lg font-semibold transition duration-300;
-}
-.section--tech {
-  @apply py-12 bg-white dark:bg-gray-950 flex justify-center flex-row;
-}
-.section--experience {
-  @apply py-2 bg-white dark:bg-gray-800 flex justify-center flex-row;
-}
-.section--projects {
-  @apply py-20 bg-white dark:bg-gray-800 flex justify-center;
-}
-.section--about {
-  @apply py-20 bg-gray-50 dark:bg-gray-900 flex justify-center;
-}
-.section--contact {
-  @apply py-20 bg-gray-100 dark:bg-gray-900 flex flex-col justify-center;
-}
-.container {
-  @apply max-w-6xl px-6 m-0;
-}
-.card-wrapper {
-  @apply flex justify-center text-center mb-12;
-}
-.projects-grid {
-  @apply flex flex-wrap gap-8 justify-center;
-}
-.project-wrapper {
-  @apply w-full md:w-[500px] max-w-[500px] min-h-[550px];
-}
-.section__heading {
-  @apply text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-100 mb-6;
-}
-.section__text {
-  @apply text-lg text-gray-700 dark:text-gray-400 mb-8;
-}
-.loader {
-  @apply w-12 h-12 rounded-full border-4 border-t-blue-500 border-gray-200 dark:border-gray-700 animate-spin;
-}
-</style>
 
-<style lang="postcss">
-html {
-  scroll-behavior: smooth;
+.section {
+  @apply py-14 lg:py-10;
+}
+
+.section-alt {
+  @apply bg-white dark:bg-gray-900;
+}
+
+.container-wide {
+  @apply max-w-7xl mx-auto px-6;
+}
+
+.container-narrow {
+  @apply max-w-7xl;
+}
+
+.container-custom {
+  @apply max-w-6xl mx-auto px-6;
 }
 </style>
