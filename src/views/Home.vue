@@ -17,7 +17,7 @@
       </div>
     </section>
 
-    <section id="projects" class="section section-alt py-20 px-6">
+    <section id="projects" class="section section-alt py-20 px-6  dark:bg-gray-900">
       <div class="container-wide">
         <SectionHeader
           title="Proyectos destacados"
@@ -26,7 +26,6 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <ProjectCard
-            class="dark:bg-gray-900"
             v-for="project in projects"
             :key="project.id"
             v-bind="project"

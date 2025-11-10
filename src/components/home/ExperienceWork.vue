@@ -66,11 +66,9 @@
                   <q-card
                     v-show="expanded === index"
                     flat
-                    class="q-mt-md q-pa-md bg-grey-1 dark:bg-gray-800"
+                    class="q-mt-md q-pa-md dark:bg-gray-900"
                   >
-                    <div
-                      class="text-body2 text-gray-700 dark:text-gray-300 line-height-relaxed"
-                    >
+                    <div class="text-body2 line-height-relaxed">
                       {{ job.description }}
                     </div>
                   </q-card>
@@ -93,12 +91,11 @@ const expanded = ref(null);
 const toggleDetails = (index) => {
   expanded.value = expanded.value === index ? null : index;
 };
-
-
 </script>
 
 <style scoped>
 .line-height-relaxed {
   line-height: 1.7;
 }
+
 </style>

@@ -97,7 +97,7 @@
     </div>
 
     <div class="p-7 space-y-5 dark:bg-gray-900">
-      <div class="space-y-3">
+      <div class="space-y-3 ">
         <h3
           class="text-2xl font-bold text-gray-900 dark:text-gray-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight"
         >

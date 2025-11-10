@@ -87,7 +87,7 @@
                   class="cv-dropdown-item"
                   @click="closeCvMenu"
                 >
-                  CV Visual
+                  CV Harvard
                 </a>
               </div>
             </transition>

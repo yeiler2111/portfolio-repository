@@ -70,7 +70,7 @@ export const jobs = [
     icon: "medical_services",
     period: "1 año y 3 meses (actualmente apoyo como freelance)",
     description:
-      "Brindé soporte técnico de nivel 1, 2 y 3, además de desarrollar interfaces con Vue 2 y Bootstrap-Vue. Implementé soluciones para servicios de telemedicina, mejorando la experiencia de usuario en plataformas críticas. Actualmente colaboro de forma puntual como freelance en tareas especializadas.",
+      "Desarrollé módulos de citas, teleapoyo y telemedicina con Vue 2 integrados a backend en C# .NET. Implementé infraestructura en AWS (Lambda, API Gateway, Route 53, Nginx) y configuración de Jitsi y DCM4CHE para videollamadas y gestión de imágenes DICOM. Contribuí a una infraestructura replicable que redujo tiempos de despliegue y aseguré continuidad del servicio mediante soporte niveles 1, 2 y 3.",
     link: "https://www.globale-health.com",
   },
   {
@@ -79,7 +79,7 @@ export const jobs = [
     icon: "code",
     period: "1 año",
     description:
-      "Realicé desarrollos como freelance, incluyendo sistemas de autenticación, landing pages y servicios backend. Trabajé con Python, Angular, Java y .NET.",
+      "Diseñé e implementé un sistema de autenticación con Python, OAuth2 y JWT adoptado como base para nuevos proyectos. Desarrollé pruebas de concepto en Angular y apoyé el desarrollo backend con C# y Java Spring Boot, integrando buenas prácticas de seguridad y arquitectura escalable para distintos clientes.",
     link: "https://www.unoycerodigital.com.co/",
   },
   {
@@ -88,7 +88,7 @@ export const jobs = [
     icon: "engineering",
     period: "8 meses",
     description:
-      "Desarrollé soluciones tanto en frontend como backend utilizando Vue 3, React y NestJS. Participé en el desarrollo de plataformas empresariales e integraciones.",
+      "Participé en proyectos para ICFES y Minsalud. Desarrollé backend en NestJS para generación masiva de PDFs y frontend en Vue 3 + Pinia con gestión de roles y módulos públicos. Aporté en el diseño de arquitecturas en capas y APIs REST, logrando entregas estables, mantenibles y alineadas a requerimientos de entidades públicas.",
     link: "https://mitconsulting.com.co/",
   },
   {
@@ -97,7 +97,7 @@ export const jobs = [
     icon: "work",
     period: "4 meses",
     description:
-      "Trabajo como freelance en una empresa de desarrollo de software. Desarrollo interfaces avanzadas con React y Remix, implemento backends con NestJS y realizo integraciones con servicios como Google Cloud Buckets.",
+      "Desarrollé soluciones fullstack para proyectos del sector público, incluyendo backend en NestJS con arquitectura en capas y caché con Redis, y frontend en React/Remix con WebSockets para comunicación en tiempo real. Implementé notificaciones por correo y pruebas unitarias con Jest, contribuyendo a reducir tiempos de respuesta y mejorar la robustez de las aplicaciones.",
     link: "https://fryends.com.co/#",
   },
 ];
