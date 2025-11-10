@@ -45,8 +45,8 @@
         </h1>
 
         <p class="hero-description">
-          Apasionado por crear experiencias digitales excepcionales y
-          soluciones innovadoras con tecnologías modernas.
+          Apasionado por crear experiencias digitales excepcionales y soluciones
+          innovadoras con tecnologías modernas.
         </p>
 
         <HeroStats />
@@ -59,13 +59,45 @@
             <Mail :size="20" />
             <span>Contáctame</span>
           </button>
-          <button class="btn-outline btn-large">
-            <Download :size="20" />
-            <span>Ver CV</span>
-          </button>
+
+          <!-- Dropdown CV -->
+          <div class="relative">
+            <button
+              @click="toggleCvMenu"
+              class="btn-outline btn-large flex items-center"
+            >
+              <Download :size="20" />
+              <span>Descargar CV</span>
+              <span class="ml-2 text-xs">▼</span>
+            </button>
+
+            <transition name="fade-down">
+              <div v-if="cvMenuOpen" class="cv-dropdown">
+                <a
+                  href="/documents/HvAts.pdf"
+                  download="Yeiler-Simons-CV-ATS.pdf"
+                  class="cv-dropdown-item"
+                  @click="closeCvMenu"
+                >
+                  CV ATS
+                </a>
+                <a
+                  href="/documents/hvHarvard.pdf"
+                  download="Yeiler-Simons-CV-Visual.pdf"
+                  class="cv-dropdown-item"
+                  @click="closeCvMenu"
+                >
+                  CV Visual
+                </a>
+              </div>
+            </transition>
+          </div>
         </div>
 
-        <HeroNavigation :options="navigationOptions" @navigate="scrollToSection" />
+        <HeroNavigation
+          :options="navigationOptions"
+          @navigate="scrollToSection"
+        />
       </div>
     </div>
 
@@ -74,11 +106,11 @@
 </template>
 
 <script setup lang="ts">
-import type { NavigationOption } from '@/utils/types';
-import { Download, Mail } from 'lucide-vue-next';
-import { onBeforeMount, ref } from 'vue';
-import HeroNavigation from './HeroNavigation.vue';
-import HeroStats from './HeroStats.vue';
+import type { NavigationOption } from "@/utils/types";
+import { Download, Mail } from "lucide-vue-next";
+import { onBeforeMount, ref } from "vue";
+import HeroNavigation from "./HeroNavigation.vue";
+import HeroStats from "./HeroStats.vue";
 
 defineProps<{
   navigationOptions: NavigationOption[];
@@ -95,21 +127,31 @@ const onImageLoad = () => {
 };
 
 const scrollToSection = (id: string) => {
-  emit('navigate', id);
+  emit("navigate", id);
 };
 
 onBeforeMount(() => {
   const preload = (href: string, media?: string) => {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
+    const link = document.createElement("link");
+    link.rel = "preload";
+    link.as = "image";
     link.href = href;
-    link.fetchPriority = 'high';
+    link.fetchPriority = "high";
     if (media) link.media = media;
     document.head.appendChild(link);
   };
-  preload('/img/imagen_mia_240.webp');
+  preload("/img/imagen_mia_240.webp");
 });
+
+const cvMenuOpen = ref(false);
+
+const toggleCvMenu = () => {
+  cvMenuOpen.value = !cvMenuOpen.value;
+};
+
+const closeCvMenu = () => {
+  cvMenuOpen.value = false;
+};
 </script>
 
 <style scoped lang="postcss">
@@ -284,4 +326,32 @@ onBeforeMount(() => {
     @apply py-12;
   }
 }
+
+.cv-dropdown {
+  @apply absolute right-0 mt-2 w-56
+         bg-white dark:bg-gray-900
+         border border-gray-200 dark:border-gray-700
+         rounded-2xl shadow-xl
+         py-2 z-20;
+}
+
+.cv-dropdown-item {
+  @apply block w-full text-left px-4 py-2.5
+         text-sm text-gray-700 dark:text-gray-200
+         hover:bg-gray-100 dark:hover:bg-gray-800
+         transition;
+}
+
+/* Animación suave */
+.fade-down-enter-active,
+.fade-down-leave-active {
+  @apply transition-all duration-150;
+}
+
+.fade-down-enter-from,
+.fade-down-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
 </style>
