@@ -3,7 +3,7 @@ import { Tech } from "@/utils/types";
 export const CardItems = [
   {
     title: "¿Quién soy?",
-    textContent: `Soy desarrollador autodidacta y estudiante de Ingeniería de Sistemas en la Universidad del Magdalena, próximo a cursar mi último semestre. disfruto gestionar proyectos complejos y resolver desafíos mediante soluciones algorítmicas bien estructuradas. Siempre busco nuevos retos que me permitan seguir creciendo profesionalmente.`,
+    textContent: `Soy Ingeniero de Sistemas titulado por la Universidad del Magdalena y cuento con tarjeta profesional. Como desarrollador Fullstack disfruto gestionar proyectos complejos y resolver desafíos mediante soluciones algorítmicas bien estructuradas. Siempre busco nuevos retos que me permitan seguir creciendo profesionalmente.`,
   },
   {
     title: "Sobre mí",
@@ -37,10 +37,13 @@ export const mobileTechs: Tech[] = [
 ];
 
 export const cloudTechs = [
-  { name: "CloudFront", icon: "/img/CloudFront.svg" },
   { name: "EC2", icon: "/img/EC2.svg" },
   { name: "Lambda", icon: "/img/Lambda.svg" },
+  { name: "CloudFront", icon: "/img/CloudFront.svg" },
   { name: "S3 on Outposts", icon: "/img/S3 on Outposts.svg" },
+  { name: "CodePipeline", icon: "/img/CodePipeline.svg" },
+  { name: "CodeBuild", icon: "/img/CodeBuild.svg" },
+  { name: "Lightsail", icon: "/img/Lightsail.svg" },
   { name: "Linux", icon: "https://cdn.simpleicons.org/linux/FCC624" },
   { name: "Git", icon: "https://cdn.simpleicons.org/git/F05032" },
 ];
@@ -63,12 +66,36 @@ export const toolsTechs: Tech[] = [
   { name: "JavaScript", icon: "https://cdn.simpleicons.org/javascript/F7DF1E" },
 ];
 
+/**
+ * Categorías de tecnologías para la sección Tech Stack.
+ * `icon` referencia un componente de lucide-vue-next resuelto en la vista.
+ */
+export const techCategories = [
+  { id: "frontend", title: "Frontend", icon: "Layout", techs: frontendTechs },
+  { id: "backend", title: "Backend", icon: "Server", techs: backendTechs },
+  { id: "mobile", title: "Mobile", icon: "Smartphone", techs: mobileTechs },
+  { id: "cloud", title: "Cloud & DevOps", icon: "Cloud", techs: cloudTechs },
+  { id: "database", title: "Bases de Datos y Caché", icon: "Database", techs: databaseTechs },
+  { id: "tools", title: "Tools & Otros", icon: "Wrench", techs: toolsTechs },
+];
+
 export const jobs = [
+  {
+    title: "Desarrollador Frontend",
+    company: "Alegra",
+    icon: "code",
+    dates: "Dic 2025 – Actualidad",
+    period: "8 meses",
+    description:
+      "Desarrollo y mantenimiento de microfrontends en Vue.js con arquitectura modular de alto rendimiento. Gestiono la arquitectura de dependencias, la compatibilidad de librerías y la integración entre módulos. Creo MCP servers (Model Context Protocol) y skills personalizados, y aplico modelos de lenguaje (LLMs) para automatizar tareas de desarrollo. Configuro infraestructura en AWS y pipelines CI/CD, con testing unitario (Jest, Vitest) y E2E (Playwright, Cypress) sobre escenarios críticos en producción.",
+    link: "https://www.alegra.com",
+  },
   {
     title: "Desarrollador Frontend & Soporte",
     company: "Global e-Health",
     icon: "medical_services",
-    period: "1 año y 3 meses (actualmente apoyo como freelance)",
+    dates: "", // ej. "Mar 2024 – Nov 2025"
+    period: "1 año y 3 meses (apoyo puntual como freelance)",
     description:
       "Desarrollé módulos de citas, teleapoyo y telemedicina con Vue 2 integrados a backend en C# .NET. Implementé infraestructura en AWS (Lambda, API Gateway, Route 53, Nginx) y configuración de Jitsi y DCM4CHE para videollamadas y gestión de imágenes DICOM. Contribuí a una infraestructura replicable que redujo tiempos de despliegue y aseguré continuidad del servicio mediante soporte niveles 1, 2 y 3.",
     link: "https://www.globale-health.com",
@@ -77,6 +104,7 @@ export const jobs = [
     title: "Desarrollador Fullstack Freelance",
     company: "Unicero Digital",
     icon: "code",
+    dates: "", // ej. "Ene 2023 – Dic 2023"
     period: "1 año",
     description:
       "Diseñé e implementé un sistema de autenticación con Python, OAuth2 y JWT adoptado como base para nuevos proyectos. Desarrollé pruebas de concepto en Angular y apoyé el desarrollo backend con C# y Java Spring Boot, integrando buenas prácticas de seguridad y arquitectura escalable para distintos clientes.",
@@ -86,6 +114,7 @@ export const jobs = [
     title: "Desarrollador Fullstack",
     company: "M&T Consulting",
     icon: "engineering",
+    dates: "", // ej. "May 2022 – Dic 2022"
     period: "8 meses",
     description:
       "Participé en proyectos para ICFES y Minsalud. Desarrollé backend en NestJS para generación masiva de PDFs y frontend en Vue 3 + Pinia con gestión de roles y módulos públicos. Aporté en el diseño de arquitecturas en capas y APIs REST, logrando entregas estables, mantenibles y alineadas a requerimientos de entidades públicas.",
@@ -95,6 +124,7 @@ export const jobs = [
     title: "Freelance Fullstack Developer",
     company: "Fryends",
     icon: "work",
+    dates: "", // ej. "Ene 2022 – Abr 2022"
     period: "4 meses",
     description:
       "Desarrollé soluciones fullstack para proyectos del sector público, incluyendo backend en NestJS con arquitectura en capas y caché con Redis, y frontend en React/Remix con WebSockets para comunicación en tiempo real. Implementé notificaciones por correo y pruebas unitarias con Jest, contribuyendo a reducir tiempos de respuesta y mejorar la robustez de las aplicaciones.",

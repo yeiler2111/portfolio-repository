@@ -1,20 +1,16 @@
 <script setup lang="ts">
-import card from "@/utils/interface/componentsInterfaces";
+import type card from "@/utils/interface/componentsInterfaces";
 
-const props = defineProps<{ card: card }>();
+defineProps<{ card: card }>();
 </script>
 
 <template>
-  <div
-    class="w-full sm:w-full md:w-5/6 lg:w-5/5 xl:w-3/5 p-6 bg-gray-50 dark:bg-gray-800 rounded-2xl shadow-md dark:shadow-lg"
-  >
-    <h3 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
-      {{ props?.card.title }}
+  <article class="card card-hover h-full p-7">
+    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">
+      {{ card.title }}
     </h3>
-    <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
-      {{ props?.card.textContent }}
+    <p class="text-[0.95rem] leading-relaxed text-gray-600 dark:text-gray-300">
+      {{ card.textContent }}
     </p>
-  </div>
+  </article>
 </template>
-
-<style scoped></style>

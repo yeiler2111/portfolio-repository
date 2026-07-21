@@ -94,6 +94,16 @@ export interface TechStack {
 }
 
 
+export interface SkillGroup {
+  id: string;
+  title: string;
+  /** Nombre de un icono de lucide-vue-next (resuelto en la vista). */
+  icon: string;
+  description: string;
+  items: string[];
+}
+
+
 export interface HeroData {
   name: string;
   title: string;

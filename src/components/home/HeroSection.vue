@@ -1,357 +1,265 @@
 <template>
-  <section class="hero-modern">
-    <div class="hero-container">
-      <div class="hero-image-section">
-        <div class="image-wrapper">
-          <picture class="hero-picture">
-            <source
-              srcset="/img/imagen_mia_768.webp"
-              media="(min-width: 1024px)"
-              type="image/webp"
-            />
-            <source
-              srcset="/img/imagen_mia_480.webp"
-              media="(min-width: 641px)"
-              type="image/webp"
-            />
-            <img
-              src="/img/imagen_mia_240.webp"
-              alt="Retrato de Yeiler Simons"
-              loading="eager"
-              decoding="async"
-              fetchpriority="high"
-              @load="onImageLoad"
-              :class="['hero-image', { 'image-loaded': !loading }]"
-            />
-          </picture>
+  <section class="hero" aria-label="Presentación">
+    <!-- Fondo decorativo sutil -->
+    <div class="hero-glow" aria-hidden="true"></div>
 
-          <div class="image-decoration decoration-1"></div>
-          <div class="image-decoration decoration-2"></div>
+    <div class="hero-inner container-page">
+      <!-- Contenido -->
+      <div class="hero-content">
+        <span v-if="profile.available" class="status-badge">
+          <span class="status-dot"></span>
+          Disponible para nuevos proyectos
+        </span>
 
-          <div v-if="loading" class="image-loader">
-            <div class="spinner"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="hero-content-section">
-        <div class="greeting-badge">
-          <span class="greeting-text wave-emoji">¡Hola! Soy</span>
-        </div>
+        <p class="hero-greeting">Hola, soy</p>
 
         <h1 class="hero-title">
-          <span class="title-name">Yeiler Simons</span>
-          <span class="title-role">Desarrollador Fullstack</span>
+          <span class="hero-name">{{ profile.name }}</span>
+          <span class="hero-role text-gradient">{{ profile.role }}</span>
         </h1>
 
-        <p class="hero-description">
-          Apasionado por crear experiencias digitales excepcionales y soluciones
-          innovadoras con tecnologías modernas.
-        </p>
+        <p class="hero-focus">{{ profile.focus }}</p>
+
+        <p class="hero-tagline">{{ profile.tagline }}</p>
 
         <HeroStats />
 
         <div class="hero-actions">
-          <button
-            @click="$router.push('/contactMe')"
-            class="btn-primary btn-large"
-          >
-            <Mail :size="20" />
-            <span>Contáctame</span>
-          </button>
+          <BaseButton to="/contactme" size="lg">
+            <template #icon-left><Mail :size="20" /></template>
+            Contáctame
+          </BaseButton>
 
-          <!-- Dropdown CV -->
-          <div class="relative">
-            <button
-              @click="toggleCvMenu"
-              class="btn-outline btn-large flex items-center"
-            >
-              <Download :size="20" />
-              <span>Descargar CV</span>
-              <span class="ml-2 text-xs">▼</span>
-            </button>
+          <div ref="cvRef" class="relative">
+            <BaseButton variant="outline" size="lg" @click="cvMenuOpen = !cvMenuOpen">
+              <template #icon-left><Download :size="20" /></template>
+              Descargar CV
+              <template #icon-right>
+                <ChevronDown
+                  :size="16"
+                  :class="['transition-transform', cvMenuOpen && 'rotate-180']"
+                />
+              </template>
+            </BaseButton>
 
             <transition name="fade-down">
-              <div v-if="cvMenuOpen" class="cv-dropdown">
+              <div v-if="cvMenuOpen" class="cv-dropdown" role="menu">
                 <a
-                  href="/documents/HvAts.pdf"
-                  download="Yeiler-Simons-CV-ATS.pdf"
-                  class="cv-dropdown-item"
-                  @click="closeCvMenu"
+                  v-for="cv in resumes"
+                  :key="cv.href"
+                  :href="cv.href"
+                  :download="cv.filename"
+                  class="cv-item"
+                  role="menuitem"
+                  @click="cvMenuOpen = false"
                 >
-                  CV ATS
-                </a>
-                <a
-                  href="/documents/hvHarvard.pdf"
-                  download="Yeiler-Simons-CV-Visual.pdf"
-                  class="cv-dropdown-item"
-                  @click="closeCvMenu"
-                >
-                  CV Harvard
+                  <span class="cv-item-icon"><FileText :size="18" /></span>
+                  <span class="cv-item-body">
+                    <span class="cv-item-label">{{ cv.label }}</span>
+                    <span class="cv-item-desc">{{ cv.description }}</span>
+                  </span>
+                  <Download :size="16" class="cv-item-arrow" />
                 </a>
               </div>
             </transition>
           </div>
         </div>
+      </div>
 
-        <HeroNavigation
-          :options="navigationOptions"
-          @navigate="scrollToSection"
-        />
+      <!-- Imagen -->
+      <div class="hero-media">
+        <div class="media-frame">
+          <picture>
+            <source
+              v-for="src in profile.image.sources"
+              :key="src.srcset"
+              :srcset="src.srcset"
+              :media="src.media"
+              :type="src.type"
+            />
+            <img
+              :src="profile.image.src"
+              :alt="profile.image.alt"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+              class="media-img"
+              :class="{ 'is-loaded': !loading }"
+              @load="loading = false"
+            />
+          </picture>
+
+          <div v-if="loading" class="media-loader">
+            <div class="spinner"></div>
+          </div>
+        </div>
+
+        <div class="media-halo" aria-hidden="true"></div>
       </div>
     </div>
-
-    <div class="hero-bg-decoration"></div>
   </section>
 </template>
 
 <script setup lang="ts">
-import type { NavigationOption } from "@/utils/types";
-import { Download, Mail } from "lucide-vue-next";
-import { onBeforeMount, ref } from "vue";
-import HeroNavigation from "./HeroNavigation.vue";
+import BaseButton from "@/components/ui/BaseButton.vue";
+import { profile, resumes } from "@/data/site";
+import { ChevronDown, Download, FileText, Mail } from "lucide-vue-next";
+import { onBeforeUnmount, onMounted, ref } from "vue";
 import HeroStats from "./HeroStats.vue";
 
-defineProps<{
-  navigationOptions: NavigationOption[];
-}>();
-
-const emit = defineEmits<{
-  navigate: [id: string];
-}>();
-
 const loading = ref(true);
-
-const onImageLoad = () => {
-  loading.value = false;
-};
-
-const scrollToSection = (id: string) => {
-  emit("navigate", id);
-};
-
-onBeforeMount(() => {
-  const preload = (href: string, media?: string) => {
-    const link = document.createElement("link");
-    link.rel = "preload";
-    link.as = "image";
-    link.href = href;
-    link.fetchPriority = "high";
-    if (media) link.media = media;
-    document.head.appendChild(link);
-  };
-  preload("/img/imagen_mia_240.webp");
-});
-
 const cvMenuOpen = ref(false);
+const cvRef = ref<HTMLElement | null>(null);
 
-const toggleCvMenu = () => {
-  cvMenuOpen.value = !cvMenuOpen.value;
+/** Cierra el dropdown al hacer click fuera. */
+const handleClickOutside = (e: MouseEvent) => {
+  if (cvRef.value && !cvRef.value.contains(e.target as Node)) {
+    cvMenuOpen.value = false;
+  }
 };
 
-const closeCvMenu = () => {
-  cvMenuOpen.value = false;
-};
+onMounted(() => document.addEventListener("click", handleClickOutside));
+onBeforeUnmount(() => document.removeEventListener("click", handleClickOutside));
 </script>
 
 <style scoped lang="postcss">
-.hero-modern {
-  @apply relative min-h-screen flex items-center justify-center
-         overflow-hidden py-20 px-6;
-  background: linear-gradient(
-    135deg,
-    rgb(249 250 251) 0%,
-    rgb(255 255 255) 50%,
-    rgba(37 99 235 / 0.05) 100%
-  );
+.hero {
+  @apply relative flex items-center min-h-screen overflow-x-clip pt-16 pb-16;
 }
 
-.dark .hero-modern {
-  background: linear-gradient(
-    135deg,
-    rgb(3 7 18) 0%,
-    rgb(17 24 39) 50%,
-    rgba(37 99 235 / 0.1) 100%
-  );
+.hero-glow {
+  @apply absolute inset-0 -z-10 pointer-events-none;
+  background:
+    radial-gradient(60% 50% at 15% 20%, rgb(var(--color-primary-500) / 0.1), transparent 70%),
+    radial-gradient(50% 50% at 85% 30%, rgb(var(--color-secondary-500) / 0.1), transparent 70%);
+}
+.dark .hero-glow {
+  background:
+    radial-gradient(60% 50% at 15% 20%, rgb(var(--color-primary-500) / 0.16), transparent 70%),
+    radial-gradient(50% 50% at 85% 30%, rgb(var(--color-secondary-500) / 0.14), transparent 70%);
 }
 
-.hero-container {
-  @apply max-w-7xl mx-auto w-full
-         grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16
-         items-center relative z-10;
+.hero-inner {
+  @apply grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-16;
 }
 
-.hero-image-section {
-  @apply relative flex justify-center lg:justify-end
-         order-1 lg:order-none;
+/* --- Contenido --- */
+.hero-content {
+  @apply order-2 lg:order-1 text-center lg:text-left;
 }
 
-.image-wrapper {
-  @apply relative w-full max-w-md lg:max-w-lg;
+.status-badge {
+  @apply inline-flex items-center gap-2 mb-6
+         px-3.5 py-1.5 rounded-full
+         bg-success/10 border border-success/20
+         text-sm font-medium text-emerald-700 dark:text-emerald-400;
+}
+.status-dot {
+  @apply w-2 h-2 rounded-full bg-success;
+  box-shadow: 0 0 0 3px rgb(var(--color-success) / 0.2);
 }
 
-.hero-picture {
-  @apply relative block w-full aspect-[3/4] rounded-3xl overflow-hidden
-         shadow-2xl;
-}
-
-.hero-image {
-  @apply w-full h-full object-cover
-         transition-all duration-700 ease-out;
-}
-
-.hero-image.image-loaded {
-  @apply opacity-100 scale-100;
-}
-
-.hero-image:not(.image-loaded) {
-  @apply opacity-0 scale-95;
-}
-
-.image-decoration {
-  @apply absolute rounded-3xl pointer-events-none;
-  z-index: -1;
-}
-
-.decoration-1 {
-  @apply -top-6 -left-6 w-full h-full
-         bg-gradient-to-br from-blue-500/20 to-indigo-500/20
-         dark:from-blue-500/30 dark:to-indigo-500/30
-         blur-2xl;
-}
-
-.decoration-2 {
-  @apply -bottom-6 -right-6 w-3/4 h-3/4
-         bg-gradient-to-tl from-purple-500/20 to-blue-500/20
-         dark:from-purple-500/30 dark:to-blue-500/30
-         blur-3xl;
-}
-
-.image-loader {
-  @apply absolute inset-0 flex items-center justify-center
-         bg-gray-100 dark:bg-gray-800 rounded-3xl;
-}
-
-.spinner {
-  @apply w-12 h-12 rounded-full
-         border-4 border-gray-300 dark:border-gray-600
-         border-t-blue-600 dark:border-t-blue-500 animate-spin;
-}
-
-.hero-content-section {
-  @apply space-y-8 order-2 lg:order-none
-         text-center lg:text-left;
-}
-
-.greeting-badge {
-  @apply inline-flex items-center gap-3
-         bg-blue-50 dark:bg-blue-900/30
-         px-5 py-2 rounded-full
-         text-blue-700 dark:text-blue-300
-         font-medium text-sm
-         animate-fade-in;
-}
-
-.wave-emoji {
-  @apply text-2xl;
+.hero-greeting {
+  @apply text-lg font-medium text-gray-500 dark:text-gray-400 mb-2;
 }
 
 .hero-title {
-  @apply space-y-2;
+  @apply flex flex-col gap-1;
+}
+.hero-name {
+  @apply text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-none
+         text-gray-900 dark:text-white;
+}
+.hero-role {
+  @apply text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight;
 }
 
-.title-name {
-  @apply block text-5xl md:text-6xl lg:text-7xl
-         font-extrabold 
-         bg-gradient-to-r from-gray-900 to-gray-700
-         dark:from-white dark:to-gray-300
-         bg-clip-text text-transparent
-         leading-tight;
+.hero-focus {
+  @apply mt-3 inline-flex items-center gap-2
+         text-sm font-semibold uppercase tracking-wide
+         text-gray-500 dark:text-gray-400;
 }
 
-.title-role {
-  @apply block text-2xl md:text-3xl lg:text-4xl
-         font-semibold text-gray-700 dark:text-gray-300
-         leading-tight;
-}
-
-.hero-description {
-  @apply text-lg md:text-xl text-gray-600 dark:text-gray-400
-         leading-relaxed max-w-xl
-         mx-auto lg:mx-0;
+.hero-tagline {
+  @apply mt-4 max-w-xl mx-auto lg:mx-0
+         text-lg leading-relaxed text-gray-600 dark:text-gray-400;
 }
 
 .hero-actions {
-  @apply flex flex-wrap items-center justify-center lg:justify-start gap-4;
+  @apply mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-4;
 }
 
-.btn-large {
-  @apply px-8 py-4 text-base gap-2;
-}
-
-.hero-bg-decoration {
-  @apply absolute inset-0 opacity-30 dark:opacity-20 pointer-events-none;
-  background-image: radial-gradient(
-      circle at 20% 20%,
-      rgba(59, 130, 246, 0.1) 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at 80% 80%,
-      rgba(99, 102, 241, 0.1) 0%,
-      transparent 50%
-    );
-}
-
-@media (max-width: 1024px) {
-  .hero-container {
-    @apply gap-8;
-  }
-
-  .image-wrapper {
-    @apply max-w-sm;
-  }
-
-  .title-name {
-    @apply text-4xl md:text-5xl;
-  }
-
-  .title-role {
-    @apply text-xl md:text-2xl;
-  }
-}
-
-@media (max-width: 640px) {
-  .hero-modern {
-    @apply py-12;
-  }
-}
-
+/* --- Dropdown CV --- */
 .cv-dropdown {
-  @apply absolute right-0 mt-2 w-56
-         bg-white dark:bg-gray-900
-         border border-gray-200 dark:border-gray-700
-         rounded-2xl shadow-xl
-         py-2 z-20;
+  @apply absolute left-0 mt-2 w-[19rem] max-w-[calc(100vw-2rem)] p-1.5
+         card shadow-xl z-20;
+}
+.cv-item {
+  @apply flex items-center gap-3 w-full px-3 py-2.5 rounded-xl
+         text-left text-gray-700 dark:text-gray-200
+         hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors;
+}
+.cv-item-icon {
+  @apply grid place-items-center shrink-0 w-9 h-9 rounded-lg
+         bg-primary-500/10 text-primary-600 dark:text-primary-400;
+}
+.cv-item-body {
+  @apply flex-1 min-w-0 flex flex-col;
+}
+.cv-item-label {
+  @apply text-sm font-semibold leading-tight;
+}
+.cv-item-desc {
+  @apply text-xs text-gray-500 dark:text-gray-400 leading-snug;
+}
+.cv-item-arrow {
+  @apply shrink-0 text-gray-400 dark:text-gray-500;
 }
 
-.cv-dropdown-item {
-  @apply block w-full text-left px-4 py-2.5
-         text-sm text-gray-700 dark:text-gray-200
-         hover:bg-gray-100 dark:hover:bg-gray-800
-         transition;
-}
-
-/* Animación suave */
 .fade-down-enter-active,
 .fade-down-leave-active {
-  @apply transition-all duration-150;
+  transition: all 0.18s ease;
 }
-
 .fade-down-enter-from,
 .fade-down-leave-to {
   opacity: 0;
-  transform: translateY(-4px);
+  transform: translateY(-6px);
 }
 
+/* --- Imagen --- */
+.hero-media {
+  @apply order-1 lg:order-2 relative flex justify-center lg:justify-end;
+}
+.media-frame {
+  @apply relative w-full max-w-sm lg:max-w-md
+         aspect-[4/5] rounded-3xl overflow-hidden
+         ring-1 ring-gray-200 dark:ring-gray-800 shadow-2xl;
+}
+.media-img {
+  @apply w-full h-full object-cover
+         opacity-0 scale-95 transition-all duration-700 ease-out;
+}
+.media-img.is-loaded {
+  @apply opacity-100 scale-100;
+}
+.media-loader {
+  @apply absolute inset-0 grid place-items-center bg-gray-100 dark:bg-gray-800;
+}
+.spinner {
+  @apply w-10 h-10 rounded-full border-4
+         border-gray-300 dark:border-gray-600 border-t-primary-500 animate-spin;
+}
+.media-halo {
+  @apply absolute -inset-4 -z-10 rounded-[2rem] blur-3xl
+         bg-gradient-to-br from-primary-500/20 to-secondary-500/20;
+}
+
+@media (max-width: 640px) {
+  .hero-name {
+    @apply text-4xl;
+  }
+  .hero-role {
+    @apply text-2xl;
+  }
+}
 </style>

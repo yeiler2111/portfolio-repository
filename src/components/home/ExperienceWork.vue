@@ -1,101 +1,164 @@
 <template>
-  <section class="dark:bg-gray-950">
-    <div class="mx-auto">
-      <q-card
-        flat
-        bordered
-        class="q-pa-md shadow-sm dark:bg-gray-900 dark:border-gray-800"
-      >
-        <h2
-          class="text-3xl font-bold text-gray-800 dark:text-white mb-12 text-center"
-        >
-          Mi Experiencia Laboral
-        </h2>
-        <q-card-section class="q-pa-lg">
-          <q-timeline color="primary" layout="comfortable" side="right">
-            <q-timeline-entry
-              v-for="(job, index) in jobs"
-              :key="index"
-              :icon="job.icon"
-              color="primary"
-            >
-              <template v-slot:title>
-                <div class="text-h6 text-gray-900 dark:text-white q-mb-xs">
-                  {{ job.title }}
-                </div>
-              </template>
+  <BaseContainer>
+    <SectionHeading
+      eyebrow="Trayectoria"
+      title="Experiencia laboral"
+      subtitle="Empresas y equipos con los que he construido productos reales, del frontend a la infraestructura."
+    />
 
-              <template v-slot:subtitle>
-                <div class="text-subtitle2 text-primary q-mb-xs">
-                  {{ job.company }}
-                </div>
-                <div class="text-caption text-gray-500 dark:text-gray-400">
-                  <q-icon name="schedule" size="14px" class="q-mr-xs" />
-                  {{ job.period }}
-                </div>
-              </template>
+    <ol class="timeline">
+      <li v-for="(job, index) in jobs" :key="index" class="timeline-item">
+        <div class="timeline-marker">
+          <span class="marker-step">{{ jobs.length - index }}</span>
+          <span class="marker-dot">
+            <component :is="iconFor(job.icon)" :size="16" />
+          </span>
+          <span v-if="index < jobs.length - 1" class="marker-line" aria-hidden="true"></span>
+        </div>
 
-              <div class="q-mt-md">
-                <div class="row q-gutter-sm">
-                  <q-btn
-                    unelevated
-                    rounded
-                    size="sm"
-                    color="primary"
-                    :label="
-                      expanded === index
-                        ? 'Ocultar descripción'
-                        : 'Ver descripción'
-                    "
-                    :icon="expanded === index ? 'expand_less' : 'expand_more'"
-                    @click="toggleDetails(index)"
-                  />
-                  <q-btn
-                    outline
-                    rounded
-                    size="sm"
-                    color="primary"
-                    label="Visitar sitio"
-                    :href="job.link"
-                    target="_blank"
-                    icon-right="open_in_new"
-                  />
-                </div>
+        <article class="card card-hover job-card">
+          <div class="job-header">
+            <div>
+              <h3 class="job-title">{{ job.title }}</h3>
+              <p class="job-company">{{ job.company }}</p>
+            </div>
+            <span v-if="isCurrent(job)" class="job-current">
+              <span class="job-current-dot"></span>
+              Actual
+            </span>
+          </div>
 
-                <q-slide-transition>
-                  <q-card
-                    v-show="expanded === index"
-                    flat
-                    class="q-mt-md q-pa-md dark:bg-gray-900"
-                  >
-                    <div class="text-body2 line-height-relaxed">
-                      {{ job.description }}
-                    </div>
-                  </q-card>
-                </q-slide-transition>
-              </div>
-            </q-timeline-entry>
-          </q-timeline>
-        </q-card-section>
-      </q-card>
-    </div>
-  </section>
+          <div class="job-meta">
+            <span v-if="job.dates" class="job-dates">
+              <Calendar :size="14" />
+              {{ job.dates }}
+            </span>
+            <span class="job-period">
+              <Clock :size="14" />
+              {{ job.period }}
+            </span>
+          </div>
+
+          <p class="job-desc">{{ job.description }}</p>
+
+          <a
+            :href="job.link"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="job-link"
+          >
+            Visitar sitio
+            <ArrowUpRight :size="15" />
+          </a>
+        </article>
+      </li>
+    </ol>
+  </BaseContainer>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import BaseContainer from "@/components/ui/BaseContainer.vue";
+import SectionHeading from "@/components/ui/SectionHeading.vue";
 import { jobs } from "@/data/data";
-import { ref } from "vue";
+import {
+  ArrowUpRight,
+  Briefcase,
+  Calendar,
+  Clock,
+  Code2,
+  Settings,
+  Stethoscope,
+} from "lucide-vue-next";
+import type { Component } from "vue";
 
-const expanded = ref(null);
-
-const toggleDetails = (index) => {
-  expanded.value = expanded.value === index ? null : index;
+const icons: Record<string, Component> = {
+  medical_services: Stethoscope,
+  code: Code2,
+  engineering: Settings,
+  work: Briefcase,
 };
+const iconFor = (name: string): Component => icons[name] ?? Briefcase;
+
+const isCurrent = (job: { dates?: string; period: string }): boolean =>
+  /actual|present/i.test(`${job.dates ?? ""} ${job.period}`);
 </script>
 
-<style scoped>
-.line-height-relaxed {
-  line-height: 1.7;
+<style scoped lang="postcss">
+.timeline {
+  @apply mt-14 max-w-3xl mx-auto;
 }
 
+.timeline-item {
+  @apply relative flex gap-5 pb-8 last:pb-0;
+}
+
+.timeline-marker {
+  @apply relative flex flex-col items-center shrink-0;
+}
+
+.marker-step {
+  @apply absolute -top-1 -left-1 z-10 grid place-items-center
+         w-5 h-5 rounded-full text-[10px] font-bold
+         bg-white dark:bg-gray-900 text-primary-600 dark:text-primary-400
+         ring-1 ring-primary-200 dark:ring-primary-800 shadow-sm;
+}
+
+.marker-dot {
+  @apply grid place-items-center w-11 h-11 rounded-full text-white
+         bg-gradient-to-br from-primary-500 to-secondary-500
+         shadow-lg shadow-primary-500/25 ring-4 ring-white dark:ring-gray-950;
+}
+
+.marker-line {
+  @apply flex-1 w-0.5 mt-2 rounded-full bg-gradient-to-b from-primary-300 to-primary-100
+         dark:from-primary-700 dark:to-primary-900/40;
+}
+
+.job-card {
+  @apply flex-1 p-6 mb-2;
+}
+
+.job-header {
+  @apply flex items-start justify-between gap-3;
+}
+
+.job-title {
+  @apply text-lg font-bold text-gray-900 dark:text-white;
+}
+
+.job-company {
+  @apply text-sm font-semibold text-primary-600 dark:text-primary-400;
+}
+
+.job-current {
+  @apply inline-flex items-center gap-1.5 shrink-0 px-2.5 py-1 rounded-full text-xs font-semibold
+         bg-success/10 text-emerald-700 dark:text-emerald-400
+         border border-success/20;
+}
+.job-current-dot {
+  @apply w-1.5 h-1.5 rounded-full bg-success;
+  box-shadow: 0 0 0 3px rgb(var(--color-success) / 0.2);
+}
+
+.job-meta {
+  @apply flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-3;
+}
+.job-dates {
+  @apply inline-flex items-center gap-1.5
+         text-xs font-semibold text-primary-600 dark:text-primary-400;
+}
+.job-period {
+  @apply inline-flex items-center gap-1.5
+         text-xs font-medium text-gray-500 dark:text-gray-400;
+}
+
+.job-desc {
+  @apply mt-4 text-sm leading-relaxed text-gray-600 dark:text-gray-300;
+}
+
+.job-link {
+  @apply inline-flex items-center gap-1 mt-4
+         text-sm font-semibold text-primary-600 dark:text-primary-400
+         hover:gap-1.5 transition-all;
+}
 </style>

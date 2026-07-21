@@ -1,58 +1,34 @@
 <template>
-  <div class="hero-stats">
-    <div class="stat-item">
-      <div class="stat-number">3+</div>
-      <div class="stat-label">Años</div>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat-item">
-      <div class="stat-number">20+</div>
-      <div class="stat-label">Proyectos</div>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat-item">
-      <div class="stat-number">10+</div>
-      <div class="stat-label">Tecnologías</div>
-    </div>
-  </div>
+  <dl class="hero-stats">
+    <template v-for="(stat, i) in stats" :key="stat.label">
+      <div v-if="i > 0" class="stat-divider" aria-hidden="true"></div>
+      <div class="stat-item">
+        <dt class="sr-only">{{ stat.label }}</dt>
+        <dd class="stat-number text-gradient">{{ stat.value }}</dd>
+        <dd class="stat-label">{{ stat.label }}</dd>
+      </div>
+    </template>
+  </dl>
 </template>
+
+<script setup lang="ts">
+import { stats } from "@/data/site";
+</script>
 
 <style scoped lang="postcss">
 .hero-stats {
-  @apply flex items-center justify-center lg:justify-start gap-6;
+  @apply mt-8 flex items-center justify-center lg:justify-start gap-5 sm:gap-7;
 }
-
 .stat-item {
-  @apply text-center;
+  @apply text-center lg:text-left;
 }
-
 .stat-number {
-  @apply text-3xl md:text-4xl font-bold
-         bg-gradient-to-r from-blue-600 to-indigo-600
-         dark:from-blue-400 dark:to-indigo-400
-         bg-clip-text text-transparent;
+  @apply text-3xl sm:text-4xl font-extrabold leading-none;
 }
-
 .stat-label {
-  @apply text-sm text-gray-600 dark:text-gray-400
-         font-medium uppercase tracking-wide;
+  @apply mt-1 text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400;
 }
-
 .stat-divider {
-  @apply w-px h-12 bg-gray-300 dark:bg-gray-700;
-}
-
-@media (max-width: 640px) {
-  .hero-stats {
-    @apply gap-4;
-  }
-
-  .stat-number {
-    @apply text-2xl;
-  }
-
-  .stat-divider {
-    @apply h-8;
-  }
+  @apply w-px h-10 bg-gray-200 dark:bg-gray-800;
 }
 </style>

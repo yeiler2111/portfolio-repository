@@ -1,101 +1,167 @@
-<script setup>
+<script setup lang="ts">
 import Logo from "@/components/shared/Logo.vue";
-import { MenuItem } from "@/data/data";
-import { onMounted, ref } from "vue";
-const isDarkMode = ref(false);
+import BaseButton from "@/components/ui/BaseButton.vue";
+import { useTheme } from "@/composables/useTheme";
+import { navItems } from "@/data/site";
+import { Menu, Moon, Sun, X } from "lucide-vue-next";
+import { nextTick, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+
+const { isDark, toggleTheme } = useTheme();
+const router = useRouter();
+const route = useRoute();
+
 const isMenuOpen = ref(false);
 
-const toggleDarkMode = () => {
-  isDarkMode.value = !isDarkMode.value;
-  localStorage.setItem("darkMode", isDarkMode.value);
-  updateHtmlClass();
-};
-
-const updateHtmlClass = () => {
-  const html = document.documentElement;
-  if (isDarkMode.value) {
-    html.classList.add("dark");
-  } else {
-    html.classList.remove("dark");
+/**
+ * Navega a una sección de la home. Si el usuario está en otra ruta,
+ * primero regresa a la home y luego hace scroll a la sección.
+ */
+const goToSection = async (id: string): Promise<void> => {
+  isMenuOpen.value = false;
+  if (route.path !== "/") {
+    await router.push("/");
+    await nextTick();
   }
+  if (id === "top") {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return;
+  }
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 };
-
-onMounted(() => {
-  const savedMode = localStorage.getItem("darkMode");
-  isDarkMode.value = savedMode === "true";
-  updateHtmlClass();
-});
 </script>
 
 <template>
-  <header
-    class="fixed py-3 top-0 left-0 w-full z-50 bg-gray-50 bg-opacity-40 dark:bg-gray-900 dark:bg-opacity-40 text-gray-900 dark:text-gray-200 h-16 flex items-center justify-between flex-nowrap px-4 shadow-md backdrop-blur-md"
-  >
-    <div
-      class="max-sm:w-40 flex items-center hover:cursor-pointer"
-      @click="$router.push({ path: '/' })"
-    >
-      <Logo :isDarkMode="isDarkMode" />
-    </div>
-    <div>
-      <nav class="flex items-center">
-        <label
-          class="inline-flex items-center cursor-pointer mr-4 max-md:w-1/2"
+  <header class="site-header">
+    <div class="header-inner container-page">
+      <button
+        class="logo-btn"
+        aria-label="Ir al inicio"
+        @click="goToSection('top')"
+      >
+        <Logo :is-dark-mode="isDark" />
+      </button>
+
+      <!-- Navegación de escritorio -->
+      <nav class="desktop-nav" aria-label="Navegación principal">
+        <button
+          v-for="item in navItems"
+          :key="item.id"
+          class="nav-link"
+          @click="goToSection(item.id)"
         >
-          <span class="mr-1 text-sm">{{
-            isDarkMode ? "Modo oscuro" : "Modo claro"
-          }}</span>
-          <input
-            type="checkbox"
-            :checked="isDarkMode"
-            @click="toggleDarkMode"
-            class="sr-only peer"
-          />
-          <div
-            class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"
-          ></div>
-        </label>
-
-        <ul class="max-md:hidden md:flex space-x-5 align-baseline">
-          <router-link
-            v-for="(item, index) in MenuItem"
-            :key="index"
-            :to="item.path"
-            class="block hover:bg-gray-300 rounded-xl px-4 py-2 hover:cursor-pointer dark:hover:bg-gray-600"
-          >
-            {{ item.name }}
-          </router-link>
-        </ul>
-
-        <div class="sm:flex md:hidden lg:hidden xl:hidden">
-          <button
-            class="flex items-center px-3 py-2 border rounded text-gray-800 border-gray-400 dark:text-gray-300 dark:border-gray-600"
-            @click="isMenuOpen = !isMenuOpen"
-          >
-            <i class="fas fa-bars"></i>
-          </button>
-          <transition name="fade">
-            <ul
-              v-if="isMenuOpen"
-              class="absolute right-4 top-16 w-40 bg-white border border-gray-300 text-gray-900 dark:bg-gray-800 dark:text-gray-400 rounded shadow-lg"
-            >
-         
-            </ul>
-          </transition>
-        </div>
+          {{ item.label }}
+        </button>
       </nav>
+
+      <div class="header-actions">
+        <button
+          class="theme-toggle"
+          :aria-label="isDark ? 'Activar modo claro' : 'Activar modo oscuro'"
+          @click="toggleTheme"
+        >
+          <Sun v-if="isDark" :size="18" />
+          <Moon v-else :size="18" />
+        </button>
+
+        <BaseButton to="/contactme" size="sm" class="hidden sm:inline-flex">
+          Contáctame
+        </BaseButton>
+
+        <button
+          class="menu-toggle"
+          :aria-expanded="isMenuOpen"
+          aria-label="Abrir menú"
+          @click="isMenuOpen = !isMenuOpen"
+        >
+          <X v-if="isMenuOpen" :size="22" />
+          <Menu v-else :size="22" />
+        </button>
+      </div>
     </div>
+
+    <!-- Menú móvil -->
+    <transition name="slide-down">
+      <nav v-if="isMenuOpen" class="mobile-nav" aria-label="Navegación móvil">
+        <button
+          v-for="item in navItems"
+          :key="item.id"
+          class="mobile-link"
+          @click="goToSection(item.id)"
+        >
+          {{ item.label }}
+        </button>
+        <BaseButton to="/contactme" block class="mt-2" @click="isMenuOpen = false">
+          Contáctame
+        </BaseButton>
+      </nav>
+    </transition>
   </header>
 </template>
 
-<style>
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s ease;
+<style scoped lang="postcss">
+.site-header {
+  @apply fixed top-0 inset-x-0 z-50
+         bg-white/70 dark:bg-gray-950/70 bg-blur
+         border-b border-gray-200/70 dark:border-gray-800/70;
 }
-.fade-enter-from,
-.fade-leave-to {
+
+.header-inner {
+  @apply flex items-center justify-between h-16;
+}
+
+.logo-btn {
+  @apply flex items-center w-36 sm:w-44 shrink-0 cursor-pointer;
+}
+
+.desktop-nav {
+  @apply hidden lg:flex items-center gap-1;
+}
+
+.nav-link {
+  @apply px-3 py-2 rounded-lg text-sm font-medium
+         text-gray-600 dark:text-gray-300
+         hover:text-primary-600 dark:hover:text-primary-400
+         hover:bg-gray-100 dark:hover:bg-gray-800/60
+         transition-colors cursor-pointer;
+}
+
+.header-actions {
+  @apply flex items-center gap-2 sm:gap-3;
+}
+
+.theme-toggle {
+  @apply grid place-items-center w-9 h-9 rounded-lg
+         text-gray-600 dark:text-gray-300
+         hover:bg-gray-100 dark:hover:bg-gray-800
+         transition-colors;
+}
+
+.menu-toggle {
+  @apply lg:hidden grid place-items-center w-9 h-9 rounded-lg
+         text-gray-700 dark:text-gray-200
+         hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors;
+}
+
+.mobile-nav {
+  @apply lg:hidden flex flex-col gap-1 p-4
+         bg-white dark:bg-gray-950
+         border-b border-gray-200 dark:border-gray-800;
+}
+
+.mobile-link {
+  @apply text-left px-4 py-3 rounded-xl text-base font-medium
+         text-gray-700 dark:text-gray-200
+         hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors;
+}
+
+.slide-down-enter-active,
+.slide-down-leave-active {
+  transition: all 0.25s ease;
+}
+.slide-down-enter-from,
+.slide-down-leave-to {
   opacity: 0;
+  transform: translateY(-8px);
 }
 </style>

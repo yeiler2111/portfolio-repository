@@ -43,13 +43,7 @@ useHead({
       content: "es_ES",
     },
   ],
-  link: [
-    { rel: "icon", href: "/favicon.ico" },
-    {
-      rel: "stylesheet",
-      href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css",
-    },
-  ],
+  link: [{ rel: "icon", href: "/favicon.ico" }],
   script: [
     {
       type: "application/ld+json",
@@ -74,10 +68,9 @@ useHead({
 </script>
 
 <template>
-  <Header />
-  <div class="content mt-20">
-    <router-view class=""></router-view>
+  <div class="flex min-h-screen flex-col">
+    <Header />
+    <router-view />
+    <Footer />
   </div>
-
-  <Footer />
 </template>
