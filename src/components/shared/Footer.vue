@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { t } from "@/i18n";
+import { ui } from "@/i18n/ui";
 import { navItems, profile, socials } from "@/data/site";
 import { Github, Linkedin, MapPin } from "lucide-vue-next";
 import { nextTick } from "vue";
@@ -31,7 +33,7 @@ const goToSection = async (id: string): Promise<void> => {
         <!-- Marca -->
         <div class="footer-brand">
           <p class="footer-name">{{ profile.name }}</p>
-          <p class="footer-role">{{ profile.role }} · {{ profile.focus }}</p>
+          <p class="footer-role">{{ t(profile.role) }} · {{ t(profile.focus) }}</p>
           <p class="footer-location">
             <MapPin :size="14" />
             {{ profile.location }}
@@ -40,7 +42,7 @@ const goToSection = async (id: string): Promise<void> => {
 
         <!-- Navegación -->
         <nav class="footer-nav" aria-label="Secciones">
-          <span class="footer-heading">Navegación</span>
+          <span class="footer-heading">{{ t(ui.footer.navHeading) }}</span>
           <button
             v-for="item in navItems"
             :key="item.id"
@@ -48,13 +50,13 @@ const goToSection = async (id: string): Promise<void> => {
             class="footer-link"
             @click="goToSection(item.id)"
           >
-            {{ item.label }}
+            {{ t(item.label) }}
           </button>
         </nav>
 
         <!-- Redes -->
         <div class="footer-connect">
-          <span class="footer-heading">Conectemos</span>
+          <span class="footer-heading">{{ t(ui.footer.connectHeading) }}</span>
           <div class="footer-socials">
             <a
               v-for="social in socials"
@@ -74,7 +76,7 @@ const goToSection = async (id: string): Promise<void> => {
       <!-- Barra inferior -->
       <div class="footer-bottom">
         <p class="footer-copy">
-          © {{ year }} {{ profile.name }}. Todos los derechos reservados.
+          © {{ year }} {{ profile.name }}. {{ t(ui.footer.rights) }}
         </p>
       
       </div>

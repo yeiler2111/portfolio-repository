@@ -2,31 +2,41 @@
   <main class="page">
     <HeroSection />
 
-    <SkillsSection />
+    <!-- Prueba primero: casos de estudio justo después del hero -->
+    <section id="cases" class="section section-alt">
+      <CaseStudies />
+    </section>
 
-    <section id="technologies" class="section section-alt">
+    <section id="technologies" class="section">
       <BaseContainer>
         <Tecnologies />
       </BaseContainer>
     </section>
 
-    <section id="experience" class="section">
+    <section id="experience" class="section section-alt">
       <ExperienceWork />
     </section>
 
-    <section id="projects" class="section section-alt">
+    <SkillsSection />
+
+    <section id="process" class="section section-alt">
+      <ProcessSection />
+    </section>
+
+    <section id="projects" class="section">
       <BaseContainer>
         <SectionHeading
-          eyebrow="Portafolio"
-          title="Proyectos destacados"
-          subtitle="Una selección de proyectos donde aplico buenas prácticas y tecnologías modernas."
+          :eyebrow="t(ui.projects.eyebrow)"
+          :title="t(ui.projects.title)"
+          :subtitle="t(ui.projects.subtitle)"
         />
         <div class="projects-grid">
           <ProjectCard
-            v-for="project in projects"
+            v-for="(project, index) in projects"
             :key="project.id"
-            :title="project.title"
-            :description="project.description"
+            v-reveal="index * 110"
+            :title="t(project.title)"
+            :description="t(project.description)"
             :images="project.images"
             :technologies="project.technologies"
             :link="project.link"
@@ -35,15 +45,25 @@
       </BaseContainer>
     </section>
 
+    <!-- Se oculta automáticamente hasta que haya testimonios reales -->
+    <section v-if="testimonials.length" id="testimonials" class="section section-alt">
+      <Testimonials />
+    </section>
+
     <section id="about" class="section">
       <BaseContainer>
         <SectionHeading
-          eyebrow="Sobre mí"
-          title="Un poco más sobre mi trayectoria"
-          subtitle="Conoce mi enfoque, mi filosofía y lo que me impulsa como desarrollador."
+          :eyebrow="t(ui.about.eyebrow)"
+          :title="t(ui.about.title)"
+          :subtitle="t(ui.about.subtitle)"
         />
         <div class="about-grid">
-          <AboutCard v-for="(item, key) in aboutCards" :key="key" :card="item" />
+          <AboutCard
+            v-for="(item, key) in aboutCards"
+            :key="key"
+            v-reveal="key * 90"
+            :card="item"
+          />
         </div>
       </BaseContainer>
     </section>
@@ -54,16 +74,22 @@
 
 <script setup lang="ts">
 import AboutCard from "@/components/home/Section.vue";
+import CaseStudies from "@/components/home/CaseStudies.vue";
 import ProjectCard from "@/components/home/CardProyect.vue";
 import ContactSection from "@/components/home/ContactSection.vue";
 import ExperienceWork from "@/components/home/ExperienceWork.vue";
 import HeroSection from "@/components/home/HeroSection.vue";
+import ProcessSection from "@/components/home/ProcessSection.vue";
 import SkillsSection from "@/components/home/SkillsSection.vue";
+import Testimonials from "@/components/home/Testimonials.vue";
 import BaseContainer from "@/components/ui/BaseContainer.vue";
 import SectionHeading from "@/components/ui/SectionHeading.vue";
 import Tecnologies from "@/components/shared/Tecnologies.vue";
+import { t } from "@/i18n";
+import { ui } from "@/i18n/ui";
 import { CardItems } from "@/data/data";
 import { projects } from "@/data/projects";
+import { testimonials } from "@/data/testimonials";
 
 const aboutCards = CardItems;
 </script>

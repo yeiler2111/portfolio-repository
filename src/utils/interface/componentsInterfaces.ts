@@ -1,4 +1,6 @@
+import type { Localized } from "@/i18n";
+
 export default interface card {
-    title: string;
-    textContent: string;
+    title: Localized;
+    textContent: Localized;
 }

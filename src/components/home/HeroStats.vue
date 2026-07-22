@@ -1,17 +1,19 @@
 <template>
   <dl class="hero-stats">
-    <template v-for="(stat, i) in stats" :key="stat.label">
+    <template v-for="(stat, i) in stats" :key="stat.labelKey">
       <div v-if="i > 0" class="stat-divider" aria-hidden="true"></div>
       <div class="stat-item">
-        <dt class="sr-only">{{ stat.label }}</dt>
+        <dt class="sr-only">{{ t(ui.hero.stats[stat.labelKey]) }}</dt>
         <dd class="stat-number text-gradient">{{ stat.value }}</dd>
-        <dd class="stat-label">{{ stat.label }}</dd>
+        <dd class="stat-label">{{ t(ui.hero.stats[stat.labelKey]) }}</dd>
       </div>
     </template>
   </dl>
 </template>
 
 <script setup lang="ts">
+import { t } from "@/i18n";
+import { ui } from "@/i18n/ui";
 import { stats } from "@/data/site";
 </script>
 

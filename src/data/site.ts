@@ -3,10 +3,15 @@ import type { NavigationOption, SocialLink } from "@/utils/types";
 /** Identidad / hero */
 export const profile = {
   name: "Yeiler Simons",
-  role: "Ingeniero de Sistemas",
-  focus: "Desarrollo de software · Vue.js",
-  tagline:
-    "Construyo interfaces rápidas, accesibles y mantenibles. Especializado en Vue 3, TypeScript y arquitecturas front escalables.",
+  role: { es: "Ingeniero de Sistemas", en: "Systems Engineer" },
+  focus: {
+    es: "Full Stack · Arquitectura de microservicios",
+    en: "Full Stack · Microservice architecture",
+  },
+  tagline: {
+    es: "Ayudo a empresas y equipos a llevar productos web de la idea a producción: interfaces rápidas y accesibles, backends escalables y arquitecturas de microservicios en AWS que sostienen el crecimiento.",
+    en: "I help companies and teams take web products from idea to production: fast, accessible interfaces, scalable backends and microservice architectures on AWS that sustain growth.",
+  },
   location: "Santa Marta, Colombia",
   available: true,
   image: {
@@ -19,33 +24,40 @@ export const profile = {
   },
 };
 
-/** Métricas del hero */
+/** Métricas del hero (label desde el catálogo UI: years/projects/technologies) */
 export const stats = [
-  { value: "3+", label: "Años de experiencia" },
-  { value: "20+", label: "Proyectos" },
-  { value: "10+", label: "Tecnologías" },
+  { value: "3+", labelKey: "years" as const },
+  { value: "20+", labelKey: "projects" as const },
+  { value: "10+", labelKey: "technologies" as const },
 ];
 
 /** Navegación in-page (secciones de la home) */
 export const navItems: NavigationOption[] = [
-  { id: "skills", label: "Skills" },
-  { id: "technologies", label: "Tecnologías" },
-  { id: "experience", label: "Experiencia" },
-  { id: "projects", label: "Proyectos" },
-  { id: "about", label: "Sobre mí" },
+  { id: "cases", label: { es: "Casos", en: "Cases" } },
+  { id: "experience", label: { es: "Experiencia", en: "Experience" } },
+  { id: "skills", label: { es: "Skills", en: "Skills" } },
+  { id: "process", label: { es: "Proceso", en: "Process" } },
+  { id: "projects", label: { es: "Proyectos", en: "Projects" } },
+  { id: "about", label: { es: "Sobre mí", en: "About" } },
 ];
 
 /** CVs descargables */
 export const resumes = [
   {
     label: "CV · ATS",
-    description: "Formato simple, optimizado para filtros automáticos",
+    description: {
+      es: "Formato simple, optimizado para filtros automáticos",
+      en: "Simple format, optimized for automated filters",
+    },
     href: "/documents/HvAts.pdf",
     filename: "Yeiler-Simons-CV-ATS.pdf",
   },
   {
     label: "CV · Harvard",
-    description: "Formato visual, ideal para leer directamente",
+    description: {
+      es: "Formato visual, ideal para leer directamente",
+      en: "Visual format, ideal for reading directly",
+    },
     href: "/documents/hvHarvard.pdf",
     filename: "Yeiler-Simons-CV-Visual.pdf",
   },

@@ -1,9 +1,9 @@
 <template>
   <BaseContainer>
     <SectionHeading
-      eyebrow="Trayectoria"
-      title="Experiencia laboral"
-      subtitle="Empresas y equipos con los que he construido productos reales, del frontend a la infraestructura."
+      :eyebrow="t(ui.experience.eyebrow)"
+      :title="t(ui.experience.title)"
+      :subtitle="t(ui.experience.subtitle)"
     />
 
     <ol class="timeline">
@@ -19,27 +19,27 @@
         <article class="card card-hover job-card">
           <div class="job-header">
             <div>
-              <h3 class="job-title">{{ job.title }}</h3>
+              <h3 class="job-title">{{ t(job.title) }}</h3>
               <p class="job-company">{{ job.company }}</p>
             </div>
             <span v-if="isCurrent(job)" class="job-current">
               <span class="job-current-dot"></span>
-              Actual
+              {{ t(ui.experience.current) }}
             </span>
           </div>
 
           <div class="job-meta">
-            <span v-if="job.dates" class="job-dates">
+            <span v-if="t(job.dates)" class="job-dates">
               <Calendar :size="14" />
-              {{ job.dates }}
+              {{ t(job.dates) }}
             </span>
             <span class="job-period">
               <Clock :size="14" />
-              {{ job.period }}
+              {{ t(job.period) }}
             </span>
           </div>
 
-          <p class="job-desc">{{ job.description }}</p>
+          <p class="job-desc">{{ t(job.description) }}</p>
 
           <a
             :href="job.link"
@@ -47,7 +47,7 @@
             rel="noopener noreferrer"
             class="job-link"
           >
-            Visitar sitio
+            {{ t(ui.experience.visit) }}
             <ArrowUpRight :size="15" />
           </a>
         </article>
@@ -59,6 +59,8 @@
 <script setup lang="ts">
 import BaseContainer from "@/components/ui/BaseContainer.vue";
 import SectionHeading from "@/components/ui/SectionHeading.vue";
+import { t, type Localized } from "@/i18n";
+import { ui } from "@/i18n/ui";
 import { jobs } from "@/data/data";
 import {
   ArrowUpRight,
@@ -79,8 +81,8 @@ const icons: Record<string, Component> = {
 };
 const iconFor = (name: string): Component => icons[name] ?? Briefcase;
 
-const isCurrent = (job: { dates?: string; period: string }): boolean =>
-  /actual|present/i.test(`${job.dates ?? ""} ${job.period}`);
+const isCurrent = (job: { dates: Localized; period: Localized }): boolean =>
+  /actual|present/i.test(`${t(job.dates)} ${t(job.period)}`);
 </script>
 
 <style scoped lang="postcss">

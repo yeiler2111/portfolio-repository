@@ -1,22 +1,23 @@
 <template>
   <div class="tech">
     <SectionHeading
-      eyebrow="Tech Stack"
-      title="Tecnologías & Herramientas"
-      subtitle="Stack completo con el que desarrollo soluciones modernas, escalables y mantenibles."
+      :eyebrow="t(ui.tech.eyebrow)"
+      :title="t(ui.tech.title)"
+      :subtitle="t(ui.tech.subtitle)"
     />
 
     <div class="tech-categories">
       <section
-        v-for="category in techCategories"
+        v-for="(category, index) in techCategories"
         :key="category.id"
+        v-reveal="index * 70"
         class="tech-category"
       >
         <header class="category-header">
           <div class="category-icon">
             <component :is="iconFor(category.icon)" :size="18" />
           </div>
-          <h3 class="category-title">{{ category.title }}</h3>
+          <h3 class="category-title">{{ t(category.title) }}</h3>
           <span class="category-count">{{ category.techs.length }}</span>
         </header>
 
@@ -38,6 +39,8 @@
 
 <script setup lang="ts">
 import SectionHeading from "@/components/ui/SectionHeading.vue";
+import { t } from "@/i18n";
+import { ui } from "@/i18n/ui";
 import { techCategories } from "@/data/data";
 import {
   Cloud,
@@ -62,11 +65,11 @@ const iconFor = (name: string): Component => icons[name] ?? Wrench;
 
 <style scoped lang="postcss">
 .tech-categories {
-  @apply mt-14 space-y-12;
+  @apply mt-14 space-y-10;
 }
 
 .tech-category {
-  @apply space-y-5;
+  @apply space-y-4;
 }
 
 .category-header {
@@ -89,11 +92,12 @@ const iconFor = (name: string): Component => icons[name] ?? Wrench;
 }
 
 .tech-grid {
-  @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4;
+  @apply flex flex-wrap justify-center gap-3;
 }
 
 .tech-card {
-  @apply flex flex-col items-center justify-center gap-3 p-5 rounded-2xl
+  @apply w-[92px] sm:w-[104px] flex flex-col items-center justify-center gap-2.5
+         py-4 px-2 rounded-xl
          bg-white dark:bg-gray-900
          border border-gray-200 dark:border-gray-800
          transition-all duration-300 cursor-default
@@ -102,13 +106,13 @@ const iconFor = (name: string): Component => icons[name] ?? Wrench;
 }
 
 .tech-icon {
-  @apply w-10 h-10 object-contain transition-transform duration-300;
+  @apply w-8 h-8 object-contain transition-transform duration-300;
 }
 .tech-card:hover .tech-icon {
   @apply scale-110;
 }
 
 .tech-name {
-  @apply text-sm font-medium text-center text-gray-700 dark:text-gray-300;
+  @apply text-xs font-medium text-center text-gray-700 dark:text-gray-300;
 }
 </style>

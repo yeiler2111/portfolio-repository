@@ -1,37 +1,48 @@
 <script setup lang="ts">
-const props = defineProps<{ isDarkMode: boolean }>();
+import { t } from "@/i18n";
+import { profile } from "@/data/site";
+
+// isDarkMode se conserva por compatibilidad; el tema se resuelve con clases `dark:`.
+defineProps<{ isDarkMode?: boolean }>();
 </script>
+
 <template>
-  <svg
-    version="1.1"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 300 100"
-    class="w-full h-auto"
-  >
-    <rect width="250" height="80" fill="transparent" />
-
-    <g v-if="!props.isDarkMode">
-      <text x="10" y="60" class="font-mono text-3xl font-bold fill-gray-900">
-        &lt;/&gt;
-      </text>
-      <text x="60" y="50" class="font-sans text-2xl font-bold fill-gray-900">
-        Yeiler Simons
-      </text>
-      <text x="60" y="70" class="font-sans text-lg fill-gray-900">
-        Software Developer
-      </text>
-    </g>
-
-    <g v-if="props.isDarkMode">
-      <text x="10" y="60" class="font-mono text-3xl font-bold fill-white">
-        &lt;/&gt;
-      </text>
-      <text x="60" y="50" class="font-sans text-2xl font-bold fill-white">
-        Yeiler Simons
-      </text>
-      <text x="60" y="70" class="font-sans text-lg fill-white">
-        Software Developer
-      </text>
-    </g>
-  </svg>
+  <span class="logo">
+    <span class="logo-mark" aria-hidden="true">
+      <span class="logo-mark-text">YS</span>
+    </span>
+    <span class="logo-text">
+      <span class="logo-name">{{ profile.name }}</span>
+      <span class="logo-role">{{ t(profile.role) }}</span>
+    </span>
+  </span>
 </template>
+
+<style scoped lang="postcss">
+.logo {
+  @apply inline-flex items-center gap-2.5;
+}
+
+.logo-mark {
+  @apply relative grid place-items-center shrink-0 w-9 h-9 rounded-xl
+         bg-gradient-to-br from-primary-500 to-secondary-500
+         shadow-md shadow-primary-500/30;
+}
+.logo-mark::after {
+  content: "";
+  @apply absolute inset-0 rounded-xl ring-1 ring-inset ring-white/25;
+}
+.logo-mark-text {
+  @apply text-sm font-extrabold tracking-tight text-white;
+}
+
+.logo-text {
+  @apply flex flex-col leading-none;
+}
+.logo-name {
+  @apply text-sm font-extrabold text-gray-900 dark:text-white;
+}
+.logo-role {
+  @apply mt-0.5 text-[11px] font-medium text-gray-500 dark:text-gray-400;
+}
+</style>

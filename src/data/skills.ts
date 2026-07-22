@@ -1,71 +1,86 @@
 import type { SkillGroup } from "@/utils/types";
 
 /**
- * Competencias organizadas en pilares propios de un desarrollador
- * Frontend senior en el ecosistema Vue. El `icon` referencia un
- * componente de `lucide-vue-next` resuelto en la vista.
+ * Competencias organizadas en pilares de un perfil full stack versátil:
+ * frontend multi-framework, backend, arquitectura de microservicios y
+ * calidad. `title` y `description` son bilingües; `items` son nombres de
+ * tecnología (no se traducen).
  */
 export const skillGroups: SkillGroup[] = [
   {
-    id: "architecture",
-    title: "Arquitectura & Composition API",
-    icon: "Layers",
-    description:
-      "Diseño de aplicaciones Vue mantenibles y escalables por features.",
+    id: "frontend",
+    title: {
+      es: "Frontend multi-framework",
+      en: "Multi-framework frontend",
+    },
+    icon: "Layout",
+    description: {
+      es: "Interfaces mantenibles con Angular, React o Vue según lo que pida el proyecto.",
+      en: "Maintainable interfaces with Angular, React or Vue depending on what the project needs.",
+    },
     items: [
-      "Composition API",
-      "script setup",
-      "Composables",
-      "Pinia",
-      "Feature-based",
-      "Provide / inject",
-      "Headless",
+      "Angular",
+      "React",
+      "Vue 3",
+      "TypeScript",
+      "Tailwind CSS",
+      "SPA / SSR",
+      "Accesibilidad (a11y)",
     ],
   },
   {
-    id: "performance",
-    title: "Rendimiento & Reactividad",
-    icon: "Zap",
-    description:
-      "Optimización del sistema de reactividad y del tiempo de carga.",
+    id: "backend",
+    title: { es: "Backend & APIs", en: "Backend & APIs" },
+    icon: "Server",
+    description: {
+      es: "Servicios robustos y seguros con Node.js, Java o .NET.",
+      en: "Robust, secure services with Node.js, Java or .NET.",
+    },
     items: [
-      "computed / watchEffect",
-      "shallowRef",
-      "v-memo / v-once",
-      "Lazy loading",
-      "Suspense",
-      "Code splitting",
-      "Tree-shaking (Vite)",
+      "Node.js / NestJS",
+      "Java / Spring Boot",
+      ".NET",
+      "REST",
+      "WebSockets",
+      "OAuth2 / JWT",
+      "Redis (caché)",
+    ],
+  },
+  {
+    id: "architecture",
+    title: {
+      es: "Arquitectura & Microservicios",
+      en: "Architecture & Microservices",
+    },
+    icon: "Network",
+    description: {
+      es: "Sistemas distribuidos y escalables desplegados sobre AWS.",
+      en: "Distributed, scalable systems deployed on AWS.",
+    },
+    items: [
+      "Microservicios",
+      "AWS (EC2, Lambda)",
+      "CodePipeline / CodeBuild",
+      "CI/CD",
+      "Arquitectura en capas",
+      "Escalabilidad",
     ],
   },
   {
     id: "quality",
-    title: "Calidad & Tipado",
+    title: { es: "Calidad & Prácticas", en: "Quality & Practices" },
     icon: "ShieldCheck",
-    description:
-      "Código robusto respaldado por tipos y pruebas automatizadas.",
+    description: {
+      es: "Código tipado, probado y sostenible en el tiempo.",
+      en: "Typed, tested and long-term maintainable code.",
+    },
     items: [
       "TypeScript estricto",
-      "Componentes genéricos",
-      "Vitest",
-      "Vue Test Utils",
+      "Testing (Jest / Vitest)",
       "Playwright / Cypress",
+      "Git & code reviews",
+      "Clean Architecture",
       "ESLint / Prettier",
-    ],
-  },
-  {
-    id: "ecosystem",
-    title: "Ecosistema & Producto",
-    icon: "Boxes",
-    description:
-      "Del framework al despliegue, con foco en experiencia y accesibilidad.",
-    items: [
-      "Nuxt 3 (SSR / SSG)",
-      "Vue Router",
-      "Tailwind CSS",
-      "Accesibilidad (a11y)",
-      "REST & WebSockets",
-      "CI/CD",
     ],
   },
 ];

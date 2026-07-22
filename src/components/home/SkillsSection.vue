@@ -2,15 +2,16 @@
   <section id="skills" class="section">
     <BaseContainer>
       <SectionHeading
-        eyebrow="Skills"
-        title="Mi enfoque desarrollando en Vue"
-        subtitle="Cómo abordo el desarrollo de aplicaciones Vue: desde la arquitectura y el rendimiento hasta la calidad del código y el producto final."
+        :eyebrow="t(ui.skills.eyebrow)"
+        :title="t(ui.skills.title)"
+        :subtitle="t(ui.skills.subtitle)"
       />
 
       <div class="skills-grid">
         <article
-          v-for="group in skillGroups"
+          v-for="(group, index) in skillGroups"
           :key="group.id"
+          v-reveal="index * 90"
           class="card card-hover skill-card"
         >
           <div class="skill-head">
@@ -18,8 +19,8 @@
               <component :is="iconFor(group.icon)" :size="22" />
             </div>
             <div>
-              <h3 class="skill-title">{{ group.title }}</h3>
-              <p class="skill-desc">{{ group.description }}</p>
+              <h3 class="skill-title">{{ t(group.title) }}</h3>
+              <p class="skill-desc">{{ t(group.description) }}</p>
             </div>
           </div>
 
@@ -37,11 +38,13 @@
 <script setup lang="ts">
 import BaseContainer from "@/components/ui/BaseContainer.vue";
 import SectionHeading from "@/components/ui/SectionHeading.vue";
+import { t } from "@/i18n";
+import { ui } from "@/i18n/ui";
 import { skillGroups } from "@/data/skills";
-import { Boxes, Layers, ShieldCheck, Zap } from "lucide-vue-next";
+import { Boxes, Layout, Network, Server, ShieldCheck } from "lucide-vue-next";
 import type { Component } from "vue";
 
-const icons: Record<string, Component> = { Layers, Zap, ShieldCheck, Boxes };
+const icons: Record<string, Component> = { Layout, Server, Network, ShieldCheck };
 const iconFor = (name: string): Component => icons[name] ?? Boxes;
 </script>
 

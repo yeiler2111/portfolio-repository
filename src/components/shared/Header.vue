@@ -2,6 +2,8 @@
 import Logo from "@/components/shared/Logo.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
 import { useTheme } from "@/composables/useTheme";
+import { locale, setLocale, t } from "@/i18n";
+import { ui } from "@/i18n/ui";
 import { navItems } from "@/data/site";
 import { Menu, Moon, Sun, X } from "lucide-vue-next";
 import { nextTick, ref } from "vue";
@@ -50,14 +52,31 @@ const goToSection = async (id: string): Promise<void> => {
           class="nav-link"
           @click="goToSection(item.id)"
         >
-          {{ item.label }}
+          {{ t(item.label) }}
         </button>
       </nav>
 
       <div class="header-actions">
+        <div class="lang-toggle" role="group" :aria-label="t(ui.language)">
+          <button
+            type="button"
+            :class="['lang-btn', locale === 'es' && 'lang-active']"
+            @click="setLocale('es')"
+          >
+            ES
+          </button>
+          <button
+            type="button"
+            :class="['lang-btn', locale === 'en' && 'lang-active']"
+            @click="setLocale('en')"
+          >
+            EN
+          </button>
+        </div>
+
         <button
           class="theme-toggle"
-          :aria-label="isDark ? 'Activar modo claro' : 'Activar modo oscuro'"
+          :aria-label="isDark ? t(ui.theme.toLight) : t(ui.theme.toDark)"
           @click="toggleTheme"
         >
           <Sun v-if="isDark" :size="18" />
@@ -65,13 +84,13 @@ const goToSection = async (id: string): Promise<void> => {
         </button>
 
         <BaseButton to="/contactme" size="sm" class="hidden sm:inline-flex">
-          Contáctame
+          {{ t(ui.hero.contact) }}
         </BaseButton>
 
         <button
           class="menu-toggle"
           :aria-expanded="isMenuOpen"
-          aria-label="Abrir menú"
+          :aria-label="t(ui.menu.open)"
           @click="isMenuOpen = !isMenuOpen"
         >
           <X v-if="isMenuOpen" :size="22" />
@@ -89,10 +108,10 @@ const goToSection = async (id: string): Promise<void> => {
           class="mobile-link"
           @click="goToSection(item.id)"
         >
-          {{ item.label }}
+          {{ t(item.label) }}
         </button>
         <BaseButton to="/contactme" block class="mt-2" @click="isMenuOpen = false">
-          Contáctame
+          {{ t(ui.hero.contact) }}
         </BaseButton>
       </nav>
     </transition>
@@ -111,7 +130,7 @@ const goToSection = async (id: string): Promise<void> => {
 }
 
 .logo-btn {
-  @apply flex items-center w-36 sm:w-44 shrink-0 cursor-pointer;
+  @apply flex items-center shrink-0 cursor-pointer;
 }
 
 .desktop-nav {
@@ -128,6 +147,22 @@ const goToSection = async (id: string): Promise<void> => {
 
 .header-actions {
   @apply flex items-center gap-2 sm:gap-3;
+}
+
+.lang-toggle {
+  @apply flex items-center p-0.5 rounded-lg
+         bg-gray-100 dark:bg-gray-800/80;
+}
+.lang-btn {
+  @apply px-2 py-1 rounded-md text-xs font-bold
+         text-gray-500 dark:text-gray-400 transition-colors cursor-pointer;
+}
+.lang-btn:hover {
+  @apply text-gray-700 dark:text-gray-200;
+}
+.lang-active {
+  @apply bg-white dark:bg-gray-950 shadow-sm
+         text-primary-600 dark:text-primary-400;
 }
 
 .theme-toggle {

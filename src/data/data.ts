@@ -2,16 +2,25 @@ import { Tech } from "@/utils/types";
 
 export const CardItems = [
   {
-    title: "¿Quién soy?",
-    textContent: `Soy Ingeniero de Sistemas titulado por la Universidad del Magdalena y cuento con tarjeta profesional. Como desarrollador Fullstack disfruto gestionar proyectos complejos y resolver desafíos mediante soluciones algorítmicas bien estructuradas. Siempre busco nuevos retos que me permitan seguir creciendo profesionalmente.`,
+    title: { es: "¿Quién soy?", en: "Who am I?" },
+    textContent: {
+      es: `Soy Ingeniero de Sistemas titulado por la Universidad del Magdalena y cuento con tarjeta profesional. Como desarrollador Fullstack disfruto gestionar proyectos complejos y resolver desafíos mediante soluciones algorítmicas bien estructuradas. Siempre busco nuevos retos que me permitan seguir creciendo profesionalmente.`,
+      en: `I'm a Systems Engineer with a degree from Universidad del Magdalena and a professional license. As a Fullstack developer, I enjoy managing complex projects and solving challenges through well-structured algorithmic solutions. I'm always looking for new challenges that let me keep growing professionally.`,
+    },
   },
   {
-    title: "Sobre mí",
-    textContent: `La tecnología y el aprendizaje continuo me apasionan. Siempre estoy incorporando nuevas herramientas y conocimientos para mantenerme actualizado. Disfruto colaborar en equipo con profesionales de distintas áreas, ya que las mejores ideas surgen al combinar perspectivas. Enfrento cada desafío con análisis y creatividad, buscando soluciones que no solo resuelvan el problema, sino que también aporten valor al producto final y a los usuarios.`,
+    title: { es: "Sobre mí", en: "About me" },
+    textContent: {
+      es: `La tecnología y el aprendizaje continuo me apasionan. Siempre estoy incorporando nuevas herramientas y conocimientos para mantenerme actualizado. Disfruto colaborar en equipo con profesionales de distintas áreas, ya que las mejores ideas surgen al combinar perspectivas. Enfrento cada desafío con análisis y creatividad, buscando soluciones que no solo resuelvan el problema, sino que también aporten valor al producto final y a los usuarios.`,
+      en: `I'm passionate about technology and continuous learning. I'm always adopting new tools and knowledge to stay up to date. I enjoy collaborating in teams with professionals from different fields, since the best ideas emerge from combining perspectives. I approach every challenge with analysis and creativity, seeking solutions that not only solve the problem but also add value to the final product and its users.`,
+    },
   },
   {
-    title: "Mi filosofía",
-    textContent: `El desarrollo de software no es solo mi profesión, sino un medio para generar un impacto positivo en la sociedad. Valoro la mejora continua y la humildad para seguir aprendiendo, y me comprometo con proyectos que aporten valor real. Estoy convencido de que la colaboración y la empatía son esenciales para construir soluciones que verdaderamente marquen la diferencia.`,
+    title: { es: "Mi filosofía", en: "My philosophy" },
+    textContent: {
+      es: `El desarrollo de software no es solo mi profesión, sino un medio para generar un impacto positivo en la sociedad. Valoro la mejora continua y la humildad para seguir aprendiendo, y me comprometo con proyectos que aporten valor real. Estoy convencido de que la colaboración y la empatía son esenciales para construir soluciones que verdaderamente marquen la diferencia.`,
+      en: `Software development isn't just my profession, but a means to create a positive impact on society. I value continuous improvement and the humility to keep learning, and I commit to projects that deliver real value. I'm convinced that collaboration and empathy are essential to build solutions that truly make a difference.`,
+    },
   },
 ];
 
@@ -29,7 +38,7 @@ export const backendTechs: Tech[] = [
   { name: "Express", icon: "https://cdn.simpleicons.org/express/000000" },
   { name: "Node.js", icon: "https://cdn.simpleicons.org/nodedotjs/539E43" },
   { name: "Python", icon: "https://cdn.simpleicons.org/python/3776AB" },
-  { name: ".NET", icon: "https://cdn.simpleicons.org/.net/512BD4" },
+  { name: ".NET", icon: "https://cdn.simpleicons.org/dotnet/512BD4" },
 ];
 
 export const mobileTechs: Tech[] = [
@@ -50,7 +59,7 @@ export const cloudTechs = [
 
 export const databaseTechs: Tech[] = [
   { name: "PostgreSQL", icon: "https://cdn.simpleicons.org/postgresql/4169E1" },
-  { name: "MySql", icon: "https://cdn.simpleicons.org/mysql/4479A1" },
+  { name: "MySQL", icon: "https://cdn.simpleicons.org/mysql/4479A1" },
   {
     name: "Redis",
     icon: "https://cdn.simpleicons.org/redis/FF4438",
@@ -68,66 +77,79 @@ export const toolsTechs: Tech[] = [
 
 /**
  * Categorías de tecnologías para la sección Tech Stack.
- * `icon` referencia un componente de lucide-vue-next resuelto en la vista.
+ * `title` es bilingüe; `icon` referencia un componente de lucide-vue-next.
  */
 export const techCategories = [
-  { id: "frontend", title: "Frontend", icon: "Layout", techs: frontendTechs },
-  { id: "backend", title: "Backend", icon: "Server", techs: backendTechs },
-  { id: "mobile", title: "Mobile", icon: "Smartphone", techs: mobileTechs },
-  { id: "cloud", title: "Cloud & DevOps", icon: "Cloud", techs: cloudTechs },
-  { id: "database", title: "Bases de Datos y Caché", icon: "Database", techs: databaseTechs },
-  { id: "tools", title: "Tools & Otros", icon: "Wrench", techs: toolsTechs },
+  { id: "frontend", title: { es: "Frontend", en: "Frontend" }, icon: "Layout", techs: frontendTechs },
+  { id: "backend", title: { es: "Backend", en: "Backend" }, icon: "Server", techs: backendTechs },
+  { id: "mobile", title: { es: "Mobile", en: "Mobile" }, icon: "Smartphone", techs: mobileTechs },
+  { id: "cloud", title: { es: "Cloud & DevOps", en: "Cloud & DevOps" }, icon: "Cloud", techs: cloudTechs },
+  { id: "database", title: { es: "Bases de Datos y Caché", en: "Databases & Cache" }, icon: "Database", techs: databaseTechs },
+  { id: "tools", title: { es: "Tools & Otros", en: "Tools & Others" }, icon: "Wrench", techs: toolsTechs },
 ];
 
 export const jobs = [
   {
-    title: "Desarrollador Frontend",
+    title: { es: "Desarrollador Frontend", en: "Frontend Developer" },
     company: "Alegra",
     icon: "code",
-    dates: "Dic 2025 – Actualidad",
-    period: "8 meses",
-    description:
-      "Desarrollo y mantenimiento de microfrontends en Vue.js con arquitectura modular de alto rendimiento. Gestiono la arquitectura de dependencias, la compatibilidad de librerías y la integración entre módulos. Creo MCP servers (Model Context Protocol) y skills personalizados, y aplico modelos de lenguaje (LLMs) para automatizar tareas de desarrollo. Configuro infraestructura en AWS y pipelines CI/CD, con testing unitario (Jest, Vitest) y E2E (Playwright, Cypress) sobre escenarios críticos en producción.",
+    dates: { es: "Dic 2025 – Actualidad", en: "Dec 2025 – Present" },
+    period: { es: "8 meses", en: "8 months" },
+    description: {
+      es: "Desarrollo y mantenimiento de microfrontends en Vue.js con arquitectura modular de alto rendimiento. Gestiono la arquitectura de dependencias, la compatibilidad de librerías y la integración entre módulos. Creo MCP servers (Model Context Protocol) y skills personalizados, y aplico modelos de lenguaje (LLMs) para automatizar tareas de desarrollo. Configuro infraestructura en AWS y pipelines CI/CD, con testing unitario (Jest, Vitest) y E2E (Playwright, Cypress) sobre escenarios críticos en producción.",
+      en: "Development and maintenance of microfrontends in Vue.js with a high-performance modular architecture. I manage dependency architecture, library compatibility and integration across modules. I build MCP servers (Model Context Protocol) and custom skills, and apply language models (LLMs) to automate development tasks. I set up AWS infrastructure and CI/CD pipelines, with unit testing (Jest, Vitest) and E2E (Playwright, Cypress) over critical production scenarios.",
+    },
     link: "https://www.alegra.com",
   },
   {
-    title: "Desarrollador Frontend & Soporte",
+    title: { es: "Desarrollador Frontend & Soporte", en: "Frontend Developer & Support" },
     company: "Global e-Health",
     icon: "medical_services",
-    dates: "", // ej. "Mar 2024 – Nov 2025"
-    period: "1 año y 3 meses (apoyo puntual como freelance)",
-    description:
-      "Desarrollé módulos de citas, teleapoyo y telemedicina con Vue 2 integrados a backend en C# .NET. Implementé infraestructura en AWS (Lambda, API Gateway, Route 53, Nginx) y configuración de Jitsi y DCM4CHE para videollamadas y gestión de imágenes DICOM. Contribuí a una infraestructura replicable que redujo tiempos de despliegue y aseguré continuidad del servicio mediante soporte niveles 1, 2 y 3.",
+    dates: { es: "", en: "" }, // ej. "Mar 2024 – Nov 2025"
+    period: {
+      es: "1 año y 3 meses (apoyo puntual como freelance)",
+      en: "1 year 3 months (occasional freelance support)",
+    },
+    description: {
+      es: "Desarrollé módulos de citas, teleapoyo y telemedicina con Vue 2 integrados a backend en C# .NET. Implementé infraestructura en AWS (Lambda, API Gateway, Route 53, Nginx) y configuración de Jitsi y DCM4CHE para videollamadas y gestión de imágenes DICOM. Contribuí a una infraestructura replicable que redujo tiempos de despliegue y aseguré continuidad del servicio mediante soporte niveles 1, 2 y 3.",
+      en: "I built appointment, tele-support and telemedicine modules with Vue 2 integrated with a C# .NET backend. I implemented AWS infrastructure (Lambda, API Gateway, Route 53, Nginx) and set up Jitsi and DCM4CHE for video calls and DICOM image management. I contributed to a replicable infrastructure that reduced deployment times and ensured service continuity through tier 1, 2 and 3 support.",
+    },
     link: "https://www.globale-health.com",
   },
   {
-    title: "Desarrollador Fullstack Freelance",
+    title: { es: "Desarrollador Fullstack Freelance", en: "Freelance Fullstack Developer" },
     company: "Unicero Digital",
     icon: "code",
-    dates: "", // ej. "Ene 2023 – Dic 2023"
-    period: "1 año",
-    description:
-      "Diseñé e implementé un sistema de autenticación con Python, OAuth2 y JWT adoptado como base para nuevos proyectos. Desarrollé pruebas de concepto en Angular y apoyé el desarrollo backend con C# y Java Spring Boot, integrando buenas prácticas de seguridad y arquitectura escalable para distintos clientes.",
+    dates: { es: "", en: "" }, // ej. "Ene 2023 – Dic 2023"
+    period: { es: "1 año", en: "1 year" },
+    description: {
+      es: "Diseñé e implementé un sistema de autenticación con Python, OAuth2 y JWT adoptado como base para nuevos proyectos. Desarrollé pruebas de concepto en Angular y apoyé el desarrollo backend con C# y Java Spring Boot, integrando buenas prácticas de seguridad y arquitectura escalable para distintos clientes.",
+      en: "I designed and implemented an authentication system with Python, OAuth2 and JWT adopted as the foundation for new projects. I built proofs of concept in Angular and supported backend development with C# and Java Spring Boot, integrating security best practices and scalable architecture for various clients.",
+    },
     link: "https://www.unoycerodigital.com.co/",
   },
   {
-    title: "Desarrollador Fullstack",
+    title: { es: "Desarrollador Fullstack", en: "Fullstack Developer" },
     company: "M&T Consulting",
     icon: "engineering",
-    dates: "", // ej. "May 2022 – Dic 2022"
-    period: "8 meses",
-    description:
-      "Participé en proyectos para ICFES y Minsalud. Desarrollé backend en NestJS para generación masiva de PDFs y frontend en Vue 3 + Pinia con gestión de roles y módulos públicos. Aporté en el diseño de arquitecturas en capas y APIs REST, logrando entregas estables, mantenibles y alineadas a requerimientos de entidades públicas.",
+    dates: { es: "", en: "" }, // ej. "May 2022 – Dic 2022"
+    period: { es: "8 meses", en: "8 months" },
+    description: {
+      es: "Participé en varios proyectos para entidades públicas (Minsalud, ICFES). Desarrollé de forma integral la interfaz en Vue 3 + Pinia de una plataforma que centraliza a los prestadores de salud del país y su capacidad instalada (disponibilidad de camas y recursos). También construí backend en NestJS para generación masiva de PDFs. Aporté en el diseño de arquitecturas en capas y APIs REST, con entregas estables, mantenibles y alineadas a requerimientos de entidades públicas.",
+      en: "I took part in several projects for public entities (Minsalud, ICFES). I developed the entire frontend in Vue 3 + Pinia of a platform that centralizes the country's healthcare providers and their installed capacity (bed availability and resources). I also built a NestJS backend for mass PDF generation. I contributed to designing layered architectures and REST APIs, with stable, maintainable delivery aligned with public-entity requirements.",
+    },
     link: "https://mitconsulting.com.co/",
   },
   {
-    title: "Freelance Fullstack Developer",
+    title: { es: "Freelance Fullstack Developer", en: "Freelance Fullstack Developer" },
     company: "Fryends",
     icon: "work",
-    dates: "", // ej. "Ene 2022 – Abr 2022"
-    period: "4 meses",
-    description:
-      "Desarrollé soluciones fullstack para proyectos del sector público, incluyendo backend en NestJS con arquitectura en capas y caché con Redis, y frontend en React/Remix con WebSockets para comunicación en tiempo real. Implementé notificaciones por correo y pruebas unitarias con Jest, contribuyendo a reducir tiempos de respuesta y mejorar la robustez de las aplicaciones.",
+    dates: { es: "", en: "" }, // ej. "Ene 2022 – Abr 2022"
+    period: { es: "4 meses", en: "4 months" },
+    description: {
+      es: "Desarrollé soluciones fullstack para proyectos del sector público, incluyendo backend en NestJS con arquitectura en capas y caché con Redis, y frontend en React/Remix con WebSockets para comunicación en tiempo real. Implementé notificaciones por correo y pruebas unitarias con Jest, contribuyendo a reducir tiempos de respuesta y mejorar la robustez de las aplicaciones.",
+      en: "I built fullstack solutions for public-sector projects, including a NestJS backend with layered architecture and Redis caching, and a React/Remix frontend with WebSockets for real-time communication. I implemented email notifications and unit tests with Jest, helping reduce response times and improve application robustness.",
+    },
     link: "https://fryends.com.co/#",
   },
 ];

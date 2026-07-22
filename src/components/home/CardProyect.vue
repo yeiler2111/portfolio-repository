@@ -54,7 +54,7 @@
           {{ description }}
         </p>
         <button v-if="shouldShowReadMore" class="read-more" @click="isExpanded = !isExpanded">
-          {{ isExpanded ? "Leer menos" : "Leer más" }}
+          {{ isExpanded ? t(ui.projects.readLess) : t(ui.projects.readMore) }}
           <ChevronDown
             :size="16"
             :class="['transition-transform', isExpanded && 'rotate-180']"
@@ -74,7 +74,7 @@
         rel="noopener noreferrer"
         class="btn-primary btn-lg w-full mt-auto"
       >
-        Ver proyecto
+        {{ t(ui.projects.view) }}
         <ArrowUpRight :size="18" />
       </a>
     </div>
@@ -82,6 +82,8 @@
 </template>
 
 <script setup lang="ts">
+import { t } from "@/i18n";
+import { ui } from "@/i18n/ui";
 import {
   ArrowUpRight,
   ChevronDown,

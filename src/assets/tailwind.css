@@ -3,6 +3,31 @@
 @tailwind utilities;
 
 /* ============================================================
+   Scroll reveal (directiva v-reveal)
+   Fade + subida suave al entrar en viewport. Sobrio y una sola vez.
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ============================================================
    Design Tokens
    Paleta cohesionada: azul (primary) + índigo (secondary).
    Acento violeta reservado para detalles puntuales.

@@ -7,17 +7,14 @@
     </div>
 
     <BaseContainer width="narrow" class="relative z-10 text-center">
-      <span class="eyebrow mb-5">Contacto</span>
-      <h2 class="heading-2">¿Listo para dar vida a tu próximo proyecto?</h2>
-      <p class="contact-lead">
-        Si tienes una idea en mente o necesitas ayuda con tu proyecto, me
-        encantaría escucharte. Trabajemos juntos para crear algo increíble.
-      </p>
+      <span class="eyebrow mb-5">{{ t(ui.contact.eyebrow) }}</span>
+      <h2 class="heading-2">{{ t(ui.contact.title) }}</h2>
+      <p class="contact-lead">{{ t(ui.contact.lead) }}</p>
 
       <div class="contact-actions">
         <BaseButton to="/contactme" size="lg">
           <template #icon-left><Mail :size="20" /></template>
-          Enviar mensaje
+          {{ t(ui.contact.send) }}
         </BaseButton>
         <BaseButton
           href="mailto:yeiler2209@gmail.com"
@@ -25,12 +22,12 @@
           size="lg"
         >
           <template #icon-left><Send :size="20" /></template>
-          Email directo
+          {{ t(ui.contact.directEmail) }}
         </BaseButton>
       </div>
 
       <div class="divider">
-        <span>O conéctate conmigo en</span>
+        <span>{{ t(ui.contact.connectVia) }}</span>
       </div>
 
       <Networking />
@@ -38,20 +35,20 @@
       <div class="features">
         <ContactFeature
           :icon="Clock"
-          title="Respuesta rápida"
-          description="Respondo en menos de 24 horas"
+          :title="t(ui.contact.features.fastTitle)"
+          :description="t(ui.contact.features.fastDesc)"
           color="blue"
         />
         <ContactFeature
           :icon="CheckCircle2"
-          title="Consulta gratuita"
-          description="Primera reunión sin compromiso"
+          :title="t(ui.contact.features.freeTitle)"
+          :description="t(ui.contact.features.freeDesc)"
           color="green"
         />
         <ContactFeature
           :icon="Users"
-          title="Colaboración flexible"
-          description="Freelance o tiempo completo"
+          :title="t(ui.contact.features.flexTitle)"
+          :description="t(ui.contact.features.flexDesc)"
           color="purple"
         />
       </div>
@@ -62,6 +59,8 @@
 <script setup lang="ts">
 import Networking from "@/components/home/networkingContact.vue";
 import BaseContainer from "@/components/ui/BaseContainer.vue";
+import { t } from "@/i18n";
+import { ui } from "@/i18n/ui";
 import { CheckCircle2, Clock, Mail, Send, Users } from "lucide-vue-next";
 import ContactFeature from "./ContactFeature.vue";
 </script>

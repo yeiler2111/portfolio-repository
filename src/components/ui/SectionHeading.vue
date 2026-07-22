@@ -1,5 +1,5 @@
 <template>
-  <div :class="['max-w-2xl', align === 'center' && 'mx-auto text-center']">
+  <div v-reveal :class="['max-w-2xl', align === 'center' && 'mx-auto text-center']">
     <span v-if="eyebrow" class="eyebrow mb-5">
       <slot name="eyebrow-icon" />
       {{ eyebrow }}

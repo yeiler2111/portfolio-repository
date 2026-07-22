@@ -6,34 +6,34 @@
     <div class="hero-inner container-page">
       <!-- Contenido -->
       <div class="hero-content">
-        <span v-if="profile.available" class="status-badge">
+        <span v-if="profile.available" v-reveal class="status-badge">
           <span class="status-dot"></span>
-          Disponible para nuevos proyectos
+          {{ t(ui.hero.available) }}
         </span>
 
-        <p class="hero-greeting">Hola, soy</p>
+        <p v-reveal="60" class="hero-greeting">{{ t(ui.hero.greeting) }}</p>
 
-        <h1 class="hero-title">
+        <h1 v-reveal="120" class="hero-title">
           <span class="hero-name">{{ profile.name }}</span>
-          <span class="hero-role text-gradient">{{ profile.role }}</span>
+          <span class="hero-role text-gradient">{{ t(profile.role) }}</span>
         </h1>
 
-        <p class="hero-focus">{{ profile.focus }}</p>
+        <p v-reveal="180" class="hero-focus">{{ t(profile.focus) }}</p>
 
-        <p class="hero-tagline">{{ profile.tagline }}</p>
+        <p v-reveal="240" class="hero-tagline">{{ t(profile.tagline) }}</p>
 
-        <HeroStats />
+        <HeroStats v-reveal="300" />
 
-        <div class="hero-actions">
+        <div v-reveal="360" class="hero-actions">
           <BaseButton to="/contactme" size="lg">
             <template #icon-left><Mail :size="20" /></template>
-            Contáctame
+            {{ t(ui.hero.contact) }}
           </BaseButton>
 
           <div ref="cvRef" class="relative">
             <BaseButton variant="outline" size="lg" @click="cvMenuOpen = !cvMenuOpen">
               <template #icon-left><Download :size="20" /></template>
-              Descargar CV
+              {{ t(ui.hero.downloadCV) }}
               <template #icon-right>
                 <ChevronDown
                   :size="16"
@@ -56,18 +56,23 @@
                   <span class="cv-item-icon"><FileText :size="18" /></span>
                   <span class="cv-item-body">
                     <span class="cv-item-label">{{ cv.label }}</span>
-                    <span class="cv-item-desc">{{ cv.description }}</span>
+                    <span class="cv-item-desc">{{ t(cv.description) }}</span>
                   </span>
                   <Download :size="16" class="cv-item-arrow" />
                 </a>
               </div>
             </transition>
           </div>
+
+          <button type="button" class="hero-cases" @click="scrollToCases">
+            {{ t(ui.hero.viewCases) }}
+            <ArrowRight :size="18" />
+          </button>
         </div>
       </div>
 
       <!-- Imagen -->
-      <div class="hero-media">
+      <div v-reveal="150" class="hero-media">
         <div class="media-frame">
           <picture>
             <source
@@ -102,14 +107,21 @@
 
 <script setup lang="ts">
 import BaseButton from "@/components/ui/BaseButton.vue";
+import { t } from "@/i18n";
+import { ui } from "@/i18n/ui";
 import { profile, resumes } from "@/data/site";
-import { ChevronDown, Download, FileText, Mail } from "lucide-vue-next";
+import { ArrowRight, ChevronDown, Download, FileText, Mail } from "lucide-vue-next";
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import HeroStats from "./HeroStats.vue";
 
 const loading = ref(true);
 const cvMenuOpen = ref(false);
 const cvRef = ref<HTMLElement | null>(null);
+
+/** Scroll suave a la sección de casos. */
+const scrollToCases = (): void => {
+  document.getElementById("cases")?.scrollIntoView({ behavior: "smooth", block: "start" });
+};
 
 /** Cierra el dropdown al hacer click fuera. */
 const handleClickOutside = (e: MouseEvent) => {
@@ -124,7 +136,7 @@ onBeforeUnmount(() => document.removeEventListener("click", handleClickOutside))
 
 <style scoped lang="postcss">
 .hero {
-  @apply relative flex items-center min-h-screen overflow-x-clip pt-16 pb-16;
+  @apply relative flex items-center min-h-screen overflow-x-clip pt-28 sm:pt-32 pb-16;
 }
 
 .hero-glow {
@@ -187,6 +199,12 @@ onBeforeUnmount(() => document.removeEventListener("click", handleClickOutside))
 
 .hero-actions {
   @apply mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-4;
+}
+
+.hero-cases {
+  @apply inline-flex items-center gap-1.5 px-2 py-1
+         text-base font-semibold text-primary-600 dark:text-primary-400
+         hover:gap-2.5 transition-all cursor-pointer;
 }
 
 /* --- Dropdown CV --- */

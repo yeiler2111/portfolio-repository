@@ -9,6 +9,7 @@ export interface BaseComponent {
   className?: string;
 }
 
+import type { Localized } from "@/i18n";
 
 export interface Technology {
   name: string;
@@ -54,6 +55,55 @@ export interface AboutCard {
 }
 
 
+/** Caso de estudio: Problema → Arquitectura → Resultado. */
+export interface CaseStudy {
+  id: string;
+  /** Empresa / contexto del proyecto. */
+  client: string;
+  /** Etiqueta corta de sector o tipo (ej. "Fintech", "Salud"). */
+  tag: Localized;
+  title: Localized;
+  /** Reto de negocio que se debía resolver. */
+  problem: Localized;
+  /** Enfoque / arquitectura técnica (bullets). */
+  architecture: Localized<string[]>;
+  /** Resultado o impacto (bullets, idealmente con métricas). */
+  outcome: Localized<string[]>;
+  /** Stack principal usado. */
+  stack: string[];
+  /** Nombre de un icono de lucide-vue-next (resuelto en la vista). */
+  icon: string;
+  /** Enlace opcional (demo, sitio, repo). */
+  link?: string;
+  linkLabel?: Localized;
+  current?: boolean;
+}
+
+
+/** Paso del proceso de trabajo (Discovery → Build → Launch). */
+export interface ProcessStep {
+  id: string;
+  title: Localized;
+  description: Localized;
+  /** Entregables / actividades del paso. */
+  deliverables: Localized<string[]>;
+  /** Nombre de un icono de lucide-vue-next. */
+  icon: string;
+}
+
+
+/** Testimonio / prueba social. */
+export interface Testimonial {
+  id: string;
+  quote: string;
+  author: string;
+  role: string;
+  company: string;
+  /** URL opcional de avatar. */
+  avatar?: string;
+}
+
+
 export interface ContactForm {
   name: string;
   email: string;
@@ -73,7 +123,7 @@ export interface FormValidation {
 
 export interface NavigationOption {
   id: string;
-  label: string;
+  label: Localized;
   href?: string;
 }
 
@@ -96,10 +146,10 @@ export interface TechStack {
 
 export interface SkillGroup {
   id: string;
-  title: string;
+  title: Localized;
   /** Nombre de un icono de lucide-vue-next (resuelto en la vista). */
   icon: string;
-  description: string;
+  description: Localized;
   items: string[];
 }
 

@@ -4,11 +4,8 @@
       <div class="contact-container">
         <!-- Header -->
         <div class="contact-header">
-          <h1 class="heading-2">Contáctame</h1>
-          <p class="contact-description">
-            Completa el formulario y me pondré en contacto contigo lo antes
-            posible
-          </p>
+          <h1 class="heading-2">{{ t(ui.contactPage.title) }}</h1>
+          <p class="contact-description">{{ t(ui.contactPage.description) }}</p>
         </div>
 
         <!-- Contact Form -->
@@ -16,14 +13,14 @@
           <!-- Name Field -->
           <div class="form-group">
             <label for="name" class="form-label">
-              Nombre completo
+              {{ t(ui.contactPage.name) }}
               <span class="text-error">*</span>
             </label>
             <input
               id="name"
               v-model="form.name"
               type="text"
-              placeholder="Tu nombre"
+              :placeholder="t(ui.contactPage.namePlaceholder)"
               :class="['input', { 'input-error': errors.name }]"
               aria-required="true"
               aria-describedby="name-error"
@@ -36,14 +33,14 @@
           <!-- Email Field -->
           <div class="form-group">
             <label for="email" class="form-label">
-              Correo Electrónico
+              {{ t(ui.contactPage.email) }}
               <span class="text-error">*</span>
             </label>
             <input
               id="email"
               v-model="form.email"
               type="email"
-              placeholder="tu@email.com"
+              :placeholder="t(ui.contactPage.emailPlaceholder)"
               :class="['input', { 'input-error': errors.email }]"
               aria-required="true"
               aria-describedby="email-error"
@@ -56,14 +53,14 @@
           <!-- Subject Field -->
           <div class="form-group">
             <label for="affair" class="form-label">
-              Asunto
+              {{ t(ui.contactPage.subject) }}
               <span class="text-error">*</span>
             </label>
             <input
               id="affair"
               v-model="form.affair"
               type="text"
-              placeholder="¿De qué trata tu mensaje?"
+              :placeholder="t(ui.contactPage.subjectPlaceholder)"
               :class="['input', { 'input-error': errors.affair }]"
               aria-required="true"
               aria-describedby="affair-error"
@@ -76,14 +73,14 @@
           <!-- Message Field -->
           <div class="form-group">
             <label for="message" class="form-label">
-              Mensaje
+              {{ t(ui.contactPage.message) }}
               <span class="text-error">*</span>
             </label>
             <textarea
               id="message"
               v-model="form.message"
               rows="6"
-              placeholder="Escribe tu mensaje aquí..."
+              :placeholder="t(ui.contactPage.messagePlaceholder)"
               :class="['input', { 'input-error': errors.message }]"
               aria-required="true"
               aria-describedby="message-error"
@@ -100,7 +97,7 @@
             class="btn-primary w-full"
             :class="{ 'opacity-50 cursor-not-allowed': isSubmitting }"
           >
-            <span v-if="!isSubmitting">Enviar Mensaje</span>
+            <span v-if="!isSubmitting">{{ t(ui.contactPage.send) }}</span>
             <span v-else class="flex items-center justify-center gap-2">
               <svg
                 class="animate-spin h-5 w-5"
@@ -122,14 +119,14 @@
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 ></path>
               </svg>
-              Enviando...
+              {{ t(ui.contactPage.sending) }}
             </span>
           </button>
         </form>
 
         <!-- Social Networks -->
         <div class="social-section">
-          <h2 class="heading-4 mb-6">También puedes encontrarme en</h2>
+          <h2 class="heading-4 mb-6">{{ t(ui.contactPage.findMeAlso) }}</h2>
           <NetworkingContact />
         </div>
       </div>
@@ -140,6 +137,8 @@
 <script setup lang="ts">
 import { descriptorContact } from "@/assets/descriptors/Contact";
 import NetworkingContact from "@/components/home/networkingContact.vue";
+import { t } from "@/i18n";
+import { ui } from "@/i18n/ui";
 import { sendEmail } from "@/services/email.services";
 import type { ContactForm, EmailData, ValidationErrors } from "@/utils/types";
 import Validator from "@/utils/Validator";
@@ -171,7 +170,7 @@ const validateForm = async (): Promise<{
     errors.value = validationErrors;
 
     $q.notify({
-      message: "Por favor, completa todos los campos correctamente.",
+      message: t(ui.contactPage.validationError),
       timeout: 3000,
       position: "top",
       color: "negative",
@@ -206,13 +205,10 @@ const sendMessage = async (): Promise<void> => {
       message: form.message,
     };
 
-    const res = await sendEmail(emailData);
+    await sendEmail(emailData);
 
     $q.notify({
-      message:
-        res?.status === 201
-          ? "¡Mensaje enviado exitosamente! Te responderé pronto."
-          : "Mensaje enviado con éxito.",
+      message: t(ui.contactPage.success),
       timeout: 4000,
       color: "positive",
       position: "top",
@@ -230,7 +226,7 @@ const sendMessage = async (): Promise<void> => {
     console.error("Error al enviar mensaje:", error);
 
     $q.notify({
-      message: "Error al enviar el mensaje. Por favor, inténtalo de nuevo.",
+      message: t(ui.contactPage.sendError),
       timeout: 3000,
       color: "negative",
       position: "top",
