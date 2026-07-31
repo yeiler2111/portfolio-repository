@@ -1,4 +1,5 @@
 import { Tech } from "@/utils/types";
+import { formatDateRange, formatDuration, monthsBetween } from "@/utils/duration";
 
 export const CardItems = [
   {
@@ -88,13 +89,25 @@ export const techCategories = [
   { id: "tools", title: { es: "Tools & Otros", en: "Tools & Others" }, icon: "Wrench", techs: toolsTechs },
 ];
 
-export const jobs = [
+/**
+ * Trayectoria profesional.
+ *
+ * `start` / `end` en formato "YYYY-MM" son la fuente de verdad: de ahí se
+ * derivan tanto el rango visible como la duración, así que el puesto vigente
+ * no vuelve a quedar desactualizado. Omitir `end` significa "actualidad".
+ *
+ * PENDIENTE: a los puestos anteriores a Alegra les faltan las fechas reales.
+ * Mientras no las tengan, se muestra `periodFallback` (solo la duración) y el
+ * rango queda vacío. Un reclutador no puede ubicar la carrera en el tiempo sin
+ * ellas, así que conviene completarlas: basta añadir start/end y borrar el
+ * periodFallback correspondiente.
+ */
+const jobsData = [
   {
     title: { es: "Desarrollador Frontend", en: "Frontend Developer" },
     company: "Alegra",
     icon: "code",
-    dates: { es: "Dic 2025 – Actualidad", en: "Dec 2025 – Present" },
-    period: { es: "8 meses", en: "8 months" },
+    start: "2025-12",
     description: {
       es: "Desarrollo y mantenimiento de microfrontends en Vue.js con arquitectura modular de alto rendimiento. Gestiono la arquitectura de dependencias, la compatibilidad de librerías y la integración entre módulos. Creo MCP servers (Model Context Protocol) y skills personalizados, y aplico modelos de lenguaje (LLMs) para automatizar tareas de desarrollo. Configuro infraestructura en AWS y pipelines CI/CD, con testing unitario (Jest, Vitest) y E2E (Playwright, Cypress) sobre escenarios críticos en producción.",
       en: "Development and maintenance of microfrontends in Vue.js with a high-performance modular architecture. I manage dependency architecture, library compatibility and integration across modules. I build MCP servers (Model Context Protocol) and custom skills, and apply language models (LLMs) to automate development tasks. I set up AWS infrastructure and CI/CD pipelines, with unit testing (Jest, Vitest) and E2E (Playwright, Cypress) over critical production scenarios.",
@@ -105,8 +118,7 @@ export const jobs = [
     title: { es: "Desarrollador Frontend & Soporte", en: "Frontend Developer & Support" },
     company: "Global e-Health",
     icon: "medical_services",
-    dates: { es: "", en: "" }, // ej. "Mar 2024 – Nov 2025"
-    period: {
+    periodFallback: {
       es: "1 año y 3 meses (apoyo puntual como freelance)",
       en: "1 year 3 months (occasional freelance support)",
     },
@@ -120,8 +132,7 @@ export const jobs = [
     title: { es: "Desarrollador Fullstack Freelance", en: "Freelance Fullstack Developer" },
     company: "Unicero Digital",
     icon: "code",
-    dates: { es: "", en: "" }, // ej. "Ene 2023 – Dic 2023"
-    period: { es: "1 año", en: "1 year" },
+    periodFallback: { es: "1 año", en: "1 year" },
     description: {
       es: "Diseñé e implementé un sistema de autenticación con Python, OAuth2 y JWT adoptado como base para nuevos proyectos. Desarrollé pruebas de concepto en Angular y apoyé el desarrollo backend con C# y Java Spring Boot, integrando buenas prácticas de seguridad y arquitectura escalable para distintos clientes.",
       en: "I designed and implemented an authentication system with Python, OAuth2 and JWT adopted as the foundation for new projects. I built proofs of concept in Angular and supported backend development with C# and Java Spring Boot, integrating security best practices and scalable architecture for various clients.",
@@ -132,8 +143,7 @@ export const jobs = [
     title: { es: "Desarrollador Fullstack", en: "Fullstack Developer" },
     company: "M&T Consulting",
     icon: "engineering",
-    dates: { es: "", en: "" }, // ej. "May 2022 – Dic 2022"
-    period: { es: "8 meses", en: "8 months" },
+    periodFallback: { es: "8 meses", en: "8 months" },
     description: {
       es: "Participé en varios proyectos para entidades públicas (Minsalud, ICFES). Desarrollé de forma integral la interfaz en Vue 3 + Pinia de una plataforma que centraliza a los prestadores de salud del país y su capacidad instalada (disponibilidad de camas y recursos). También construí backend en NestJS para generación masiva de PDFs. Aporté en el diseño de arquitecturas en capas y APIs REST, con entregas estables, mantenibles y alineadas a requerimientos de entidades públicas.",
       en: "I took part in several projects for public entities (Minsalud, ICFES). I developed the entire frontend in Vue 3 + Pinia of a platform that centralizes the country's healthcare providers and their installed capacity (bed availability and resources). I also built a NestJS backend for mass PDF generation. I contributed to designing layered architectures and REST APIs, with stable, maintainable delivery aligned with public-entity requirements.",
@@ -144,8 +154,7 @@ export const jobs = [
     title: { es: "Freelance Fullstack Developer", en: "Freelance Fullstack Developer" },
     company: "Fryends",
     icon: "work",
-    dates: { es: "", en: "" }, // ej. "Ene 2022 – Abr 2022"
-    period: { es: "4 meses", en: "4 months" },
+    periodFallback: { es: "4 meses", en: "4 months" },
     description: {
       es: "Desarrollé soluciones fullstack para proyectos del sector público, incluyendo backend en NestJS con arquitectura en capas y caché con Redis, y frontend en React/Remix con WebSockets para comunicación en tiempo real. Implementé notificaciones por correo y pruebas unitarias con Jest, contribuyendo a reducir tiempos de respuesta y mejorar la robustez de las aplicaciones.",
       en: "I built fullstack solutions for public-sector projects, including a NestJS backend with layered architecture and Redis caching, and a React/Remix frontend with WebSockets for real-time communication. I implemented email notifications and unit tests with Jest, helping reduce response times and improve application robustness.",
@@ -153,3 +162,24 @@ export const jobs = [
     link: "https://fryends.com.co/#",
   },
 ];
+
+/**
+ * Deriva `dates` y `period` de start/end. Si un puesto todavía no tiene
+ * fechas, cae en `periodFallback` para no romper la vista.
+ */
+export const jobs = jobsData.map((job) => {
+  const { start, end, periodFallback, ...rest } = job as typeof job & {
+    start?: string;
+    end?: string;
+    periodFallback?: { es: string; en: string };
+  };
+
+  return {
+    ...rest,
+    dates: start ? formatDateRange(start, end) : { es: "", en: "" },
+    period: start
+      ? formatDuration(monthsBetween(start, end))
+      : periodFallback ?? { es: "", en: "" },
+    isCurrent: Boolean(start && !end),
+  };
+});

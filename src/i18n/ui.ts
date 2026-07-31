@@ -18,6 +18,7 @@ export const ui = {
     stats: {
       years: { es: "Años de experiencia", en: "Years of experience" },
       projects: { es: "Proyectos", en: "Projects" },
+      companies: { es: "Empresas y clientes", en: "Companies & clients" },
       technologies: { es: "Tecnologías", en: "Technologies" },
     },
   },
@@ -210,5 +211,17 @@ export const ui = {
     toDark: { es: "Activar modo oscuro", en: "Switch to dark mode" },
   },
 
-  menu: { open: { es: "Abrir menú", en: "Open menu" } },
+  menu: {
+    open: { es: "Abrir menú", en: "Open menu" },
+    close: { es: "Cerrar menú", en: "Close menu" },
+  },
+
+  toast: {
+    dismiss: { es: "Cerrar aviso", en: "Dismiss notification" },
+  },
+
+  skipToContent: {
+    es: "Saltar al contenido principal",
+    en: "Skip to main content",
+  },
 };

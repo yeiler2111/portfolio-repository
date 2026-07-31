@@ -1,13 +1,5 @@
 <template>
-  <component
-    :is="tag"
-    :class="classes"
-    :href="href"
-    :to="to"
-    :type="isNativeButton ? type : undefined"
-    :target="href && external ? '_blank' : undefined"
-    :rel="href && external ? 'noopener noreferrer' : undefined"
-  >
+  <component :is="tag" :class="classes" v-bind="tagAttrs">
     <slot name="icon-left" />
     <slot />
     <slot name="icon-right" />
@@ -16,6 +8,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+import { RouterLink } from "vue-router";
 
 const props = withDefaults(
   defineProps<{
@@ -35,12 +28,35 @@ const props = withDefaults(
 );
 
 const tag = computed(() => {
-  if (props.to) return "router-link";
+  if (props.to) return RouterLink;
   if (props.href) return "a";
   return "button";
 });
 
-const isNativeButton = computed(() => tag.value === "button");
+/**
+ * Los atributos se construyen como objeto en vez de enlazarse uno a uno.
+ *
+ * Con `:href="href"` en el template, el atributo se envía siempre —también
+ * cuando vale `undefined`—, y al renderizar un RouterLink caía como
+ * fallthrough sobre el <a> interno y borraba el href que el propio router
+ * había calculado. El enlace seguía navegando con click, pero no se podía
+ * abrir en pestaña nueva ni copiar la dirección, los lectores de pantalla lo
+ * anunciaban sin destino y los buscadores no lo veían como enlace interno.
+ *
+ * Omitiendo la clave por completo, RouterLink conserva su href.
+ */
+const tagAttrs = computed<Record<string, unknown>>(() => {
+  if (props.to) return { to: props.to };
+
+  if (props.href) {
+    return {
+      href: props.href,
+      ...(props.external && { target: "_blank", rel: "noopener noreferrer" }),
+    };
+  }
+
+  return { type: props.type };
+});
 
 const classes = computed(() => [
   {

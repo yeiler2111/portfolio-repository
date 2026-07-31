@@ -2,6 +2,7 @@
 import { t } from "@/i18n";
 import { ui } from "@/i18n/ui";
 import { navItems, profile, socials } from "@/data/site";
+import { scrollToSection } from "@/utils/scroll";
 import { Github, Linkedin, MapPin } from "lucide-vue-next";
 import { nextTick } from "vue";
 import type { Component } from "vue";
@@ -19,7 +20,7 @@ const goToSection = async (id: string): Promise<void> => {
     await router.push("/");
     await nextTick();
   }
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  scrollToSection(id);
 };
 </script>
 

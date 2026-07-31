@@ -1,5 +1,5 @@
 <template>
-  <main class="page">
+  <main id="main-content" class="page" tabindex="-1">
     <HeroSection />
 
     <!-- Prueba primero: casos de estudio justo después del hero -->

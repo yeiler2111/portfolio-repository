@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="es">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <link rel="icon" href="./favicon.ico" />
+    <link rel="icon" href="/favicon.ico" />
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -19,26 +19,67 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
     />
 
-    <title><%= htmlWebpackPlugin.options.title %></title>
-    <meta property="og:title" content="Portafolio de Yeiler Simons" />
-    <meta property="og:description" content="Desarrollador de software." />
-    <meta property="og:image" content="/img/imagen_mia_768.webp" />
-    <meta property="og:url" content="https://yeilerdeveloment.site" />
+    <!--
+      Estas etiquetas son las que ven los crawlers y los bots de vista previa
+      (WhatsApp, LinkedIn, Slack, X): ninguno ejecuta JavaScript, así que nunca
+      alcanzan a leer lo que inyecta @vueuse/head desde App.vue. Por eso deben
+      estar completas aquí y coincidir con lo que se define en runtime.
+      Open Graph exige URLs absolutas: las rutas relativas se ignoran.
+    -->
+    <title>Yeiler Simons Romero - Desarrollador de Software</title>
+    <meta
+      name="description"
+      content="Portafolio de Yeiler Simons Romero, desarrollador de software especializado en frontend, backend y arquitectura de microservicios."
+    />
+    <meta name="author" content="Yeiler Simons Romero" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#030712" />
+    <link rel="canonical" href="https://portfolio-yeiler.netlify.app/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Yeiler Simons Romero - Portafolio" />
+    <meta property="og:locale" content="es_ES" />
+    <meta
+      property="og:title"
+      content="Yeiler Simons Romero - Desarrollador de Software"
+    />
+    <meta
+      property="og:description"
+      content="De la idea a producción: interfaces rápidas y accesibles, backends escalables y arquitecturas de microservicios en AWS."
+    />
+    <meta
+      property="og:image"
+      content="https://portfolio-yeiler.netlify.app/og-image.jpg"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Yeiler Simons Romero, Ingeniero de Sistemas Full Stack"
+    />
+    <meta property="og:url" content="https://portfolio-yeiler.netlify.app/" />
+
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Portafolio de Yeiler Simons" />
-    <meta name="twitter:description" content="Desarrollador de software." />
-    <meta name="twitter:image" content="/img/imagen_mia_768.webp" />
+    <meta
+      name="twitter:title"
+      content="Yeiler Simons Romero - Desarrollador de Software"
+    />
+    <meta
+      name="twitter:description"
+      content="De la idea a producción: interfaces rápidas y accesibles, backends escalables y arquitecturas de microservicios en AWS."
+    />
+    <meta
+      name="twitter:image"
+      content="https://portfolio-yeiler.netlify.app/og-image.jpg"
+    />
   </head>
   <body>
     <noscript>
-      <strong
-        >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work
-        properly without JavaScript enabled. Please enable it to
-        continue.</strong
-      >
+      <strong>
+        Este portafolio necesita JavaScript para funcionar. Actívalo para
+        continuar, o escríbeme a yeiler2209@gmail.com.
+      </strong>
     </noscript>
     <div id="app"></div>
-
-    
   </body>
 </html>

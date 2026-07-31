@@ -4,27 +4,33 @@
     <div class="hero-glow" aria-hidden="true"></div>
 
     <div class="hero-inner container-page">
-      <!-- Contenido -->
+      <!--
+        Contenido. Nada por encima de la línea de flotación lleva `v-reveal`:
+        esa directiva arranca en opacity 0 y anima al entrar en viewport, y
+        aplicada al <h1> retrasaba el propio elemento LCP (120 ms de delay más
+        600 ms de transición). El texto del hero ya está visible al pintar; la
+        animación de entrada se reserva para lo que está más abajo.
+      -->
       <div class="hero-content">
-        <span v-if="profile.available" v-reveal class="status-badge">
+        <span v-if="profile.available" class="status-badge">
           <span class="status-dot"></span>
           {{ t(ui.hero.available) }}
         </span>
 
-        <p v-reveal="60" class="hero-greeting">{{ t(ui.hero.greeting) }}</p>
+        <p class="hero-greeting">{{ t(ui.hero.greeting) }}</p>
 
-        <h1 v-reveal="120" class="hero-title">
+        <h1 class="hero-title">
           <span class="hero-name">{{ profile.name }}</span>
           <span class="hero-role text-gradient">{{ t(profile.role) }}</span>
         </h1>
 
-        <p v-reveal="180" class="hero-focus">{{ t(profile.focus) }}</p>
+        <p class="hero-focus">{{ t(profile.focus) }}</p>
 
-        <p v-reveal="240" class="hero-tagline">{{ t(profile.tagline) }}</p>
+        <p class="hero-tagline">{{ t(profile.tagline) }}</p>
 
-        <HeroStats v-reveal="300" />
+        <HeroStats />
 
-        <div v-reveal="360" class="hero-actions">
+        <div class="hero-actions">
           <BaseButton to="/contactme" size="lg">
             <template #icon-left><Mail :size="20" /></template>
             {{ t(ui.hero.contact) }}
@@ -42,15 +48,20 @@
               </template>
             </BaseButton>
 
+            <!--
+              Es una lista de enlaces de descarga, no un menú de aplicación.
+              Llevaba role="menu"/role="menuitem", que le promete al lector de
+              pantalla navegación con flechas y foco atrapado: nada de eso
+              estaba implementado. Una <ul> de enlaces se anuncia bien y
+              funciona con Tab sin código extra.
+            -->
             <transition name="fade-down">
-              <div v-if="cvMenuOpen" class="cv-dropdown" role="menu">
+              <ul v-if="cvMenuOpen" class="cv-dropdown">
+                <li v-for="cv in resumes" :key="cv.href">
                 <a
-                  v-for="cv in resumes"
-                  :key="cv.href"
                   :href="cv.href"
                   :download="cv.filename"
                   class="cv-item"
-                  role="menuitem"
                   @click="cvMenuOpen = false"
                 >
                   <span class="cv-item-icon"><FileText :size="18" /></span>
@@ -60,7 +71,8 @@
                   </span>
                   <Download :size="16" class="cv-item-arrow" />
                 </a>
-              </div>
+                </li>
+              </ul>
             </transition>
           </div>
 
@@ -72,7 +84,7 @@
       </div>
 
       <!-- Imagen -->
-      <div v-reveal="150" class="hero-media">
+      <div class="hero-media">
         <div class="media-frame">
           <picture>
             <source
@@ -85,6 +97,8 @@
             <img
               :src="profile.image.src"
               :alt="profile.image.alt"
+              width="768"
+              height="960"
               loading="eager"
               decoding="async"
               fetchpriority="high"
@@ -110,6 +124,7 @@ import BaseButton from "@/components/ui/BaseButton.vue";
 import { t } from "@/i18n";
 import { ui } from "@/i18n/ui";
 import { profile, resumes } from "@/data/site";
+import { scrollToSection } from "@/utils/scroll";
 import { ArrowRight, ChevronDown, Download, FileText, Mail } from "lucide-vue-next";
 import { onBeforeUnmount, onMounted, ref } from "vue";
 import HeroStats from "./HeroStats.vue";
@@ -120,7 +135,7 @@ const cvRef = ref<HTMLElement | null>(null);
 
 /** Scroll suave a la sección de casos. */
 const scrollToCases = (): void => {
-  document.getElementById("cases")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  scrollToSection("cases");
 };
 
 /** Cierra el dropdown al hacer click fuera. */
@@ -157,7 +172,13 @@ onBeforeUnmount(() => document.removeEventListener("click", handleClickOutside))
 
 /* --- Contenido --- */
 .hero-content {
-  @apply order-2 lg:order-1 text-center lg:text-left;
+  /*
+    El texto va primero también en móvil. Antes era `order-2`, así que la
+    primera pantalla completa en un teléfono era solo la foto: el nombre, el
+    pitch y los CTA empezaban ~650 px más abajo. La mayoría del tráfico que
+    llega desde LinkedIn es móvil.
+  */
+  @apply order-1 text-center lg:text-left;
 }
 
 .status-badge {
@@ -210,9 +231,10 @@ onBeforeUnmount(() => document.removeEventListener("click", handleClickOutside))
 /* --- Dropdown CV --- */
 .cv-dropdown {
   @apply absolute left-0 mt-2 w-[19rem] max-w-[calc(100vw-2rem)] p-1.5
-         card shadow-xl z-20;
+         card shadow-xl z-20 list-none;
 }
 .cv-item {
+  @apply no-underline;
   @apply flex items-center gap-3 w-full px-3 py-2.5 rounded-xl
          text-left text-gray-700 dark:text-gray-200
          hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors;
@@ -246,7 +268,7 @@ onBeforeUnmount(() => document.removeEventListener("click", handleClickOutside))
 
 /* --- Imagen --- */
 .hero-media {
-  @apply order-1 lg:order-2 relative flex justify-center lg:justify-end;
+  @apply order-2 relative flex justify-center lg:justify-end;
 }
 .media-frame {
   @apply relative w-full max-w-sm lg:max-w-md

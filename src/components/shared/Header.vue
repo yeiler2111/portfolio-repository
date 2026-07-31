@@ -5,8 +5,9 @@ import { useTheme } from "@/composables/useTheme";
 import { locale, setLocale, t } from "@/i18n";
 import { ui } from "@/i18n/ui";
 import { navItems } from "@/data/site";
+import { scrollToSection } from "@/utils/scroll";
 import { Menu, Moon, Sun, X } from "lucide-vue-next";
-import { nextTick, ref } from "vue";
+import { nextTick, onBeforeUnmount, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const { isDark, toggleTheme } = useTheme();
@@ -14,23 +15,62 @@ const router = useRouter();
 const route = useRoute();
 
 const isMenuOpen = ref(false);
+/** Sección visible actualmente, para marcar el enlace con aria-current. */
+const activeSection = ref<string>("");
 
 /**
  * Navega a una sección de la home. Si el usuario está en otra ruta,
  * primero regresa a la home y luego hace scroll a la sección.
+ *
+ * Recibe el evento porque los enlaces tienen un href real: hay que evitar el
+ * salto brusco del navegador, pero solo cuando es un click normal. Si la
+ * persona usa ctrl/cmd/shift o el botón central, se deja pasar para que
+ * funcione "abrir en pestaña nueva".
  */
-const goToSection = async (id: string): Promise<void> => {
+const goToSection = async (id: string, event?: MouseEvent): Promise<void> => {
+  if (
+    event &&
+    (event.ctrlKey || event.metaKey || event.shiftKey || event.button !== 0)
+  ) {
+    return;
+  }
+  event?.preventDefault();
+
   isMenuOpen.value = false;
   if (route.path !== "/") {
     await router.push("/");
     await nextTick();
   }
-  if (id === "top") {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    return;
-  }
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  scrollToSection(id);
 };
+
+/**
+ * Scroll spy. Marca como activa la última sección cuyo inicio quedó por
+ * encima del borde inferior del header.
+ */
+let observer: IntersectionObserver | null = null;
+
+onMounted(() => {
+  if (typeof IntersectionObserver === "undefined") return;
+
+  observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) activeSection.value = entry.target.id;
+      }
+    },
+    // El margen superior descuenta el header fijo; el inferior evita que se
+    // active una sección que apenas asoma por abajo.
+    { rootMargin: "-20% 0px -70% 0px", threshold: 0 }
+  );
+
+  for (const item of navItems) {
+    const el = document.getElementById(item.id);
+    if (el) observer.observe(el);
+  }
+});
+
+onBeforeUnmount(() => observer?.disconnect());
 </script>
 
 <template>
@@ -44,16 +84,24 @@ const goToSection = async (id: string): Promise<void> => {
         <Logo :is-dark-mode="isDark" />
       </button>
 
-      <!-- Navegación de escritorio -->
+      <!--
+        Navegación de escritorio. Son <a href="#seccion"> y no <button>: así se
+        pueden abrir en otra pestaña, copiar el enlace y compartir, y los
+        buscadores los leen como enlaces internos reales. El click sigue
+        interceptado para conservar el scroll suave y cerrar el menú.
+      -->
       <nav class="desktop-nav" aria-label="Navegación principal">
-        <button
+        <a
           v-for="item in navItems"
           :key="item.id"
+          :href="`/#${item.id}`"
           class="nav-link"
-          @click="goToSection(item.id)"
+          :class="{ 'nav-link-active': activeSection === item.id }"
+          :aria-current="activeSection === item.id ? 'true' : undefined"
+          @click="goToSection(item.id, $event)"
         >
           {{ t(item.label) }}
-        </button>
+        </a>
       </nav>
 
       <div class="header-actions">
@@ -90,7 +138,8 @@ const goToSection = async (id: string): Promise<void> => {
         <button
           class="menu-toggle"
           :aria-expanded="isMenuOpen"
-          :aria-label="t(ui.menu.open)"
+          aria-controls="mobile-nav"
+          :aria-label="isMenuOpen ? t(ui.menu.close) : t(ui.menu.open)"
           @click="isMenuOpen = !isMenuOpen"
         >
           <X v-if="isMenuOpen" :size="22" />
@@ -101,15 +150,22 @@ const goToSection = async (id: string): Promise<void> => {
 
     <!-- Menú móvil -->
     <transition name="slide-down">
-      <nav v-if="isMenuOpen" class="mobile-nav" aria-label="Navegación móvil">
-        <button
+      <nav
+        v-if="isMenuOpen"
+        id="mobile-nav"
+        class="mobile-nav"
+        aria-label="Navegación móvil"
+      >
+        <a
           v-for="item in navItems"
           :key="item.id"
+          :href="`/#${item.id}`"
           class="mobile-link"
-          @click="goToSection(item.id)"
+          :aria-current="activeSection === item.id ? 'true' : undefined"
+          @click="goToSection(item.id, $event)"
         >
           {{ t(item.label) }}
-        </button>
+        </a>
         <BaseButton to="/contactme" block class="mt-2" @click="isMenuOpen = false">
           {{ t(ui.hero.contact) }}
         </BaseButton>
@@ -138,11 +194,15 @@ const goToSection = async (id: string): Promise<void> => {
 }
 
 .nav-link {
-  @apply px-3 py-2 rounded-lg text-sm font-medium
+  @apply px-3 py-2 rounded-lg text-sm font-medium no-underline
          text-gray-600 dark:text-gray-300
          hover:text-primary-600 dark:hover:text-primary-400
          hover:bg-gray-100 dark:hover:bg-gray-800/60
          transition-colors cursor-pointer;
+}
+
+.nav-link-active {
+  @apply text-primary-600 dark:text-primary-400 bg-gray-100 dark:bg-gray-800/60;
 }
 
 .header-actions {
@@ -185,9 +245,12 @@ const goToSection = async (id: string): Promise<void> => {
 }
 
 .mobile-link {
-  @apply text-left px-4 py-3 rounded-xl text-base font-medium
+  @apply block text-left px-4 py-3 rounded-xl text-base font-medium no-underline
          text-gray-700 dark:text-gray-200
          hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors;
+}
+.mobile-link[aria-current] {
+  @apply text-primary-600 dark:text-primary-400 bg-gray-100 dark:bg-gray-800;
 }
 
 .slide-down-enter-active,

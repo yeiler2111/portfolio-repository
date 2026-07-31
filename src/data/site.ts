@@ -1,4 +1,16 @@
 import type { NavigationOption, SocialLink } from "@/utils/types";
+import { jobs, techCategories } from "@/data/data";
+
+/** Total de tecnologías listadas en la sección Tech Stack. */
+const techCount = techCategories.reduce((n, c) => n + c.techs.length, 0);
+
+/**
+ * URL canónica del sitio, sin barra final. Se usa para og:url, canonical,
+ * JSON-LD y sitemap, así que debe coincidir con el dominio realmente
+ * publicado. Si algún día se activa un dominio propio, este es el único
+ * sitio que hay que tocar (y `public/robots.txt`).
+ */
+export const SITE_URL = "https://portfolio-yeiler.netlify.app";
 
 /** Identidad / hero */
 export const profile = {
@@ -24,11 +36,21 @@ export const profile = {
   },
 };
 
-/** Métricas del hero (label desde el catálogo UI: years/projects/technologies) */
+/**
+ * Métricas del hero.
+ *
+ * Se derivan de los propios datos del portafolio en vez de escribirse a mano:
+ * antes decía "20+ Proyectos" mostrando 2 y "10+ Tecnologías" listando 29, y
+ * una cifra que la misma página contradice resta credibilidad en lugar de
+ * sumarla. Ahora cada número se puede comprobar bajando a su sección.
+ *
+ * `years` sigue siendo manual porque depende de la fecha de inicio profesional,
+ * que no está modelada.
+ */
 export const stats = [
   { value: "3+", labelKey: "years" as const },
-  { value: "20+", labelKey: "projects" as const },
-  { value: "10+", labelKey: "technologies" as const },
+  { value: String(jobs.length), labelKey: "companies" as const },
+  { value: `${Math.floor(techCount / 5) * 5}+`, labelKey: "technologies" as const },
 ];
 
 /** Navegación in-page (secciones de la home) */

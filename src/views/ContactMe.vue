@@ -1,5 +1,5 @@
 <template>
-  <div class="contact-page">
+  <main id="main-content" class="contact-page" tabindex="-1">
     <section class="contact-section">
       <div class="contact-container">
         <!-- Header -->
@@ -10,6 +10,25 @@
 
         <!-- Contact Form -->
         <form @submit.prevent="sendMessage" class="contact-form" novalidate>
+          <!--
+            Honeypot anti-spam: invisible y fuera del orden de tabulación para
+            personas, pero los bots que rellenan todos los campos del formulario
+            sí lo completan. Si trae valor, se descarta el envío en silencio.
+            La clave pública de EmailJS es visible en el bundle (es inevitable
+            con EmailJS), así que conviene además activar el filtro de dominios
+            permitidos en su panel.
+          -->
+          <div class="hp-field" aria-hidden="true">
+            <label for="company-website">No completar este campo</label>
+            <input
+              id="company-website"
+              v-model="honeypot"
+              type="text"
+              tabindex="-1"
+              autocomplete="off"
+            />
+          </div>
+
           <!-- Name Field -->
           <div class="form-group">
             <label for="name" class="form-label">
@@ -23,7 +42,8 @@
               :placeholder="t(ui.contactPage.namePlaceholder)"
               :class="['input', { 'input-error': errors.name }]"
               aria-required="true"
-              aria-describedby="name-error"
+              :aria-invalid="Boolean(errors.name)"
+              :aria-describedby="errors.name ? 'name-error' : undefined"
             />
             <p v-if="errors.name" id="name-error" class="form-error">
               {{ errors.name }}
@@ -43,7 +63,8 @@
               :placeholder="t(ui.contactPage.emailPlaceholder)"
               :class="['input', { 'input-error': errors.email }]"
               aria-required="true"
-              aria-describedby="email-error"
+              :aria-invalid="Boolean(errors.email)"
+              :aria-describedby="errors.email ? 'email-error' : undefined"
             />
             <p v-if="errors.email" id="email-error" class="form-error">
               {{ errors.email }}
@@ -63,7 +84,8 @@
               :placeholder="t(ui.contactPage.subjectPlaceholder)"
               :class="['input', { 'input-error': errors.affair }]"
               aria-required="true"
-              aria-describedby="affair-error"
+              :aria-invalid="Boolean(errors.affair)"
+              :aria-describedby="errors.affair ? 'affair-error' : undefined"
             />
             <p v-if="errors.affair" id="affair-error" class="form-error">
               {{ errors.affair }}
@@ -83,7 +105,8 @@
               :placeholder="t(ui.contactPage.messagePlaceholder)"
               :class="['input', { 'input-error': errors.message }]"
               aria-required="true"
-              aria-describedby="message-error"
+              :aria-invalid="Boolean(errors.message)"
+              :aria-describedby="errors.message ? 'message-error' : undefined"
             ></textarea>
             <p v-if="errors.message" id="message-error" class="form-error">
               {{ errors.message }}
@@ -131,7 +154,7 @@
         </div>
       </div>
     </section>
-  </div>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -142,10 +165,10 @@ import { ui } from "@/i18n/ui";
 import { sendEmail } from "@/services/email.services";
 import type { ContactForm, EmailData, ValidationErrors } from "@/utils/types";
 import Validator from "@/utils/Validator";
-import { useQuasar } from "quasar";
+import { useToast } from "@/composables/useToast";
 import { reactive, ref } from "vue";
 
-const $q = useQuasar();
+const toast = useToast();
 
 
 const form = reactive<ContactForm>({
@@ -157,6 +180,8 @@ const form = reactive<ContactForm>({
 
 const errors = ref<ValidationErrors>({});
 const isSubmitting = ref<boolean>(false);
+/** Campo trampa: solo un bot lo rellena. Ver el comentario en el template. */
+const honeypot = ref<string>("");
 
 
 const validateForm = async (): Promise<{
@@ -169,13 +194,7 @@ const validateForm = async (): Promise<{
   if (!validated) {
     errors.value = validationErrors;
 
-    $q.notify({
-      message: t(ui.contactPage.validationError),
-      timeout: 3000,
-      position: "top",
-      color: "negative",
-      icon: "warning",
-    });
+    toast.error(t(ui.contactPage.validationError), 3000);
   }
 
   return { validated, errors: validationErrors };
@@ -183,10 +202,14 @@ const validateForm = async (): Promise<{
 
 
 const sendMessage = async (): Promise<void> => {
-  
+  // Bot detectado: fingimos éxito para no darle pistas y no gastamos cuota.
+  if (honeypot.value) {
+    toast.success(t(ui.contactPage.success), 5000);
+    return;
+  }
+
   errors.value = {};
 
-  
   const { validated, errors: validationErrors } = await validateForm();
 
   if (!validated) {
@@ -207,13 +230,7 @@ const sendMessage = async (): Promise<void> => {
 
     await sendEmail(emailData);
 
-    $q.notify({
-      message: t(ui.contactPage.success),
-      timeout: 4000,
-      color: "positive",
-      position: "top",
-      icon: "check_circle",
-    });
+    toast.success(t(ui.contactPage.success), 5000);
 
     
     Object.assign(form, {
@@ -225,13 +242,7 @@ const sendMessage = async (): Promise<void> => {
   } catch (error) {
     console.error("Error al enviar mensaje:", error);
 
-    $q.notify({
-      message: t(ui.contactPage.sendError),
-      timeout: 3000,
-      color: "negative",
-      position: "top",
-      icon: "error",
-    });
+    toast.error(t(ui.contactPage.sendError), 5000);
   } finally {
     isSubmitting.value = false;
   }
@@ -269,6 +280,14 @@ const sendMessage = async (): Promise<void> => {
 
 .form-group {
   @apply space-y-2;
+}
+
+/* Oculto para personas pero visible para bots (no usa display:none,
+   que algunos bots detectan y saltan). */
+.hp-field {
+  @apply absolute w-px h-px -m-px p-0 overflow-hidden whitespace-nowrap border-0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
 }
 
 .form-label {

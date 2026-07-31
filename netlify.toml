@@ -1,0 +1,62 @@
+[build]
+  command = "pnpm build"
+  publish = "dist"
+
+# ---------------------------------------------------------------------------
+# Fallback SPA. Imprescindible ahora que el router usa history mode: sin esto
+# una visita directa a /contactme devolvería 404 en vez de cargar la app.
+# ---------------------------------------------------------------------------
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# ---------------------------------------------------------------------------
+# Caché. Los assets llevan hash en el nombre (app.4e528dfa.js), así que su
+# contenido nunca cambia sin cambiar la URL: pueden cachearse un año como
+# immutable. Netlify los servía con `max-age=0, must-revalidate`, obligando a
+# revalidar todo en cada visita.
+# ---------------------------------------------------------------------------
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Las imágenes y PDFs no llevan hash, así que se cachean un día con
+# revalidación en segundo plano: rápido, pero se actualizan sin purgar nada.
+[[headers]]
+  for = "/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
+[[headers]]
+  for = "/documents/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
+# index.html siempre se revalida: es quien apunta a los assets con hash nuevo.
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# ---------------------------------------------------------------------------
+# Cabeceras de seguridad.
+# ---------------------------------------------------------------------------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"

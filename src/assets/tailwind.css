@@ -153,6 +153,22 @@
            ring-offset-gray-50 dark:ring-offset-gray-950 rounded-md;
   }
 
+  /*
+    Enlace para saltar la navegación. Solo aparece al recibir foco con el
+    teclado: sin él, quien navega con tabulador tiene que recorrer los ~10
+    enlaces del header en cada carga antes de llegar al contenido.
+  */
+  .skip-link {
+    @apply absolute left-4 z-[200] -translate-y-24
+           rounded-lg px-4 py-2 text-sm font-semibold no-underline
+           bg-primary-600 text-white shadow-lg
+           transition-transform;
+    top: 0.75rem;
+  }
+  .skip-link:focus {
+    @apply translate-y-0;
+  }
+
   ::-webkit-scrollbar {
     width: 10px;
   }

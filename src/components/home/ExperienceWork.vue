@@ -22,7 +22,7 @@
               <h3 class="job-title">{{ t(job.title) }}</h3>
               <p class="job-company">{{ job.company }}</p>
             </div>
-            <span v-if="isCurrent(job)" class="job-current">
+            <span v-if="job.isCurrent" class="job-current">
               <span class="job-current-dot"></span>
               {{ t(ui.experience.current) }}
             </span>
@@ -59,7 +59,7 @@
 <script setup lang="ts">
 import BaseContainer from "@/components/ui/BaseContainer.vue";
 import SectionHeading from "@/components/ui/SectionHeading.vue";
-import { t, type Localized } from "@/i18n";
+import { t } from "@/i18n";
 import { ui } from "@/i18n/ui";
 import { jobs } from "@/data/data";
 import {
@@ -81,8 +81,12 @@ const icons: Record<string, Component> = {
 };
 const iconFor = (name: string): Component => icons[name] ?? Briefcase;
 
-const isCurrent = (job: { dates: Localized; period: Localized }): boolean =>
-  /actual|present/i.test(`${t(job.dates)} ${t(job.period)}`);
+/*
+ * El badge "Actualidad" ahora viene de `job.isCurrent`, derivado de que el
+ * puesto tenga `start` sin `end`. Antes se deducía con una expresión regular
+ * sobre el texto ya traducido (/actual|present/), que se rompía en cuanto
+ * cambiara la redacción o se añadiera otro idioma.
+ */
 </script>
 
 <style scoped lang="postcss">

@@ -1,5 +1,5 @@
 import { init, send } from "@emailjs/browser";
-
+import { contact } from "@/data/site";
 
 init({
   publicKey: process.env.VUE_APP_PUBLIC_KEY,
@@ -17,32 +17,27 @@ interface ParamsEmail {
   message: string;
 }
 
+/**
+ * Envía dos correos: la confirmación a quien escribe y el aviso al admin.
+ *
+ * No captura los errores a propósito. Antes había un `catch` que hacía
+ * `return e`, así que la promesa siempre resolvía y el `catch` de ContactMe.vue
+ * nunca se ejecutaba: un envío fallido mostraba igual el aviso de "mensaje
+ * enviado exitosamente" y el mensaje se perdía en silencio. Quien llama debe
+ * poder distinguir el éxito del fallo.
+ */
 export const sendEmail = async (templateParams: ParamsEmail) => {
-  try {
-    
-    const userRes = send(
-      process.env.VUE_APP_ID_SERVICES as string,
-      process.env.VUE_APP_ID_TEMPLATE as string,
-      templateParams as {}
-    );
+  const serviceId = process.env.VUE_APP_ID_SERVICES as string;
 
-    
-    const adminRes = send(
-      process.env.VUE_APP_ID_SERVICES as string,
-      process.env.VUE_APP_ID_TEMPLATE_ADMIN as string,
-      {
-        ...templateParams,
-        reply_to: "yeiler2209@gmail.com",
-      }
-    );
+  const [userResponse, adminResponse] = await Promise.all([
+    send(serviceId, process.env.VUE_APP_ID_TEMPLATE as string, {
+      ...templateParams,
+    }),
+    send(serviceId, process.env.VUE_APP_ID_TEMPLATE_ADMIN as string, {
+      ...templateParams,
+      reply_to: contact.email,
+    }),
+  ]);
 
-    
-    const [userResponse, adminResponse] = await Promise.all([userRes, adminRes]);
-
-    console.log("Correos enviados:", userResponse, adminResponse);
-    return { userResponse, adminResponse };
-  } catch (e) {
-    console.error("Error al enviar los correos:", e);
-    return e;
-  }
+  return { userResponse, adminResponse };
 };

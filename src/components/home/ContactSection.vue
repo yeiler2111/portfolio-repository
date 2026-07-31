@@ -58,6 +58,7 @@
 
 <script setup lang="ts">
 import Networking from "@/components/home/networkingContact.vue";
+import BaseButton from "@/components/ui/BaseButton.vue";
 import BaseContainer from "@/components/ui/BaseContainer.vue";
 import { t } from "@/i18n";
 import { ui } from "@/i18n/ui";
