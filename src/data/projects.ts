@@ -40,10 +40,22 @@ export const projects: Project[] = [
       "AWS Lightsail",
       "Tailwind CSS",
     ],
-    status: "production",
+    highlights: {
+      es: [
+        "Rentado a un karaoke en Santa Marta, en operación",
+        "Tres aplicaciones sobre un mismo backend en tiempo real",
+        "Cola priorizada con recomendador de canciones",
+      ],
+      en: [
+        "Rented to a karaoke bar in Santa Marta, up and running",
+        "Three applications on a single real-time backend",
+        "Prioritised queue with a song recommender",
+      ],
+    },
+    status: "revenue",
     context: {
-      es: "Producto propio · en producción",
-      en: "Own product · in production",
+      es: "Producto propio · Santa Marta",
+      en: "Own product · Santa Marta",
     },
      note: {
       es: "Repositorio privado. Escríbeme si quieres conocer más detalles del proyecto.",
@@ -72,10 +84,22 @@ export const projects: Project[] = [
       "PostgreSQL",
       "Vitest",
     ],
+    highlights: {
+      es: [
+        "Offline-first: SQLite local y sincronización diferida",
+        "264 pruebas automatizadas entre la app y la API",
+        "Índices PRS y CAR recalculados en el servidor",
+      ],
+      en: [
+        "Offline-first: local SQLite with deferred sync",
+        "264 automated tests across the app and the API",
+        "PRS and CAR indices recomputed server-side",
+      ],
+    },
     status: "production",
     context: {
-      es: "En producción · repositorio privado",
-      en: "In production · private repository",
+      es: "Metodología ICAPTU · repositorio privado",
+      en: "ICAPTU methodology · private repository",
     },
      note: {
       es: "Repositorio privado. Escríbeme si quieres conocer más detalles del proyecto.",
@@ -106,10 +130,22 @@ export const projects: Project[] = [
       "SEO",
       "Netlify",
     ],
-    status: "production",
+    highlights: {
+      es: [
+        "Cliente real: empresa administrada por la SAE",
+        "Primera en búsquedas de su sector, según el propietario",
+        "CSS propio, sin framework de estilos",
+      ],
+      en: [
+        "Real client: a company managed by Colombia's SAE",
+        "Ranks first in its sector's searches, according to the owner",
+        "Handwritten CSS, no styling framework",
+      ],
+    },
+    status: "client",
     context: {
-      es: "Cliente real · en producción",
-      en: "Real client · in production",
+      es: "SEPRINORT LTDA · Cúcuta",
+      en: "SEPRINORT LTDA · Cúcuta",
     },
     link: "https://seprinort.com/",
   },
@@ -139,10 +175,22 @@ export const projects: Project[] = [
       "Prisma",
       "PostgreSQL",
     ],
-    status: "production",
+    highlights: {
+      es: [
+        "URL única por invitado, con sus cupos y sus eventos",
+        "Modo demo sin backend, con el RSVP funcionando",
+        "Panel de administración navegable",
+      ],
+      en: [
+        "A unique URL per guest, with their seats and events",
+        "Demo mode without a backend, RSVP still working",
+        "Browsable admin panel",
+      ],
+    },
+    status: "demo",
     context: {
-      es: "Proyecto personal · demo en vivo",
-      en: "Personal project · live demo",
+      es: "Proyecto personal",
+      en: "Personal project",
     },
     // Dos formas de recorrerla: como invitado y como quien la organiza.
     links: [
@@ -182,10 +230,22 @@ export const projects: Project[] = [
       "Prisma",
       "PostgreSQL",
     ],
-    status: "production",
+    highlights: {
+      es: [
+        "Recorrido a pantalla completa animado con GSAP",
+        "Panel con estadísticas y generación de enlaces",
+        "Modo demo que rechaza las escrituras a propósito",
+      ],
+      en: [
+        "Full-screen journey animated with GSAP",
+        "Panel with statistics and link generation",
+        "Demo mode that deliberately rejects writes",
+      ],
+    },
+    status: "demo",
     context: {
-      es: "Proyecto personal · demo en vivo",
-      en: "Personal project · live demo",
+      es: "Proyecto personal",
+      en: "Personal project",
     },
     links: [
       {
@@ -215,10 +275,20 @@ export const projects: Project[] = [
       "/img/puc/appMobil2.jpg",
     ],
     technologies: ["React", "React Native", "Tailwind CSS", "Google Play"],
-    status: "production",
+    highlights: {
+      es: [
+        "Publicada en Google Play",
+        "Lógica y estilos compartidos entre web y móvil",
+      ],
+      en: [
+        "Published on Google Play",
+        "Logic and styles shared between web and mobile",
+      ],
+    },
+    status: "store",
     context: {
-      es: "Publicada en Google Play",
-      en: "Published on Google Play",
+      es: "Web y móvil",
+      en: "Web and mobile",
     },
     link: "https://play.google.com/store/apps/details?id=com.yeiler2209.puc&hl=es_CO",
   },
@@ -248,6 +318,21 @@ export const projects: Project[] = [
       "scipy",
       "Jupyter Notebook",
     ],
+    highlights: {
+      es: [
+        "10.000 imágenes repartidas en 10 clases de hiragana",
+        "PCA y regresión logística multinomial",
+      ],
+      en: [
+        "10,000 images across 10 hiragana classes",
+        "PCA and multinomial logistic regression",
+      ],
+    },
+    status: "academic",
+    context: {
+      es: "Machine Learning",
+      en: "Machine Learning",
+    },
     link: "https://github.com/yeiler2111/classificationHiraganaCharacters",
   },
 ];

@@ -30,6 +30,7 @@
           :description="t(project.description)"
           :images="project.images"
           :technologies="project.technologies"
+          :highlights="project.highlights ? t(project.highlights) : undefined"
           :status="project.status"
           :context="project.context ? t(project.context) : undefined"
           :note="project.note ? t(project.note) : undefined"

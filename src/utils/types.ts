@@ -21,8 +21,29 @@ export interface Technology {
  * Estado real del proyecto. Determina el badge que pinta la card:
  * `production` (verde) para producto desplegado, `in-progress` (ámbar) para
  * trabajo en curso, `archived` para lo que ya no se mantiene.
+ *
+ * Rangos, de mayor a menor. Antes solo existía `production` y lo llevaban 6 de
+ * 7 proyectos: un producto que un cliente paga lucía igual que una invitación
+ * personal desplegada en Netlify. El distintivo que debía diferenciar era el
+ * que aplanaba. Cada rango tiene ahora peso visual propio (ver STATUS_RANK).
  */
-export type ProjectStatus = "production" | "in-progress" | "archived";
+export type ProjectStatus =
+  /** Producto propio con cliente pagando. El rango más alto. */
+  | "revenue"
+  /** En producción con usuarios reales, sin ingreso directo. */
+  | "production"
+  /** Entregado a un cliente real y vivo en su dominio. */
+  | "client"
+  /** Publicado en una tienda de aplicaciones. */
+  | "store"
+  /** Proyecto personal con demo navegable. No es producción. */
+  | "demo"
+  /** Trabajo académico o exploratorio. */
+  | "academic"
+  /** Todavía en construcción. */
+  | "in-progress"
+  /** Ya no se mantiene. */
+  | "archived";
 
 /** Una forma de entrar al proyecto, ej. "Ver como invitado" / "Ver el panel". */
 export interface ProjectLink {
@@ -39,6 +60,15 @@ export interface Project {
   images: string[];
   technologies: string[];
   status?: ProjectStatus;
+  /**
+   * Dos o tres hechos duros, visibles sin desplegar la descripción.
+   *
+   * La prosa vive recortada a tres líneas por `line-clamp`, así que lo que más
+   * pesa ("rentado a un karaoke", "264 pruebas automatizadas") quedaba oculto
+   * tras un "Leer más" que casi nadie pulsa. Estos bullets ocupan ese hueco y
+   * la descripción completa pasa a ser lo que revela el desplegable.
+   */
+  highlights?: Localized<string[]>;
   /** Contexto corto para el badge, ej. "Producto propio · en producción". */
   context?: Localized;
   /** Aviso corto bajo la descripción, ej. repositorio privado + contacto. */

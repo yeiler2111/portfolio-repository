@@ -11,8 +11,15 @@
       <span class="glare" aria-hidden="true"></span>
     <!-- Carrusel de imágenes -->
     <div class="media">
+      <!--
+        Distintivo por rango. El icono cambia con el estado y el rango mas alto
+        (`revenue`) recibe tratamiento de condecoracion: fondo dorado, anillo y
+        un brillo que lo recorre. Los rangos bajos (`demo`, `academic`) van
+        deliberadamente apagados, para que la jerarquia se lea de un vistazo.
+      -->
       <span v-if="status" class="status-badge" :class="statusClass">
-        <span class="status-dot"></span>
+        <span v-if="isTopRank" class="status-shine" aria-hidden="true"></span>
+        <component :is="statusIcon" :size="12" class="status-icon" />
         {{ statusLabel }}
       </span>
 
@@ -80,9 +87,24 @@
       </div>
 
       <div>
-        <p class="project-desc" :class="{ 'line-clamp-3': !isExpanded }">
+        <!--
+          Con `highlights`, los hechos duros ocupan el espacio que antes tenia
+          la prosa recortada: "rentado a un karaoke" o "264 pruebas" estaban
+          sepultados en el parrafo y solo asomaban tras pulsar "Leer mas".
+          La descripcion completa pasa a ser lo que revela el desplegable.
+        -->
+        <ul v-if="highlights?.length" class="highlights">
+          <li v-for="(item, i) in highlights" :key="i">{{ item }}</li>
+        </ul>
+
+        <p
+          v-if="!highlights?.length || isExpanded"
+          class="project-desc"
+          :class="{ 'line-clamp-3': !isExpanded && !highlights?.length }"
+        >
           {{ description }}
         </p>
+
         <button v-if="shouldShowReadMore" class="read-more" @click="isExpanded = !isExpanded">
           {{ isExpanded ? t(ui.projects.readLess) : t(ui.projects.readMore) }}
           <ChevronDown
@@ -146,12 +168,20 @@ import { ui } from "@/i18n/ui";
 import type { ProjectStatus } from "@/utils/types";
 import {
   ArrowUpRight,
+  Award,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  CircleDot,
+  FlaskConical,
   ImageOff,
   Lock,
+  Rocket,
+  Smartphone,
+  UserCheck,
+  Wrench,
 } from "lucide-vue-next";
+import type { Component } from "vue";
 import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 
 export interface ValueCardProject {
@@ -159,6 +189,8 @@ export interface ValueCardProject {
   description: string;
   images: string[];
   technologies: string[];
+  /** Hechos duros ya traducidos; sustituyen a la prosa en el estado plegado. */
+  highlights?: string[];
   /** Ya traducido por el padre; no todos los proyectos tienen contexto. */
   context?: string;
   /** Aviso corto ya traducido, ej. repositorio privado. */
@@ -236,16 +268,41 @@ const hiddenTechCount = computed(() =>
 );
 
 const STATUS_LABELS = {
+  revenue: ui.projects.status.revenue,
   production: ui.projects.status.production,
+  client: ui.projects.status.client,
+  store: ui.projects.status.store,
+  demo: ui.projects.status.demo,
+  academic: ui.projects.status.academic,
   "in-progress": ui.projects.status.inProgress,
   archived: ui.projects.status.archived,
 } as const;
 
 const STATUS_CLASSES = {
+  revenue: "status-revenue",
   production: "status-production",
+  client: "status-client",
+  store: "status-store",
+  demo: "status-demo",
+  academic: "status-academic",
   "in-progress": "status-progress",
   archived: "status-archived",
 } as const;
+
+/** Un icono por rango: el distintivo se distingue tambien sin leerlo. */
+const STATUS_ICONS: Record<ProjectStatus, Component> = {
+  revenue: Award,
+  production: Rocket,
+  client: UserCheck,
+  store: Smartphone,
+  demo: CircleDot,
+  academic: FlaskConical,
+  "in-progress": Wrench,
+  archived: CircleDot,
+};
+
+/** Solo el rango mas alto lleva el tratamiento de condecoracion. */
+const TOP_RANK: ProjectStatus = "revenue";
 
 const hasCta = computed(() => Boolean(props.link) || Boolean(props.links?.length));
 
@@ -263,6 +320,10 @@ const statusLabel = computed(() =>
 const statusClass = computed(() =>
   props.status ? STATUS_CLASSES[props.status] : ""
 );
+const statusIcon = computed(() =>
+  props.status ? STATUS_ICONS[props.status] : CircleDot
+);
+const isTopRank = computed(() => props.status === TOP_RANK);
 
 const advance = () => {
   currentIndex.value = (currentIndex.value + 1) % props.images.length;
@@ -388,27 +449,92 @@ onBeforeUnmount(() => {
 }
 
 .status-badge {
-  @apply absolute top-4 left-4 z-30
+  @apply absolute top-4 left-4 z-30 overflow-hidden
          inline-flex items-center gap-1.5
          px-2.5 py-1 rounded-full text-xs font-semibold
          bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm
          border shadow-sm;
 }
-.status-dot {
-  @apply w-1.5 h-1.5 rounded-full bg-current;
+.status-icon {
+  @apply shrink-0;
 }
-/* Colores semánticos de estado, deliberadamente fuera de los tokens de marca. */
+
+/*
+ * Colores semánticos de estado, deliberadamente fuera de los tokens de marca.
+ *
+ * El orden de abajo es el del rango: dorado para el producto que factura,
+ * colores plenos para lo que está vivo, grises apagados para demos y trabajo
+ * académico. Antes todos compartían el mismo verde y el distintivo no
+ * distinguía nada.
+ */
+
+/* --- Condecoración: solo el rango más alto --- */
+.status-revenue {
+  @apply text-amber-900 dark:text-amber-950
+         border-amber-300/80 dark:border-amber-300/60
+         shadow-md shadow-amber-500/25;
+  /* Fondo propio: el dorado tiene que ganarle al bg-white/90 de la base. */
+  background-image: linear-gradient(135deg, #fde68a 0%, #fbbf24 45%, #f59e0b 100%);
+}
+/* Anillo interior: le da el relieve de medalla sin añadir otro elemento. */
+.status-revenue::after {
+  content: "";
+  @apply absolute inset-0 rounded-full pointer-events-none
+         ring-1 ring-inset ring-white/50;
+}
+/* Destello que recorre el distintivo cada pocos segundos. */
+.status-shine {
+  @apply absolute inset-y-0 -left-full w-1/2 pointer-events-none;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgb(255 255 255 / 0.65) 50%,
+    transparent 100%
+  );
+  animation: status-sweep 4.5s ease-in-out infinite;
+}
+@keyframes status-sweep {
+  0%,
+  55% {
+    transform: translateX(0);
+  }
+  85%,
+  100% {
+    transform: translateX(400%);
+  }
+}
+
+/* --- Rangos vivos: color pleno, sin condecoración --- */
 .status-production {
   @apply text-emerald-700 dark:text-emerald-400
          border-emerald-200 dark:border-emerald-800;
+}
+.status-client {
+  @apply text-primary-700 dark:text-primary-400
+         border-primary-200 dark:border-primary-800;
+}
+.status-store {
+  @apply text-violet-700 dark:text-violet-400
+         border-violet-200 dark:border-violet-800;
+}
+
+/* --- Rangos bajos: apagados a propósito --- */
+.status-demo,
+.status-academic,
+.status-archived {
+  @apply text-gray-500 dark:text-gray-400
+         border-gray-200 dark:border-gray-700 shadow-none;
 }
 .status-progress {
   @apply text-amber-700 dark:text-amber-400
          border-amber-200 dark:border-amber-800;
 }
-.status-archived {
-  @apply text-gray-600 dark:text-gray-400
-         border-gray-200 dark:border-gray-700;
+
+@media (prefers-reduced-motion: reduce) {
+  .status-shine {
+    animation: none;
+    @apply hidden;
+  }
 }
 
 .media-empty {
@@ -497,6 +623,22 @@ onBeforeUnmount(() => {
 }
 .role-hints {
   @apply text-center text-xs text-gray-500 dark:text-gray-400;
+}
+
+/*
+ * Mismo lenguaje visual que los bullets de los casos de estudio: la sección de
+ * arriba ya entrenó al lector con esa forma, y romperla aquí obligaba a
+ * reaprender cómo se lee un proyecto.
+ */
+.highlights {
+  @apply flex flex-col gap-1.5;
+}
+.highlights li {
+  @apply relative pl-4 text-sm leading-snug text-gray-600 dark:text-gray-300;
+}
+.highlights li::before {
+  content: "";
+  @apply absolute left-0 top-[7px] w-1.5 h-1.5 rounded-full bg-primary-400;
 }
 
 .tech-tags {

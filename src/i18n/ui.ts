@@ -110,8 +110,18 @@ export const ui = {
     view: { es: "Ver proyecto", en: "View project" },
     readMore: { es: "Leer más", en: "Read more" },
     readLess: { es: "Leer menos", en: "Read less" },
+    /*
+     * Rangos del distintivo. `production` lo llevaban 6 de 7 proyectos, asi que
+     * no distinguia nada: un producto en renta lucia igual que una invitacion
+     * personal. Cada rango dice ahora algo distinto y verificable.
+     */
     status: {
+      revenue: { es: "En renta · facturando", en: "Rented · earning" },
       production: { es: "En producción", en: "In production" },
+      client: { es: "Cliente real", en: "Real client" },
+      store: { es: "En Google Play", en: "On Google Play" },
+      demo: { es: "Demo en vivo", en: "Live demo" },
+      academic: { es: "Académico", en: "Academic" },
       inProgress: { es: "En desarrollo", en: "In progress" },
       archived: { es: "Archivado", en: "Archived" },
     },
