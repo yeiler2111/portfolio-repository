@@ -18,8 +18,32 @@
   opacity: 1;
   transform: none;
 }
+
+/*
+ * Variante 3D: la tarjeta llega girada y desde el fondo hasta asentarse recta.
+ * Se usa solo en la seccion de proyectos (v-reveal:card3d), donde las cards ya
+ * tienen tilt: el resto del sitio mantiene la entrada plana.
+ *
+ * La perspectiva va dentro del propio transform porque quien anima es la
+ * tarjeta, no su contenedor.
+ */
+.reveal-card3d {
+  opacity: 0;
+  transform: perspective(1100px) rotateX(14deg) translateY(34px) scale(0.94);
+  transform-origin: 50% 100%;
+  transition:
+    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal-card3d.reveal-visible {
+  opacity: 1;
+  transform: perspective(1100px) rotateX(0deg) translateY(0) scale(1);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal,
+  .reveal-card3d,
   .reveal-visible {
     opacity: 1;
     transform: none;

@@ -17,20 +17,39 @@ export interface Technology {
   color?: string;
 }
 
-export interface ProjectImage {
+/**
+ * Estado real del proyecto. Determina el badge que pinta la card:
+ * `production` (verde) para producto desplegado, `in-progress` (ámbar) para
+ * trabajo en curso, `archived` para lo que ya no se mantiene.
+ */
+export type ProjectStatus = "production" | "in-progress" | "archived";
+
+/** Una forma de entrar al proyecto, ej. "Ver como invitado" / "Ver el panel". */
+export interface ProjectLink {
+  label: Localized;
   url: string;
-  alt: string;
+  /** Credencial o aclaración corta, ej. "PIN 0000". */
+  hint?: Localized;
 }
 
 export interface Project {
   id: string;
-  title: string;
-  description: string;
-  images: (string | ProjectImage)[];
-  technologies: (string | Technology)[];
-  link: string;
-  github?: string;
-  featured?: boolean;
+  title: Localized;
+  description: Localized;
+  images: string[];
+  technologies: string[];
+  status?: ProjectStatus;
+  /** Contexto corto para el badge, ej. "Producto propio · en producción". */
+  context?: Localized;
+  /** Aviso corto bajo la descripción, ej. repositorio privado + contacto. */
+  note?: Localized;
+  /** Opcional: hay proyectos sin demo ni repo público. */
+  link?: string;
+  /**
+   * Varias entradas al mismo proyecto (por rol). Si está, sustituye a `link`:
+   * una demo con panel de administración se recorre distinto según quién entre.
+   */
+  links?: ProjectLink[];
 }
 
 
@@ -193,15 +212,6 @@ export interface ThemeConfig {
 
 export interface CardProps extends BaseComponent {
   card: AboutCard;
-}
-
-export interface ProjectCardProps extends BaseComponent {
-  title: string;
-  description: string;
-  images: (string | ProjectImage)[];
-  technologies: (string | Technology)[];
-  link: string;
-  github?: string;
 }
 
 export interface HeaderProps {

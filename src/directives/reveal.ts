@@ -5,6 +5,10 @@ import type { Directive } from "vue";
  * cuando entra en el viewport. El valor opcional es el retardo en ms
  * (útil para stagger): `v-reveal="index * 90"`.
  *
+ * Admite una variante por argumento: `v-reveal:card3d="index * 110"` usa la
+ * clase `.reveal-card3d`, que entra girada en perspectiva. Sin argumento se
+ * mantiene la entrada plana de siempre.
+ *
  * Respeta `prefers-reduced-motion`: si el usuario lo pide, no anima
  * (el elemento permanece visible).
  */
@@ -43,13 +47,14 @@ const getObserver = (): IntersectionObserver => {
 
 export const reveal: Directive<HTMLElement, number | undefined> = {
   mounted(el, binding) {
+    const variant = binding.arg ? `reveal-${binding.arg}` : "reveal";
     // Sin soporte o con motion reducido: mostrar sin animar.
     if (prefersReducedMotion() || typeof IntersectionObserver === "undefined") {
       return;
     }
     const delay = binding.value ?? 0;
     if (delay) el.style.transitionDelay = `${delay}ms`;
-    el.classList.add("reveal");
+    el.classList.add(variant);
     getObserver().observe(el);
   },
   unmounted(el) {

@@ -30,18 +30,7 @@
           :title="t(ui.projects.title)"
           :subtitle="t(ui.projects.subtitle)"
         />
-        <div class="projects-grid">
-          <ProjectCard
-            v-for="(project, index) in projects"
-            :key="project.id"
-            v-reveal="index * 110"
-            :title="t(project.title)"
-            :description="t(project.description)"
-            :images="project.images"
-            :technologies="project.technologies"
-            :link="project.link"
-          />
-        </div>
+        <ProjectsCoverflow />
       </BaseContainer>
     </section>
 
@@ -75,7 +64,7 @@
 <script setup lang="ts">
 import AboutCard from "@/components/home/Section.vue";
 import CaseStudies from "@/components/home/CaseStudies.vue";
-import ProjectCard from "@/components/home/CardProyect.vue";
+import ProjectsCoverflow from "@/components/home/ProjectsCoverflow.vue";
 import ContactSection from "@/components/home/ContactSection.vue";
 import ExperienceWork from "@/components/home/ExperienceWork.vue";
 import HeroSection from "@/components/home/HeroSection.vue";
@@ -88,7 +77,6 @@ import Tecnologies from "@/components/shared/Tecnologies.vue";
 import { t } from "@/i18n";
 import { ui } from "@/i18n/ui";
 import { CardItems } from "@/data/data";
-import { projects } from "@/data/projects";
 import { testimonials } from "@/data/testimonials";
 
 const aboutCards = CardItems;
@@ -99,9 +87,6 @@ const aboutCards = CardItems;
   @apply bg-gray-50 dark:bg-gray-950 text-gray-800 dark:text-gray-100;
 }
 
-.projects-grid {
-  @apply mt-14 grid grid-cols-1 lg:grid-cols-2 gap-8;
-}
 
 .about-grid {
   @apply mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;

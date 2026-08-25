@@ -93,16 +93,31 @@ export const ui = {
   projects: {
     eyebrow: { es: "Más trabajo", en: "More work" },
     title: {
-      es: "Otros proyectos y experimentos",
-      en: "Other projects and experiments",
+      es: "Proyectos propios",
+      en: "My own projects",
     },
     subtitle: {
-      es: "Proyectos personales y académicos donde exploro nuevas tecnologías y pruebo ideas.",
-      en: "Personal and academic projects where I explore new technologies and test ideas.",
+      es: "Producto en producción, trabajo en curso y proyectos personales donde exploro nuevas tecnologías.",
+      en: "A product in production, work in progress and personal projects where I explore new technologies.",
     },
     view: { es: "Ver proyecto", en: "View project" },
     readMore: { es: "Leer más", en: "Read more" },
     readLess: { es: "Leer menos", en: "Read less" },
+    status: {
+      production: { es: "En producción", en: "In production" },
+      inProgress: { es: "En desarrollo", en: "In progress" },
+      archived: { es: "Archivado", en: "Archived" },
+    },
+    noPreview: {
+      es: "Capturas próximamente",
+      en: "Screenshots coming soon",
+    },
+    screenshotAlt: { es: "captura", en: "screenshot" },
+    prevImage: { es: "Imagen anterior", en: "Previous image" },
+    nextImage: { es: "Imagen siguiente", en: "Next image" },
+    goToImage: { es: "Ir a la imagen", en: "Go to image" },
+    prevProject: { es: "Proyecto anterior", en: "Previous project" },
+    nextProject: { es: "Proyecto siguiente", en: "Next project" },
   },
 
   about: {
