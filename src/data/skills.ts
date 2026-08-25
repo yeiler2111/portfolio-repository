@@ -3,8 +3,9 @@ import type { SkillGroup } from "@/utils/types";
 /**
  * Competencias organizadas en pilares de un perfil full stack versátil:
  * frontend multi-framework, backend, arquitectura de microservicios y
- * calidad. `title` y `description` son bilingües; `items` son nombres de
- * tecnología (no se traducen).
+ * calidad. `title` y `description` son bilingües. En `items`, los nombres
+ * propios de tecnología van como string plano (no se traducen) y las etiquetas
+ * descriptivas como objeto `{ es, en }`.
  */
 export const skillGroups: SkillGroup[] = [
   {
@@ -25,7 +26,7 @@ export const skillGroups: SkillGroup[] = [
       "TypeScript",
       "Tailwind CSS",
       "SPA / SSR",
-      "Accesibilidad (a11y)",
+      { es: "Accesibilidad (a11y)", en: "Accessibility (a11y)" },
     ],
   },
   {
@@ -43,7 +44,7 @@ export const skillGroups: SkillGroup[] = [
       "REST",
       "WebSockets",
       "OAuth2 / JWT",
-      "Redis (caché)",
+      { es: "Redis (caché)", en: "Redis (caching)" },
     ],
   },
   {
@@ -58,12 +59,12 @@ export const skillGroups: SkillGroup[] = [
       en: "Distributed, scalable systems deployed on AWS.",
     },
     items: [
-      "Microservicios",
+      { es: "Microservicios", en: "Microservices" },
       "AWS (EC2, Lambda)",
       "CodePipeline / CodeBuild",
       "CI/CD",
-      "Arquitectura en capas",
-      "Escalabilidad",
+      { es: "Arquitectura en capas", en: "Layered architecture" },
+      { es: "Escalabilidad", en: "Scalability" },
     ],
   },
   {
@@ -75,7 +76,7 @@ export const skillGroups: SkillGroup[] = [
       en: "Typed, tested and long-term maintainable code.",
     },
     items: [
-      "TypeScript estricto",
+      { es: "TypeScript estricto", en: "Strict TypeScript" },
       "Testing (Jest / Vitest)",
       "Playwright / Cypress",
       "Git & code reviews",

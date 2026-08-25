@@ -78,7 +78,7 @@ onBeforeUnmount(() => observer?.disconnect());
     <div class="header-inner container-page">
       <button
         class="logo-btn"
-        aria-label="Ir al inicio"
+        :aria-label="t(ui.nav.home)"
         @click="goToSection('top')"
       >
         <Logo :is-dark-mode="isDark" />
@@ -90,7 +90,7 @@ onBeforeUnmount(() => observer?.disconnect());
         buscadores los leen como enlaces internos reales. El click sigue
         interceptado para conservar el scroll suave y cerrar el menú.
       -->
-      <nav class="desktop-nav" aria-label="Navegación principal">
+      <nav class="desktop-nav" :aria-label="t(ui.nav.main)">
         <a
           v-for="item in navItems"
           :key="item.id"
@@ -131,7 +131,13 @@ onBeforeUnmount(() => observer?.disconnect());
           <Moon v-else :size="18" />
         </button>
 
-        <BaseButton to="/contactme" size="sm" class="hidden sm:inline-flex">
+        <!--
+          Visible tambien en movil. Estaba en `hidden sm:inline-flex`, asi que
+          por debajo de 640 px la unica conversion del sitio quedaba enterrada
+          dentro del menu hamburguesa. El hueco lo ceden el selector de idioma
+          y el de tema, que ahi se mueven al panel desplegable.
+        -->
+        <BaseButton to="/contactme" size="sm">
           {{ t(ui.hero.contact) }}
         </BaseButton>
 
@@ -154,7 +160,7 @@ onBeforeUnmount(() => observer?.disconnect());
         v-if="isMenuOpen"
         id="mobile-nav"
         class="mobile-nav"
-        aria-label="Navegación móvil"
+        :aria-label="t(ui.nav.mobile)"
       >
         <a
           v-for="item in navItems"
@@ -166,9 +172,33 @@ onBeforeUnmount(() => observer?.disconnect());
         >
           {{ t(item.label) }}
         </a>
-        <BaseButton to="/contactme" block class="mt-2" @click="isMenuOpen = false">
-          {{ t(ui.hero.contact) }}
-        </BaseButton>
+        <div class="mobile-prefs">
+          <div class="lang-toggle" role="group" :aria-label="t(ui.language)">
+            <button
+              type="button"
+              :class="['lang-btn', locale === 'es' && 'lang-active']"
+              @click="setLocale('es')"
+            >
+              ES
+            </button>
+            <button
+              type="button"
+              :class="['lang-btn', locale === 'en' && 'lang-active']"
+              @click="setLocale('en')"
+            >
+              EN
+            </button>
+          </div>
+
+          <button
+            class="theme-toggle"
+            :aria-label="isDark ? t(ui.theme.toLight) : t(ui.theme.toDark)"
+            @click="toggleTheme"
+          >
+            <Sun v-if="isDark" :size="18" />
+            <Moon v-else :size="18" />
+          </button>
+        </div>
       </nav>
     </transition>
   </header>
@@ -207,6 +237,20 @@ onBeforeUnmount(() => observer?.disconnect());
 
 .header-actions {
   @apply flex items-center gap-2 sm:gap-3;
+}
+
+/*
+ * En la barra, idioma y tema solo aparecen a partir de `sm`: por debajo el
+ * ancho se reserva para el CTA y ambos controles se repiten dentro del menu.
+ * El `sm:` va aqui dentro y no como clase suelta en la plantilla porque
+ * `.lang-toggle[data-v-x]` (0,2,0) le gana a `.hidden` (0,1,0) y el elemento
+ * seguiria visible.
+ */
+.header-actions > .lang-toggle {
+  @apply hidden sm:flex;
+}
+.header-actions > .theme-toggle {
+  @apply hidden sm:grid;
 }
 
 .lang-toggle {
@@ -249,6 +293,12 @@ onBeforeUnmount(() => observer?.disconnect());
          text-gray-700 dark:text-gray-200
          hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors;
 }
+/* Duplicado de idioma/tema para el tramo en que la barra no los muestra. */
+.mobile-prefs {
+  @apply flex sm:hidden items-center justify-between gap-3 mt-2 pt-3
+         border-t border-gray-200 dark:border-gray-800;
+}
+
 .mobile-link[aria-current] {
   @apply text-primary-600 dark:text-primary-400 bg-gray-100 dark:bg-gray-800;
 }

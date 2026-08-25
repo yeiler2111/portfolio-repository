@@ -2,20 +2,38 @@
   <main id="main-content" class="page" tabindex="-1">
     <HeroSection />
 
-    <!-- Prueba primero: casos de estudio justo después del hero -->
+    <!--
+      Casos y trayectoria, en un solo bloque.
+
+      Eran dos secciones seguidas contando lo mismo: Alegra, Global e-Health y
+      M&T aparecían con narrativa completa en `cases` y otra vez, casi con el
+      mismo texto, en `experience`. Ahora el caso de estudio se queda con la
+      historia y el timeline pasa a una línea por puesto que enlaza hacia él.
+
+      El `id="experience"` vive dentro de ExperienceWork para que el enlace del
+      menú y el scroll spy sigan funcionando sin cambios.
+    -->
     <section id="cases" class="section section-alt">
       <CaseStudies />
-    </section>
-
-    <section id="technologies" class="section">
       <BaseContainer>
-        <Tecnologies />
+        <ExperienceWork />
       </BaseContainer>
     </section>
 
-    <section id="experience" class="section section-alt">
-      <ExperienceWork />
-    </section>
+    <!--
+      Tech Stack retirado del recorrido (el componente y sus datos siguen ahí:
+      para recuperarlo basta descomentar este bloque y su import).
+
+      Duplicaba la sección Skills — las mismas tecnologías contadas dos veces —
+      a cambio de ~1.600 px de scroll y 36 peticiones a cdn.simpleicons.org, un
+      tercero del que dependía que la sección se viera completa. Skills dice lo
+      mismo agrupado por competencia, que es lo que se contrata.
+    -->
+    <!-- <section id="technologies" class="section">
+      <BaseContainer>
+        <Tecnologies />
+      </BaseContainer>
+    </section> -->
 
     <SkillsSection />
 
@@ -73,7 +91,7 @@ import SkillsSection from "@/components/home/SkillsSection.vue";
 import Testimonials from "@/components/home/Testimonials.vue";
 import BaseContainer from "@/components/ui/BaseContainer.vue";
 import SectionHeading from "@/components/ui/SectionHeading.vue";
-import Tecnologies from "@/components/shared/Tecnologies.vue";
+// import Tecnologies from "@/components/shared/Tecnologies.vue";
 import { t } from "@/i18n";
 import { ui } from "@/i18n/ui";
 import { CardItems } from "@/data/data";
@@ -89,6 +107,6 @@ const aboutCards = CardItems;
 
 
 .about-grid {
-  @apply mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+  @apply mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
 }
 </style>

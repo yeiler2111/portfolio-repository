@@ -1,25 +1,37 @@
 <template>
-  <BaseContainer>
-    <SectionHeading
-      :eyebrow="t(ui.experience.eyebrow)"
-      :title="t(ui.experience.title)"
-      :subtitle="t(ui.experience.subtitle)"
-    />
+  <!--
+    Timeline compacto, ya no una seccion propia.
+
+    Antes cada puesto repetia, casi palabra por palabra, el caso de estudio que
+    aparece justo encima: Alegra, Global e-Health y M&T se contaban dos veces
+    entre `cases` (2.276 px) y `experience` (1.959 px). Ahora los que tienen
+    `caseId` se reducen a una linea con enlace al caso, y solo conservan
+    descripcion los que no estan cubiertos arriba (Unicero, Fryends), que si no
+    se quedarian sin explicar en ninguna parte.
+  -->
+  <div id="experience" class="career">
+    <header class="career-head">
+      <h3 class="career-title">{{ t(ui.experience.timelineTitle) }}</h3>
+      <p class="career-note">{{ t(ui.experience.timelineNote) }}</p>
+    </header>
 
     <ol class="timeline">
       <li v-for="(job, index) in jobs" :key="index" class="timeline-item">
         <div class="timeline-marker">
-          <span class="marker-step">{{ jobs.length - index }}</span>
           <span class="marker-dot">
-            <component :is="iconFor(job.icon)" :size="16" />
+            <component :is="iconFor(job.icon)" :size="14" />
           </span>
-          <span v-if="index < jobs.length - 1" class="marker-line" aria-hidden="true"></span>
+          <span
+            v-if="index < jobs.length - 1"
+            class="marker-line"
+            aria-hidden="true"
+          ></span>
         </div>
 
-        <article class="card card-hover job-card">
+        <article class="job">
           <div class="job-header">
-            <div>
-              <h3 class="job-title">{{ t(job.title) }}</h3>
+            <div class="job-headings">
+              <h4 class="job-title">{{ t(job.title) }}</h4>
               <p class="job-company">{{ job.company }}</p>
             </div>
             <span v-if="job.isCurrent" class="job-current">
@@ -30,39 +42,56 @@
 
           <div class="job-meta">
             <span v-if="t(job.dates)" class="job-dates">
-              <Calendar :size="14" />
+              <Calendar :size="13" />
               {{ t(job.dates) }}
             </span>
             <span class="job-period">
-              <Clock :size="14" />
+              <Clock :size="13" />
               {{ t(job.period) }}
             </span>
           </div>
 
-          <p class="job-desc">{{ t(job.description) }}</p>
+          <!--
+            Sin caso arriba: esta es la unica descripcion del puesto en el
+            sitio, asi que se conserva completa.
+          -->
+          <p v-if="!job.caseId" class="job-desc">{{ t(job.description) }}</p>
 
-          <a
-            :href="job.link"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="job-link"
-          >
-            {{ t(ui.experience.visit) }}
-            <ArrowUpRight :size="15" />
-          </a>
+          <div class="job-links">
+            <!-- Con caso arriba: se enlaza en vez de repetir el parrafo. -->
+            <a
+              v-if="job.caseId"
+              :href="`#case-${job.caseId}`"
+              class="job-link job-link-case"
+              @click="goToCase(job.caseId, $event)"
+            >
+              <ArrowUp :size="14" />
+              {{ t(ui.experience.seeCase) }}
+            </a>
+
+            <a
+              :href="job.link"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="job-link"
+            >
+              {{ t(ui.experience.visit) }}
+              <ArrowUpRight :size="14" />
+            </a>
+          </div>
         </article>
       </li>
     </ol>
-  </BaseContainer>
+  </div>
 </template>
 
 <script setup lang="ts">
-import BaseContainer from "@/components/ui/BaseContainer.vue";
-import SectionHeading from "@/components/ui/SectionHeading.vue";
 import { t } from "@/i18n";
 import { ui } from "@/i18n/ui";
 import { jobs } from "@/data/data";
+import { scrollToSection } from "@/utils/scroll";
 import {
+  ArrowUp,
   ArrowUpRight,
   Briefcase,
   Calendar,
@@ -81,90 +110,121 @@ const icons: Record<string, Component> = {
 };
 const iconFor = (name: string): Component => icons[name] ?? Briefcase;
 
-/*
- * El badge "Actualidad" ahora viene de `job.isCurrent`, derivado de que el
- * puesto tenga `start` sin `end`. Antes se deducía con una expresión regular
- * sobre el texto ya traducido (/actual|present/), que se rompía en cuanto
- * cambiara la redacción o se añadiera otro idioma.
+/**
+ * El enlace tiene `href` real para que se pueda copiar y abrir en otra
+ * pestaña, pero el clic normal se intercepta: el caso está en esta misma
+ * página y un salto brusco haría perder el hilo de lectura.
+ *
+ * Reutiliza `scrollToSection`, el mismo helper del menú: ya respeta
+ * `prefers-reduced-motion` (un `scrollIntoView` suave desde JS ignora esa
+ * preferencia) y el hueco del header fijo lo resuelve el `scroll-mt-24` de la
+ * tarjeta, sin offsets a mano que se desincronicen si cambia el header.
  */
+const goToCase = (caseId: string, event: MouseEvent): void => {
+  if (event.ctrlKey || event.metaKey || event.shiftKey || event.button !== 0) {
+    return;
+  }
+  event.preventDefault();
+  scrollToSection(`case-${caseId}`);
+};
 </script>
 
 <style scoped lang="postcss">
+.career {
+  @apply mt-16 max-w-4xl mx-auto scroll-mt-24;
+}
+
+.career-head {
+  @apply pb-4 mb-8 border-b border-gray-200 dark:border-gray-800;
+}
+.career-title {
+  @apply text-lg font-bold text-gray-900 dark:text-white;
+}
+.career-note {
+  @apply mt-1 text-sm text-gray-500 dark:text-gray-400;
+}
+
 .timeline {
-  @apply mt-14 max-w-3xl mx-auto;
+  @apply flex flex-col;
 }
 
 .timeline-item {
-  @apply relative flex gap-5 pb-8 last:pb-0;
+  @apply relative flex gap-4 pb-6 last:pb-0;
 }
 
 .timeline-marker {
   @apply relative flex flex-col items-center shrink-0;
 }
 
-.marker-step {
-  @apply absolute -top-1 -left-1 z-10 grid place-items-center
-         w-5 h-5 rounded-full text-[10px] font-bold
-         bg-white dark:bg-gray-900 text-primary-600 dark:text-primary-400
-         ring-1 ring-primary-200 dark:ring-primary-800 shadow-sm;
-}
-
+/* Marcador mas pequeño que el de la version larga: aqui acompaña una fila,
+   no encabeza una tarjeta. */
 .marker-dot {
-  @apply grid place-items-center w-11 h-11 rounded-full text-white
+  @apply grid place-items-center w-8 h-8 rounded-full text-white
          bg-gradient-to-br from-primary-500 to-secondary-500
-         shadow-lg shadow-primary-500/25 ring-4 ring-white dark:ring-gray-950;
+         shadow-md shadow-primary-500/25
+         ring-4 ring-gray-50 dark:ring-gray-950;
 }
 
 .marker-line {
-  @apply flex-1 w-0.5 mt-2 rounded-full bg-gradient-to-b from-primary-300 to-primary-100
+  @apply flex-1 w-px mt-1.5 rounded-full
+         bg-gradient-to-b from-primary-300 to-primary-100
          dark:from-primary-700 dark:to-primary-900/40;
 }
 
-.job-card {
-  @apply flex-1 p-6 mb-2;
+/* Sin tarjeta: el timeline es una lista, no una pila de cajas. */
+.job {
+  @apply flex-1 pb-1;
 }
 
 .job-header {
   @apply flex items-start justify-between gap-3;
 }
-
-.job-title {
-  @apply text-lg font-bold text-gray-900 dark:text-white;
+.job-headings {
+  @apply flex flex-col;
 }
-
+.job-title {
+  @apply text-base font-bold leading-tight text-gray-900 dark:text-white;
+}
 .job-company {
   @apply text-sm font-semibold text-primary-600 dark:text-primary-400;
 }
 
 .job-current {
-  @apply inline-flex items-center gap-1.5 shrink-0 px-2.5 py-1 rounded-full text-xs font-semibold
+  @apply inline-flex items-center gap-1.5 shrink-0 px-2 py-0.5 rounded-full
+         text-[11px] font-semibold
          bg-success/10 text-emerald-700 dark:text-emerald-400
          border border-success/20;
 }
 .job-current-dot {
   @apply w-1.5 h-1.5 rounded-full bg-success;
-  box-shadow: 0 0 0 3px rgb(var(--color-success) / 0.2);
 }
 
 .job-meta {
-  @apply flex flex-wrap items-center gap-x-4 gap-y-1.5 mt-3;
+  @apply flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5;
 }
 .job-dates {
-  @apply inline-flex items-center gap-1.5
+  @apply inline-flex items-center gap-1
          text-xs font-semibold text-primary-600 dark:text-primary-400;
 }
 .job-period {
-  @apply inline-flex items-center gap-1.5
+  @apply inline-flex items-center gap-1
          text-xs font-medium text-gray-500 dark:text-gray-400;
 }
 
 .job-desc {
-  @apply mt-4 text-sm leading-relaxed text-gray-600 dark:text-gray-300;
+  @apply mt-2.5 text-sm leading-relaxed text-gray-600 dark:text-gray-300;
 }
 
+.job-links {
+  @apply flex flex-wrap items-center gap-x-4 gap-y-1 mt-2;
+}
 .job-link {
-  @apply inline-flex items-center gap-1 mt-4
-         text-sm font-semibold text-primary-600 dark:text-primary-400
-         hover:gap-1.5 transition-all;
+  @apply inline-flex items-center gap-1
+         text-xs font-semibold text-gray-500 dark:text-gray-400
+         hover:text-primary-600 dark:hover:text-primary-400 transition-colors;
+}
+.job-link-case {
+  @apply text-primary-600 dark:text-primary-400
+         hover:text-primary-700 dark:hover:text-primary-300;
 }
 </style>

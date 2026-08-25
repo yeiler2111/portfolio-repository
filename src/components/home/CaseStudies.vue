@@ -12,8 +12,10 @@
     </p>
 
     <div class="cases">
+      <!-- El `id` es el destino de los enlaces "Ver el caso" del timeline. -->
       <article
         v-for="(cs, index) in caseStudies"
+        :id="`case-${cs.id}`"
         :key="cs.id"
         v-reveal="index * 110"
         class="card card-hover case"
@@ -130,7 +132,7 @@ const iconFor = (name: string): Component => icons[name] ?? Boxes;
 }
 
 .case {
-  @apply p-7 sm:p-8;
+  @apply p-7 sm:p-8 scroll-mt-24;
 }
 
 .case-head {

@@ -16,6 +16,16 @@ const prefersReducedMotion = (): boolean =>
   typeof window !== "undefined" &&
   window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
+/**
+ * Tope del escalonado, en ms.
+ *
+ * El retardo se pasa como `index * 90`, así que en una rejilla de 9 tarjetas
+ * la última entraba 720 ms después de la primera: al scrollear a ritmo normal
+ * media sección quedaba en blanco. El stagger sirve para dar cadencia, no para
+ * hacer esperar, así que a partir de aquí todas entran juntas.
+ */
+const MAX_STAGGER_MS = 240;
+
 let observer: IntersectionObserver | null = null;
 
 const getObserver = (): IntersectionObserver => {
@@ -52,7 +62,7 @@ export const reveal: Directive<HTMLElement, number | undefined> = {
     if (prefersReducedMotion() || typeof IntersectionObserver === "undefined") {
       return;
     }
-    const delay = binding.value ?? 0;
+    const delay = Math.min(binding.value ?? 0, MAX_STAGGER_MS);
     if (delay) el.style.transitionDelay = `${delay}ms`;
     el.classList.add(variant);
     getObserver().observe(el);

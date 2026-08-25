@@ -25,8 +25,12 @@
           </div>
 
           <ul class="skill-tags">
-            <li v-for="item in group.items" :key="item" class="skill-tag">
-              {{ item }}
+            <li
+              v-for="item in group.items"
+              :key="itemLabel(item)"
+              class="skill-tag"
+            >
+              {{ itemLabel(item) }}
             </li>
           </ul>
         </article>
@@ -39,6 +43,7 @@
 import BaseContainer from "@/components/ui/BaseContainer.vue";
 import SectionHeading from "@/components/ui/SectionHeading.vue";
 import { t } from "@/i18n";
+import type { Localized } from "@/i18n";
 import { ui } from "@/i18n/ui";
 import { skillGroups } from "@/data/skills";
 import { Boxes, Layout, Network, Server, ShieldCheck } from "lucide-vue-next";
@@ -46,11 +51,18 @@ import type { Component } from "vue";
 
 const icons: Record<string, Component> = { Layout, Server, Network, ShieldCheck };
 const iconFor = (name: string): Component => icons[name] ?? Boxes;
+
+/**
+ * Un item es o el nombre propio de una tecnología (se muestra tal cual) o una
+ * etiqueta bilingüe que hay que resolver contra el idioma activo.
+ */
+const itemLabel = (item: string | Localized): string =>
+  typeof item === "string" ? item : t(item);
 </script>
 
 <style scoped lang="postcss">
 .skills-grid {
-  @apply mt-14 grid grid-cols-1 md:grid-cols-2 gap-6;
+  @apply mt-10 grid grid-cols-1 md:grid-cols-2 gap-6;
 }
 
 .skill-card {

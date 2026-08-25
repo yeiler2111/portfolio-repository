@@ -169,7 +169,15 @@ export interface SkillGroup {
   /** Nombre de un icono de lucide-vue-next (resuelto en la vista). */
   icon: string;
   description: Localized;
-  items: string[];
+  /**
+   * Nombre propio de una tecnología (`"NestJS"`, que no se traduce) o etiqueta
+   * bilingüe (`{ es: "Escalabilidad", en: "Scalability" }`).
+   *
+   * La lista era `string[]` y las etiquetas descriptivas quedaban congeladas en
+   * español: en inglés se leían "Microservicios", "Escalabilidad" o
+   * "TypeScript estricto" dentro de la tarjeta que presume de calidad.
+   */
+  items: (string | Localized)[];
 }
 
 

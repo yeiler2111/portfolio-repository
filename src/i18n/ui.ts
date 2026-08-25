@@ -54,6 +54,13 @@ export const ui = {
     },
     current: { es: "Actual", en: "Current" },
     visit: { es: "Visitar sitio", en: "Visit site" },
+    /* Sub-bloque dentro de la seccion de casos, tras la fusion. */
+    timelineTitle: { es: "Trayectoria completa", en: "Full career" },
+    timelineNote: {
+      es: "Los tres primeros puestos son los casos detallados arriba.",
+      en: "The first three roles are the cases detailed above.",
+    },
+    seeCase: { es: "Ver el caso", en: "See the case" },
   },
 
   skills: {
@@ -229,6 +236,17 @@ export const ui = {
   menu: {
     open: { es: "Abrir menú", en: "Open menu" },
     close: { es: "Cerrar menú", en: "Close menu" },
+  },
+
+  /*
+   * Etiquetas de accesibilidad. Estaban escritas a mano en la plantilla del
+   * header, así que un lector de pantalla en inglés oía "Ir al inicio" y
+   * "Navegación principal" en español.
+   */
+  nav: {
+    home: { es: "Ir al inicio", en: "Go to top" },
+    main: { es: "Navegación principal", en: "Main navigation" },
+    mobile: { es: "Navegación móvil", en: "Mobile navigation" },
   },
 
   toast: {

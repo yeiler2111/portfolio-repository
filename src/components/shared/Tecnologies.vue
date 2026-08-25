@@ -65,7 +65,7 @@ const iconFor = (name: string): Component => icons[name] ?? Wrench;
 
 <style scoped lang="postcss">
 .tech-categories {
-  @apply mt-14 space-y-10;
+  @apply mt-10 space-y-10;
 }
 
 .tech-category {

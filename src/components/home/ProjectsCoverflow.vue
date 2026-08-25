@@ -234,7 +234,7 @@ const onDragEnd = () => {
 
 <style scoped lang="postcss">
 .coverflow {
-  @apply mt-14;
+  @apply mt-10;
 }
 
 /*
@@ -277,9 +277,27 @@ const onDragEnd = () => {
 .slot :deep(.tilt-inner) {
   @apply h-full;
 }
-/* Con alto fijo, el cuerpo desplaza si el texto se despliega con "Leer más". */
+/*
+ * El cuerpo NO desplaza mientras la tarjeta esta plegada.
+ *
+ * Con `overflow-y: auto` permanente se convertia en un contenedor scrolleable
+ * anidado dentro del scroll de la pagina: con el cursor sobre la tarjeta la
+ * rueda se la comia el cuerpo y hacian falta ~8 clics para que la pagina
+ * avanzara 5 px. El visitante quedaba atrapado en la seccion.
+ *
+ * Ahora solo desborda cuando la persona despliega el texto con "Leer mas",
+ * que es el unico caso en que pidio ver mas contenido del que cabe. Plegada,
+ * lo que se recorta son las tags (que ya vienen limitadas a MAX_VISIBLE_TECHS
+ * y son lo prescindible); el CTA lleva `mt-auto` y queda siempre a la vista.
+ */
 .slot :deep(.body) {
-  @apply min-h-0 overflow-y-auto;
+  @apply min-h-0 overflow-hidden;
+}
+.slot :deep(.tech-tags) {
+  @apply min-h-0 overflow-hidden;
+}
+.slot :deep(.tilt-root.is-expanded) .body {
+  @apply overflow-y-auto;
 }
 
 /*

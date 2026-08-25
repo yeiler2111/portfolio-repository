@@ -107,6 +107,7 @@ const jobsData = [
     title: { es: "Desarrollador Frontend", en: "Frontend Developer" },
     company: "Alegra",
     icon: "code",
+    caseId: "alegra",
     start: "2025-12",
     description: {
       es: "Desarrollo y mantenimiento de microfrontends en Vue.js con arquitectura modular de alto rendimiento. Gestiono la arquitectura de dependencias, la compatibilidad de librerías y la integración entre módulos. Creo MCP servers (Model Context Protocol) y skills personalizados, y aplico modelos de lenguaje (LLMs) para automatizar tareas de desarrollo. Configuro infraestructura en AWS y pipelines CI/CD, con testing unitario (Jest, Vitest) y E2E (Playwright, Cypress) sobre escenarios críticos en producción.",
@@ -118,6 +119,7 @@ const jobsData = [
     title: { es: "Desarrollador Frontend & Soporte", en: "Frontend Developer & Support" },
     company: "Global e-Health",
     icon: "medical_services",
+    caseId: "global-ehealth",
     periodFallback: {
       es: "1 año y 3 meses (apoyo puntual como freelance)",
       en: "1 year 3 months (occasional freelance support)",
@@ -143,6 +145,7 @@ const jobsData = [
     title: { es: "Desarrollador Fullstack", en: "Fullstack Developer" },
     company: "M&T Consulting",
     icon: "engineering",
+    caseId: "public-sector",
     periodFallback: { es: "8 meses", en: "8 months" },
     description: {
       es: "Participé en varios proyectos para entidades públicas (Minsalud, ICFES). Desarrollé de forma integral la interfaz en Vue 3 + Pinia de una plataforma que centraliza a los prestadores de salud del país y su capacidad instalada (disponibilidad de camas y recursos). También construí backend en NestJS para generación masiva de PDFs. Aporté en el diseño de arquitecturas en capas y APIs REST, con entregas estables, mantenibles y alineadas a requerimientos de entidades públicas.",
@@ -166,6 +169,10 @@ const jobsData = [
 /**
  * Deriva `dates` y `period` de start/end. Si un puesto todavía no tiene
  * fechas, cae en `periodFallback` para no romper la vista.
+ *
+ * `caseId` (cuando existe) viaja tal cual dentro de `rest`: apunta al caso de
+ * estudio que ya narra ese puesto en detalle, y el timeline lo usa para
+ * enlazar en vez de repetir la descripción completa.
  */
 export const jobs = jobsData.map((job) => {
   const { start, end, periodFallback, ...rest } = job as typeof job & {

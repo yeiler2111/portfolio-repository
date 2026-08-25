@@ -2,6 +2,7 @@
   <article
     ref="cardRef"
     class="tilt-root"
+    :class="{ 'is-expanded': isExpanded }"
     @pointermove="handleTilt"
     @pointerleave="resetTilt"
   >
@@ -98,8 +99,11 @@
 
       <!-- Sin CTA, las tags se anclan abajo para que el grid no se descuadre. -->
       <div class="tech-tags" :class="{ 'mt-auto': !hasCta }">
-        <span v-for="tech in technologies" :key="String(tech)" class="chip">
+        <span v-for="tech in visibleTechnologies" :key="String(tech)" class="chip">
           {{ tech }}
+        </span>
+        <span v-if="hiddenTechCount" class="chip chip-more" :title="technologies.join(' · ')">
+          +{{ hiddenTechCount }}
         </span>
       </div>
 
@@ -213,6 +217,23 @@ let intervalId: number | null = null;
 let observer: IntersectionObserver | null = null;
 
 const shouldShowReadMore = computed(() => props.description.length > 150);
+
+/**
+ * Tope de tags visibles.
+ *
+ * La tarjeta vive en un escenario de alto fijo (660 px). Proyectos como Tocata
+ * declaran 11 tecnologias: tres filas de chips que desbordaban el cuerpo y lo
+ * obligaban a desplazarse, atrapando la rueda del raton. Ocho caben en dos
+ * filas y el resto se resume en un "+N" con el listado completo en el title.
+ */
+const MAX_VISIBLE_TECHS = 8;
+
+const visibleTechnologies = computed(() =>
+  props.technologies.slice(0, MAX_VISIBLE_TECHS)
+);
+const hiddenTechCount = computed(() =>
+  Math.max(0, props.technologies.length - MAX_VISIBLE_TECHS)
+);
 
 const STATUS_LABELS = {
   production: ui.projects.status.production,
@@ -480,6 +501,11 @@ onBeforeUnmount(() => {
 
 .tech-tags {
   @apply flex flex-wrap gap-2;
+}
+
+/* El resumen "+N" se lee como contador, no como una tecnologia mas. */
+.chip-more {
+  @apply font-semibold text-gray-500 dark:text-gray-400 cursor-help;
 }
 
 .line-clamp-3 {
