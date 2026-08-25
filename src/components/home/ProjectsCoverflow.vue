@@ -48,6 +48,7 @@
     <div class="controls">
       <button
         class="arrow"
+        :style="arrowStyle"
         :aria-label="t(ui.projects.prevProject)"
         @click="move(-1)"
       >
@@ -68,6 +69,7 @@
 
       <button
         class="arrow"
+        :style="arrowStyle"
         :aria-label="t(ui.projects.nextProject)"
         @click="move(1)"
       >
@@ -85,7 +87,8 @@ import { projects } from "@/data/projects";
 import { t } from "@/i18n";
 import { ui } from "@/i18n/ui";
 import { ChevronLeft, ChevronRight } from "lucide-vue-next";
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import { useTheme } from "@/composables/useTheme";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 
 /** Separación lateral entre tarjetas contiguas, en % del ancho de la tarjeta. */
 const SPREAD = 52;
@@ -123,6 +126,22 @@ onMounted(() => {
 onBeforeUnmount(() => {
   media?.removeEventListener("change", syncCompact);
 });
+
+const { isDark } = useTheme();
+
+/**
+ * Color de las flechas en linea, invertido respecto al tema.
+ *
+ * Se resuelve aqui y no en la hoja de estilos porque la utilidad `dark:` de
+ * Tailwind compila a `.arrow[data-v]:is(.dark *)` y ganaba la cascada incluso
+ * frente a selectores mas especificos y con !important: el boton salia blanco
+ * sobre las tarjetas claras del tema claro y no se veia.
+ */
+const arrowStyle = computed(() =>
+  isDark.value
+    ? { backgroundColor: "#ffffff", borderColor: "#ffffff", color: "#111827" }
+    : { backgroundColor: "#111827", borderColor: "#111827", color: "#ffffff" }
+);
 
 const total = projects.length;
 
@@ -263,6 +282,15 @@ const onDragEnd = () => {
   @apply min-h-0 overflow-y-auto;
 }
 
+/*
+ * Colores en CSS plano y con selector largo a proposito.
+ *
+ * Las utilidades `dark:` compilan a `.arrow[data-v]:is(.dark *)`, que tiene la
+ * misma especificidad que `.coverflow .arrow[data-v]` y va despues en la hoja,
+ * asi que ganaba por orden y el boton salia blanco tambien en el tema claro.
+ * Con `.controls` de por medio se sube la especificidad y deja de depender del
+ * orden. `:global()` aqui no sirve: no llega a compilar.
+ */
 .controls {
   @apply mt-8 flex items-center justify-center gap-4;
 }
@@ -277,29 +305,45 @@ const onDragEnd = () => {
   .coverflow {
     @apply relative;
   }
+  /*
+   * Por encima de las tarjetas: llevan z-index en linea hasta 100, y con un
+   * valor menor la tarjeta del fondo (aunque este borrosa y translucida)
+   * interceptaba el clic y la flecha no respondia.
+   */
+  /*
+   * Junto a la tarjeta activa, no en los extremos del contenedor: ahi quedaban
+   * tan lejos del foco de lectura que pasaban desapercibidas.
+   */
   .arrow {
-    @apply absolute z-50 w-12 h-12;
+    @apply absolute w-14 h-14;
+    z-index: 200;
     top: 330px;
     transform: translateY(-50%);
   }
   .arrow:first-of-type {
-    left: 0;
+    left: calc(50% - 300px);
   }
   .arrow:last-of-type {
-    right: 0;
+    right: calc(50% - 300px);
   }
   .controls {
     @apply gap-0;
   }
 }
 
+/*
+ * Contraste invertido respecto al tema: circulo oscuro sobre el fondo claro y
+ * circulo claro sobre el oscuro. Las tarjetas del carrusel toman el color del
+ * tema, asi que un boton del mismo tono se fundia con ellas y no se veia que
+ * hubiera un control.
+ */
 .arrow {
   @apply grid place-items-center w-11 h-11 rounded-full
-         bg-white dark:bg-gray-900
-         border border-gray-200 dark:border-gray-800
-         text-gray-700 dark:text-gray-300 shadow-sm
-         transition-all hover:border-primary-300 hover:text-primary-600
-         dark:hover:border-primary-700/60 dark:hover:text-primary-400
+         bg-gray-900 text-white border border-gray-900 shadow-xl
+         dark:bg-white dark:text-gray-900 dark:border-white
+         transition-all duration-200
+         hover:scale-110 hover:bg-primary-600 hover:border-primary-600
+         dark:hover:bg-primary-500 dark:hover:text-white dark:hover:border-primary-500
          disabled:opacity-35 disabled:pointer-events-none;
 }
 
@@ -333,6 +377,12 @@ const onDragEnd = () => {
   .slot {
     width: 360px;
     margin-left: -180px;
+  }
+  .arrow:first-of-type {
+    left: calc(50% - 250px);
+  }
+  .arrow:last-of-type {
+    right: calc(50% - 250px);
   }
 }
 
