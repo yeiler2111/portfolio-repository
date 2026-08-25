@@ -1,5 +1,5 @@
 <template>
-  <div class="coverflow">
+  <div class="coverflow" :class="{ 'coverflow--compact': compact }">
     <div
       ref="stageRef"
       class="stage"
@@ -17,7 +17,10 @@
         v-for="(project, index) in projects"
         :key="project.id"
         class="slot"
-        :class="{ 'slot--active': index === active }"
+        :class="{
+          'slot--active': index === active,
+          'slot--behind': compact && index !== active,
+        }"
         :style="slotStyle(index)"
         :aria-hidden="index !== active"
         @click="index === active ? null : goTo(index)"
@@ -82,7 +85,7 @@ import { projects } from "@/data/projects";
 import { t } from "@/i18n";
 import { ui } from "@/i18n/ui";
 import { ChevronLeft, ChevronRight } from "lucide-vue-next";
-import { ref } from "vue";
+import { onBeforeUnmount, onMounted, ref } from "vue";
 
 /** Separación lateral entre tarjetas contiguas, en % del ancho de la tarjeta. */
 const SPREAD = 52;
@@ -92,9 +95,34 @@ const DEPTH = 170;
 const ANGLE = 30;
 /** Más allá de esta distancia la tarjeta ya no se dibuja. */
 const VISIBLE = 3;
+/** Cuantas tarjetas asoman detras de la activa en el mazo de movil. */
+const DECK_DEPTH = 2;
 
 const active = ref(0);
 const stageRef = ref<HTMLElement | null>(null);
+
+/**
+ * Por debajo de 640 px no hay ancho para un coverflow: las tarjetas laterales
+ * se encaraman sobre la central y el contenido no cabe en un alto fijo. Ahi se
+ * muestra una sola tarjeta, a ancho completo y con la altura que pida su
+ * contenido, manteniendo el swipe y los controles.
+ */
+const COMPACT_QUERY = "(max-width: 639px)";
+const compact = ref(false);
+let media: MediaQueryList | null = null;
+const syncCompact = (event: MediaQueryListEvent | MediaQueryList) => {
+  compact.value = event.matches;
+};
+
+onMounted(() => {
+  media = window.matchMedia(COMPACT_QUERY);
+  syncCompact(media);
+  media.addEventListener("change", syncCompact);
+});
+
+onBeforeUnmount(() => {
+  media?.removeEventListener("change", syncCompact);
+});
 
 const total = projects.length;
 
@@ -112,6 +140,25 @@ const move = (step: number) => goTo(active.value + step);
  * de apilado correcto sin depender del orden del DOM.
  */
 const slotStyle = (index: number) => {
+  // En movil las tarjetas se apilan como una baraja: la activa al frente y las
+  // dos siguientes asomando por debajo. Solo cuenta la distancia hacia
+  // adelante, para que el mazo crezca siempre en el mismo sentido.
+  if (compact.value) {
+    const ahead = (index - active.value + total) % total;
+    if (ahead > DECK_DEPTH) return { display: "none" };
+    if (ahead === 0) return { zIndex: "30" };
+
+    // El desplazamiento vertical compensa lo que encoge la escala, para que el
+    // borde inferior quede por debajo del de la tarjeta activa y se vea asomar.
+    const scale = 1 - ahead * 0.05;
+    const shift = ahead * 34 + 10;
+    return {
+      transform: `translateY(${shift}px) scale(${scale})`,
+      opacity: String(0.7 - (ahead - 1) * 0.28),
+      zIndex: String(30 - ahead),
+    };
+  }
+
   // Distancia por el camino mas corto, para que las ultimas tarjetas aparezcan
   // a la izquierda de la primera en vez de quedar todas amontonadas a un lado.
   let offset = index - active.value;
@@ -220,6 +267,32 @@ const onDragEnd = () => {
   @apply mt-8 flex items-center justify-center gap-4;
 }
 
+/*
+ * En tablet y escritorio las flechas se sacan a los lados del escenario, a la
+ * altura de la tarjeta: cambiar de proyecto no obliga a bajar la vista hasta
+ * el final. `top` se calcula a partir del alto del escenario, que es fijo.
+ * En movil se quedan en la fila de abajo, junto a los puntos.
+ */
+@media (min-width: 640px) {
+  .coverflow {
+    @apply relative;
+  }
+  .arrow {
+    @apply absolute z-50 w-12 h-12;
+    top: 330px;
+    transform: translateY(-50%);
+  }
+  .arrow:first-of-type {
+    left: 0;
+  }
+  .arrow:last-of-type {
+    right: 0;
+  }
+  .controls {
+    @apply gap-0;
+  }
+}
+
 .arrow {
   @apply grid place-items-center w-11 h-11 rounded-full
          bg-white dark:bg-gray-900
@@ -245,27 +318,64 @@ const onDragEnd = () => {
   @apply mt-3 text-center text-xs font-medium text-gray-500 dark:text-gray-400;
 }
 
-/* --- Responsive: menos profundidad y menos vecinos en pantallas pequeñas --- */
-@media (max-width: 1024px) {
+/* El escenario se recorta lateralmente para que las tarjetas del fondo no
+   generen scroll horizontal en la pagina. */
+.coverflow {
+  overflow-x: clip;
+}
+
+/* --- Tablet: misma idea, con menos profundidad --- */
+@media (min-width: 640px) and (max-width: 1024px) {
   .stage {
-    height: 640px;
+    height: 660px;
     perspective: 1400px;
   }
   .slot {
-    width: 380px;
-    margin-left: -190px;
+    width: 360px;
+    margin-left: -180px;
   }
 }
 
-@media (max-width: 640px) {
-  .stage {
-    height: 620px;
-    perspective: 1100px;
-  }
-  .slot {
-    width: 290px;
-    margin-left: -145px;
-  }
+/* --- Movil: una sola tarjeta, sin 3D, con la altura de su contenido --- */
+.coverflow--compact .stage {
+  height: auto;
+  perspective: none;
+  transform-style: flat;
+}
+.coverflow--compact .slot {
+  @apply relative left-auto top-auto w-full cursor-default;
+  margin-left: 0;
+  height: auto;
+  transform: none;
+  filter: none;
+  opacity: 1;
+  transform-origin: 50% 50%;
+  transition:
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.45s ease;
+}
+
+/*
+ * Las de detras se calcan sobre la caja de la activa, que es la unica en flujo
+ * y por tanto la que fija el alto del mazo. Se recorta su contenido: de ellas
+ * solo interesa el borde que asoma.
+ */
+.coverflow--compact .slot--behind {
+  @apply absolute inset-0 pointer-events-none overflow-hidden;
+}
+.coverflow--compact .slot--behind :deep(.tilt-inner) {
+  @apply h-full;
+}
+.coverflow--compact .slot :deep(.tilt-root) {
+  @apply h-auto;
+  pointer-events: auto;
+}
+.coverflow--compact .slot :deep(.tilt-inner) {
+  @apply h-auto;
+}
+/* Con altura libre el cuerpo ya no necesita desplazarse. */
+.coverflow--compact .slot :deep(.body) {
+  @apply overflow-visible;
 }
 
 @media (prefers-reduced-motion: reduce) {
