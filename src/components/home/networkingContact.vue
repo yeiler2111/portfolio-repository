@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useEmailFallback } from "@/composables/useEmailFallback";
 import { contact } from "@/data/site";
 import { Github, Linkedin, Mail, MessageCircle } from "lucide-vue-next";
 import type { Component } from "vue";
@@ -8,7 +9,11 @@ interface SocialItem {
   href: string;
   icon: Component;
   accent: string;
+  /** Marca el enlace de correo: no abre pestaña y copia la dirección. */
+  isEmail?: boolean;
 }
+
+const { copyEmail } = useEmailFallback();
 
 const whatsappHref = `https://wa.me/${contact.phone}?text=${encodeURIComponent(
   contact.whatsappText
@@ -38,6 +43,7 @@ const items: SocialItem[] = [
     href: `mailto:${contact.email}`,
     icon: Mail,
     accent: "hover:text-rose-600 dark:hover:text-rose-400",
+    isEmail: true,
   },
 ];
 </script>
@@ -48,11 +54,12 @@ const items: SocialItem[] = [
       v-for="item in items"
       :key="item.label"
       :href="item.href"
-      target="_blank"
+      :target="item.isEmail ? undefined : '_blank'"
       rel="noopener noreferrer"
       :aria-label="item.label"
       class="social-link"
       :class="item.accent"
+      @click="item.isEmail && copyEmail()"
     >
       <component :is="item.icon" :size="22" />
     </a>

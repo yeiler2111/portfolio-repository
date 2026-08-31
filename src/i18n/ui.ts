@@ -173,6 +173,21 @@ export const ui = {
     },
     send: { es: "Enviar mensaje", en: "Send message" },
     directEmail: { es: "Email directo", en: "Direct email" },
+    /*
+     * `mailto:` solo abre algo si el sistema tiene un cliente de correo
+     * registrado. En móvil siempre lo hay; en escritorio, si el usuario lee el
+     * correo en una pestaña del navegador y no ha registrado un manejador, el
+     * clic no hace absolutamente nada. Copiamos la dirección en el mismo clic
+     * para que el botón nunca se quede mudo.
+     */
+    emailCopied: {
+      es: "Dirección copiada: {email}",
+      en: "Address copied: {email}",
+    },
+    emailCopyFailed: {
+      es: "Escríbeme a {email}",
+      en: "Write to me at {email}",
+    },
     connectVia: { es: "O conéctate conmigo en", en: "Or connect with me on" },
     features: {
       fastTitle: { es: "Respuesta rápida", en: "Fast response" },

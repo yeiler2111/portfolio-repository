@@ -17,9 +17,10 @@
           {{ t(ui.contact.send) }}
         </BaseButton>
         <BaseButton
-          href="mailto:yeiler2209@gmail.com"
+          :href="`mailto:${contact.email}`"
           variant="outline"
           size="lg"
+          @click="copyEmail"
         >
           <template #icon-left><Send :size="20" /></template>
           {{ t(ui.contact.directEmail) }}
@@ -60,10 +61,14 @@
 import Networking from "@/components/home/networkingContact.vue";
 import BaseButton from "@/components/ui/BaseButton.vue";
 import BaseContainer from "@/components/ui/BaseContainer.vue";
+import { useEmailFallback } from "@/composables/useEmailFallback";
+import { contact } from "@/data/site";
 import { t } from "@/i18n";
 import { ui } from "@/i18n/ui";
 import { CheckCircle2, Clock, Mail, Send, Users } from "lucide-vue-next";
 import ContactFeature from "./ContactFeature.vue";
+
+const { copyEmail } = useEmailFallback();
 </script>
 
 <style scoped lang="postcss">
