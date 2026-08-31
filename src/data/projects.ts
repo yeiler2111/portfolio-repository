@@ -149,97 +149,49 @@ export const projects: Project[] = [
     },
     link: "https://seprinort.com/",
   },
+  /*
+   * Boda y XV fueron dos encargos distintos, pero son el mismo motor: enlace
+   * único por invitado, RSVP y panel de gestión. Ocupaban dos tarjetas con la
+   * misma narrativa; juntas cuentan algo mejor —que el producto se reusó y se
+   * adaptó— y liberan un slot en la parrilla.
+   */
   {
-    id: "invitacion-boda",
+    id: "invitaciones-digitales",
     title: {
-      es: "Invitación de boda digital con confirmación de asistencia",
-      en: "Digital wedding invitation with RSVP",
+      es: "Invitaciones digitales con RSVP y panel de gestión",
+      en: "Digital invitations with RSVP and a management panel",
     },
     description: {
-      es: "Invitación web full-stack con una URL única por invitado: cada enlace carga su nombre, sus cupos disponibles y los eventos a los que está invitado. Incluye confirmación de asistencia, selección de menú, cuenta regresiva, código de vestimenta con paleta de colores, mapa del lugar, música ambiental y un panel de administración con el estado de todas las invitaciones. El frontend es Vue 3 con TypeScript, Pinia, Tailwind y animaciones con motion-v; el backend, Express 5 con Prisma sobre PostgreSQL. Para poder enseñarla sin backend y sin exponer datos reales de invitados, añadí un modo demostración: un identificador reservado hace que el servicio devuelva datos ficticios y guarde la confirmación en el navegador, así se puede recorrer la invitación completa —incluido el RSVP— contra un despliegue estático. La demo incluye también el panel de administración —estadísticas de confirmaciones, cupos usados y disponibles, y el listado de invitados con sus acompañantes—, al que se entra en /admin con la contraseña «demo»; ahí un aviso deja claro que los datos son ficticios y que guardar cambios necesita el backend.",
-      en: "Full-stack web invitation with a unique URL per guest: each link loads their name, their available seats and the events they are invited to. It covers RSVP, menu selection, a countdown, a dress code with colour palette, a venue map, background music and an admin panel showing the status of every invitation. The frontend is Vue 3 with TypeScript, Pinia, Tailwind and motion-v animations; the backend is Express 5 with Prisma over PostgreSQL. To be able to show it without a backend and without exposing real guest data, I added a demo mode: a reserved identifier makes the service return fictional data and store the RSVP in the browser, so the whole invitation —RSVP included— can be explored on a static deployment. The demo also includes the admin panel —RSVP statistics, used and available seats, and the guest list with their companions— reachable at /admin with the password \"demo\"; a notice there makes clear the data is fictional and that saving changes needs the backend.",
+      es: "Un mismo motor de invitaciones desplegado en dos eventos reales, una boda y unos XV años. La pieza central es el enlace único por invitado: cada URL carga su nombre, sus cupos y los eventos a los que está invitado, confirma asistencia y —en la boda— elige menú. Detrás hay un panel de gestión con estadísticas de confirmación, cupos comprometidos y disponibles, listado de invitados con acompañantes, y generación de enlaces con el mensaje de WhatsApp listo para enviar. El backend es Express con Prisma sobre PostgreSQL en ambos casos; lo que cambia es la capa de experiencia: la boda es Vue 3 + TypeScript con Pinia y un recorrido por secciones, y los XV son un recorrido a pantalla completa animado con GSAP, con gráficos en Chart.js dentro del panel. Para poder enseñarlas sin backend y sin exponer datos reales de invitados, las dos tienen modo demostración con datos ficticios: en la boda el RSVP se guarda en el navegador y funciona de punta a punta; en los XV las escrituras se rechazan a propósito con un aviso, para que se vea dónde termina el frontend y empieza el servidor.",
+      en: "One invitation engine deployed for two real events, a wedding and a quinceañera. The core piece is the per-guest link: each URL loads their name, their seats and the events they are invited to, takes the RSVP and —for the wedding— the menu choice. Behind it sits a management panel with RSVP statistics, committed and available seats, the guest list with companions, and link generation with a ready-to-send WhatsApp message. The backend is Express with Prisma over PostgreSQL in both cases; what changes is the experience layer: the wedding is Vue 3 + TypeScript with Pinia and a section-by-section journey, while the quinceañera is a full-screen journey animated with GSAP, with Chart.js charts inside the panel. To be able to show them without a backend and without exposing real guest data, both ship a demo mode with fictional data: in the wedding the RSVP is stored in the browser and works end to end; in the quinceañera writes are deliberately rejected with a notice, so it is clear where the frontend ends and the server begins.",
     },
     images: [
       "/img/matrimonio/invitacion-hero.webp",
-      "/img/matrimonio/invitacion-evento.webp",
       "/img/matrimonio/invitacion-rsvp.webp",
+      "/img/nicolle-xv/invitacion.webp",
+      "/img/nicolle-xv/panel.webp",
     ],
     technologies: [
       "Vue 3",
       "TypeScript",
       "Pinia",
       "Tailwind CSS",
-      "motion-v",
-      "Leaflet",
-      "Express 5",
-      "Prisma",
-      "PostgreSQL",
-    ],
-    highlights: {
-      es: [
-        "URL única por invitado, con sus cupos y sus eventos",
-        "Modo demo sin backend, con el RSVP funcionando",
-        "Panel de administración navegable",
-      ],
-      en: [
-        "A unique URL per guest, with their seats and events",
-        "Demo mode without a backend, RSVP still working",
-        "Browsable admin panel",
-      ],
-    },
-    status: "demo",
-    context: {
-      es: "Proyecto personal",
-      en: "Personal project",
-    },
-    // Dos formas de recorrerla: como invitado y como quien la organiza.
-    links: [
-      {
-        label: { es: "Ver como invitado", en: "View as guest" },
-        url: "https://wedding-invitation-yeiler.netlify.app/",
-      },
-      {
-        label: { es: "Ver el panel", en: "View the panel" },
-        url: "https://wedding-invitation-yeiler.netlify.app/admin/login",
-        hint: { es: "Contraseña: demo", en: "Password: demo" },
-      },
-    ],
-  },
-  {
-    id: "nicolle-xv",
-    title: {
-      es: "Invitación de XV años con panel de gestión",
-      en: "Quinceañera invitation with a management panel",
-    },
-    description: {
-      es: "Invitación digital de quince años construida como un recorrido a pantalla completa con scroll por secciones: un sobre que se abre al tocarlo, la historia, la familia, la fecha, la ubicación con vídeo de cómo llegar, el código de vestimenta y la confirmación de asistencia. Cada invitado entra por su propio enlace, que carga su nombre y sus cupos. Detrás hay un panel de gestión con estadísticas de confirmaciones, gráfico de distribución, cupos comprometidos, listado de invitados, generación de enlaces con mensaje de WhatsApp listo para enviar, y los comentarios que deja cada uno al responder. El frontend es Vue 3 con Vite, animaciones con GSAP y gráficos con Chart.js; el backend, Express con Prisma sobre PostgreSQL. Para poder enseñarla sin backend añadí un modo demostración con datos ficticios: la invitación se abre en la raíz y al panel se entra en /admin con el PIN 0000. En el panel, las acciones que escriben en la base de datos se rechazan a propósito con un aviso, para que se vea con claridad dónde termina el frontend y empieza el servidor.",
-      en: "Quinceañera digital invitation built as a full-screen journey with section scrolling: an envelope that opens on tap, the story, the family, the date, the venue with a how-to-get-there video, the dress code and the RSVP. Each guest enters through their own link, which loads their name and their seats. Behind it sits a management panel with RSVP statistics, a distribution chart, committed seats, the guest list, link generation with a ready-to-send WhatsApp message, and the comments each guest leaves when replying. The frontend is Vue 3 with Vite, GSAP animations and Chart.js charts; the backend is Express with Prisma over PostgreSQL. To be able to show it without a backend I added a demo mode with fictional data: the invitation opens at the root and the panel is reachable at /admin with PIN 0000. In the panel, actions that write to the database are deliberately rejected with a notice, so it is clear where the frontend ends and the server begins.",
-    },
-    images: [
-      "/img/nicolle-xv/invitacion.webp",
-      "/img/nicolle-xv/panel.webp",
-    ],
-    technologies: [
-      "Vue 3",
-      "Vite",
-      "JavaScript",
       "GSAP",
       "Chart.js",
-      "VueUse",
       "Express",
       "Prisma",
       "PostgreSQL",
     ],
     highlights: {
       es: [
-        "Recorrido a pantalla completa animado con GSAP",
-        "Panel con estadísticas y generación de enlaces",
-        "Modo demo que rechaza las escrituras a propósito",
+        "Un motor reusado en dos eventos reales, con distinta capa de experiencia",
+        "URL única por invitado y panel con estadísticas y generación de enlaces",
+        "Modo demo sin backend, con el RSVP funcionando de punta a punta",
       ],
       en: [
-        "Full-screen journey animated with GSAP",
-        "Panel with statistics and link generation",
-        "Demo mode that deliberately rejects writes",
+        "One engine reused across two real events, with a different experience layer",
+        "A unique URL per guest and a panel with statistics and link generation",
+        "Demo mode without a backend, with the RSVP working end to end",
       ],
     },
     status: "demo",
@@ -247,15 +199,28 @@ export const projects: Project[] = [
       es: "Proyecto personal",
       en: "Personal project",
     },
+    /*
+     * Cuatro entradas: cada evento se recorre como invitado y como quien lo
+     * organiza. En `sm` caen en una rejilla 2x2, una fila por evento.
+     */
     links: [
       {
-        label: { es: "Ver como invitado", en: "View as guest" },
+        label: { es: "Boda · invitado", en: "Wedding · guest" },
+        url: "https://wedding-invitation-yeiler.netlify.app/",
+      },
+      {
+        label: { es: "Boda · panel", en: "Wedding · panel" },
+        url: "https://wedding-invitation-yeiler.netlify.app/admin/login",
+        hint: { es: "Boda, contraseña: demo", en: "Wedding, password: demo" },
+      },
+      {
+        label: { es: "XV · invitado", en: "Quinceañera · guest" },
         url: "https://myfiffteendbirthday.netlify.app/",
       },
       {
-        label: { es: "Ver el panel", en: "View the panel" },
+        label: { es: "XV · panel", en: "Quinceañera · panel" },
         url: "https://myfiffteendbirthday.netlify.app/admin",
-        hint: { es: "PIN: 0000", en: "PIN: 0000" },
+        hint: { es: "XV, PIN: 0000", en: "Quinceañera, PIN: 0000" },
       },
     ],
   },

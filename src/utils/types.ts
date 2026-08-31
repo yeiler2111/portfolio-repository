@@ -90,7 +90,8 @@ export interface WorkExperience {
   icon: string;
   period: string;
   description: string;
-  link: string;
+  /** Opcional: no todos los puestos tienen un sitio público al que enlazar. */
+  link?: string;
   current?: boolean;
   technologies?: string[];
 }

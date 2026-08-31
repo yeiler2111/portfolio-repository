@@ -9,8 +9,8 @@ export const ui = {
   hero: {
     greeting: { es: "Hola, soy", en: "Hi, I'm" },
     available: {
-      es: "Disponible para nuevos proyectos",
-      en: "Available for new projects",
+      es: "Abierto a nuevas oportunidades",
+      en: "Open to new opportunities",
     },
     contact: { es: "Contáctame", en: "Get in touch" },
     downloadCV: { es: "Descargar CV", en: "Download CV" },
@@ -18,7 +18,7 @@ export const ui = {
     stats: {
       years: { es: "Años de experiencia", en: "Years of experience" },
       projects: { es: "Proyectos", en: "Projects" },
-      companies: { es: "Empresas y clientes", en: "Companies & clients" },
+      companies: { es: "Empresas", en: "Companies" },
       technologies: { es: "Tecnologías", en: "Technologies" },
     },
   },
@@ -57,8 +57,10 @@ export const ui = {
     /* Sub-bloque dentro de la seccion de casos, tras la fusion. */
     timelineTitle: { es: "Trayectoria completa", en: "Full career" },
     timelineNote: {
-      es: "Los tres primeros puestos son los casos detallados arriba.",
-      en: "The first three roles are the cases detailed above.",
+      // Al ordenar el timeline por fecha, los puestos con caso dejaron de ser
+      // los tres primeros: ahora se señalan por su enlace, no por su posición.
+      es: "Los puestos con «Ver el caso» son los detallados arriba.",
+      en: "The roles with a “View the case” link are the ones detailed above.",
     },
     seeCase: { es: "Ver el caso", en: "See the case" },
   },
@@ -70,8 +72,8 @@ export const ui = {
       en: "A versatile end-to-end profile",
     },
     subtitle: {
-      es: "Del frontend multi-framework al backend y la arquitectura de microservicios en la nube: elijo la herramienta según el problema, no al revés.",
-      en: "From multi-framework frontend to backend and cloud microservice architecture: I pick the tool for the problem, not the other way around.",
+      es: "Del frontend multi-framework al backend y la infraestructura en la nube que lo sostiene: elijo la herramienta según el problema, no al revés.",
+      en: "From multi-framework frontend to backend and the cloud infrastructure that holds it up: I pick the tool for the problem, not the other way around.",
     },
   },
 
@@ -159,13 +161,15 @@ export const ui = {
 
   contact: {
     eyebrow: { es: "Contacto", en: "Contact" },
+    // Enfocado a oportunidades de empleo, no a encargos: el pitch anterior
+    // ("da vida a tu proyecto") ofrecía trabajo por proyecto.
     title: {
-      es: "¿Listo para dar vida a tu próximo proyecto?",
-      en: "Ready to bring your next project to life?",
+      es: "¿Buscas a alguien para tu equipo?",
+      en: "Looking for someone for your team?",
     },
     lead: {
-      es: "Si tienes una idea en mente o necesitas ayuda con tu proyecto, me encantaría escucharte. Trabajemos juntos para crear algo increíble.",
-      en: "If you have an idea in mind or need help with your project, I'd love to hear from you. Let's work together to build something amazing.",
+      es: "Si estás armando equipo o quieres ver alguno de estos proyectos con más detalle, escríbeme. Respondo a todos los mensajes.",
+      en: "If you are putting a team together, or want a closer look at any of these projects, get in touch. I reply to every message.",
     },
     send: { es: "Enviar mensaje", en: "Send message" },
     directEmail: { es: "Email directo", en: "Direct email" },
@@ -176,15 +180,17 @@ export const ui = {
         es: "Respondo en menos de 24 horas",
         en: "I reply in under 24 hours",
       },
-      freeTitle: { es: "Consulta gratuita", en: "Free consultation" },
+      freeTitle: { es: "Primera conversación", en: "Intro conversation" },
       freeDesc: {
         es: "Primera reunión sin compromiso",
         en: "First meeting, no commitment",
       },
-      flexTitle: { es: "Colaboración flexible", en: "Flexible collaboration" },
+      // Sin oferta de freelance: hay un contrato de exclusividad vigente, así
+      // que el sitio no puede anunciar disponibilidad para trabajo por encargo.
+      flexTitle: { es: "Modalidad de trabajo", en: "Working arrangement" },
       flexDesc: {
-        es: "Freelance o tiempo completo",
-        en: "Freelance or full-time",
+        es: "Tiempo completo",
+        en: "Full-time",
       },
     },
   },

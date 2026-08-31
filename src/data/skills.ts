@@ -2,7 +2,7 @@ import type { SkillGroup } from "@/utils/types";
 
 /**
  * Competencias organizadas en pilares de un perfil full stack versátil:
- * frontend multi-framework, backend, arquitectura de microservicios y
+ * frontend multi-framework, backend, arquitectura e infraestructura, y
  * calidad. `title` y `description` son bilingües. En `items`, los nombres
  * propios de tecnología van como string plano (no se traducen) y las etiquetas
  * descriptivas como objeto `{ es, en }`.
@@ -50,13 +50,13 @@ export const skillGroups: SkillGroup[] = [
   {
     id: "architecture",
     title: {
-      es: "Arquitectura & Microservicios",
-      en: "Architecture & Microservices",
+      es: "Arquitectura & Infraestructura",
+      en: "Architecture & Infrastructure",
     },
     icon: "Network",
     description: {
-      es: "Sistemas distribuidos y escalables desplegados sobre AWS.",
-      en: "Distributed, scalable systems deployed on AWS.",
+      es: "Diseño, despliego y opero sobre AWS, con CI/CD propio.",
+      en: "I design, deploy and operate on AWS, with my own CI/CD.",
     },
     items: [
       { es: "Microservicios", en: "Microservices" },

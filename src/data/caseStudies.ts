@@ -4,9 +4,13 @@ import type { CaseStudy } from "@/utils/types";
  * Casos de estudio construidos a partir de experiencia profesional real.
  * Estructura: Problema de negocio → Arquitectura/Solución → Resultado.
  *
- * NOTA: en `outcome`, reemplaza los resultados cualitativos por MÉTRICAS
- * reales cuando las tengas (ej. "-40% tiempo de despliegue", "+15 módulos").
  * Los campos traducibles son objetos { es, en }.
+ *
+ * Las métricas de `outcome` salen de fuentes verificables, no de estimaciones:
+ * el −40% de despliegue y el equipo de 3 estaban en la hoja de vida
+ * (`assets-source/cv/cv_data.py`) y nunca se habían traído aquí; la escala del
+ * REPS sale de la API de datos abiertos. Si un dato no se puede sostener, se
+ * borra la línea en vez de rellenarla.
  */
 export const caseStudies: CaseStudy[] = [
   {
@@ -25,7 +29,7 @@ export const caseStudies: CaseStudy[] = [
       es: [
         "Arquitectura de microfrontends en Vue.js con módulos desacoplados",
         "Gestión de dependencias y estrategias de integración entre módulos",
-        "MCP servers (Model Context Protocol) y skills a medida para potenciar flujos con IA",
+        "MCP servers (Model Context Protocol) y skills a medida integrados al flujo de desarrollo",
         "Uso de LLMs para automatizar tareas repetitivas de desarrollo",
         "Infraestructura en AWS y pipelines CI/CD (CodePipeline / CodeBuild)",
         "Testing unitario (Jest, Vitest) y E2E (Playwright, Cypress)",
@@ -33,7 +37,7 @@ export const caseStudies: CaseStudy[] = [
       en: [
         "Microfrontend architecture in Vue.js with decoupled modules",
         "Dependency management and integration strategies across modules",
-        "MCP servers (Model Context Protocol) and custom skills to boost AI-powered workflows",
+        "MCP servers (Model Context Protocol) and custom skills wired into the development workflow",
         "Use of LLMs to automate repetitive development tasks",
         "AWS infrastructure and CI/CD pipelines (CodePipeline / CodeBuild)",
         "Unit testing (Jest, Vitest) and E2E (Playwright, Cypress)",
@@ -41,13 +45,13 @@ export const caseStudies: CaseStudy[] = [
     },
     outcome: {
       es: [
-        "Equipos entregando en paralelo sobre módulos independientes",
-        "Tareas de desarrollo automatizadas mediante flujos con IA",
+        "2 microfrontends bajo mi responsabilidad, más trabajo transversal en los de otros equipos",
+        "MCP server propio para conectar el flujo de desarrollo con Google Chat",
         "Cobertura de escenarios críticos en producción con testing E2E",
       ],
       en: [
-        "Teams shipping in parallel on independent modules",
-        "Development tasks automated through AI-powered workflows",
+        "2 microfrontends under my ownership, plus cross-team work on other teams'",
+        "An MCP server of my own connecting the development workflow to Google Chat",
         "Critical production scenarios covered with E2E testing",
       ],
     },
@@ -87,12 +91,12 @@ export const caseStudies: CaseStudy[] = [
     },
     outcome: {
       es: [
-        "Infraestructura replicable que redujo los tiempos de despliegue",
+        "Infraestructura replicable con snapshots: −40% en tiempos de despliegue",
         "Continuidad del servicio asegurada con soporte N1–N3",
         "Videoconsulta y visor de imágenes médicas en producción",
       ],
       en: [
-        "Replicable infrastructure that reduced deployment times",
+        "Replicable snapshot-based infrastructure: −40% deployment time",
         "Service continuity ensured with tier 1–3 support",
         "Video consultation and medical image viewer in production",
       ],
@@ -130,16 +134,25 @@ export const caseStudies: CaseStudy[] = [
         "Also: NestJS backend for mass PDF generation (ICFES project)",
       ],
     },
+    /*
+     * La escala sale del REPS público, no de una estimación: consulta a la API
+     * de datos abiertos del dataset c36g-9fc2 (datos.gov.co), corte del 12 de
+     * marzo de 2026 — 61.073 prestadores y 76.821 sedes distintos. Se redondea
+     * a la baja para que el número no envejezca mal.
+     *
+     * PENDIENTE: el volumen de PDFs por corrida del backend de ICFES, que es
+     * el único dato de los tres que no es público.
+     */
     outcome: {
       es: [
-        "Interfaz que centraliza a los prestadores de salud del país",
+        "Interfaz sobre el registro nacional de salud: 61.000+ prestadores y 76.000+ sedes",
         "Visibilidad de capacidad instalada y disponibilidad de camas en tiempo real",
-        "Entregas estables y mantenibles a escala institucional",
+        "Backend de generación masiva de PDFs para ICFES, en producción",
       ],
       en: [
-        "Interface centralizing the country's healthcare providers",
+        "Frontend over the national health registry: 61,000+ providers and 76,000+ sites",
         "Real-time visibility of installed capacity and bed availability",
-        "Stable, maintainable delivery at institutional scale",
+        "Mass PDF generation backend for ICFES, live in production",
       ],
     },
     stack: ["Vue 3", "Pinia", "NestJS", "REST", "PostgreSQL"],

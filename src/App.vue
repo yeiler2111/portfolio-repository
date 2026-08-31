@@ -16,12 +16,12 @@ const meta = {
     en: "Yeiler Simons Romero - Software Developer",
   },
   description: {
-    es: "Portafolio de Yeiler Simons Romero, desarrollador de software especializado en frontend, backend y arquitectura de microservicios.",
-    en: "Portfolio of Yeiler Simons Romero, a software developer specialized in frontend, backend and microservice architecture.",
+    es: "Portafolio de Yeiler Simons Romero, ingeniero full stack de producto: frontend, backend e infraestructura AWS, de la idea a producción.",
+    en: "Portfolio of Yeiler Simons Romero, a product-minded full stack engineer: frontend, backend and AWS infrastructure, from idea to production.",
   },
   ogDescription: {
-    es: "De la idea a producción: interfaces rápidas y accesibles, backends escalables y arquitecturas de microservicios en AWS.",
-    en: "From idea to production: fast, accessible interfaces, scalable backends and microservice architectures on AWS.",
+    es: "De la idea a producción — y operarlo ahí: interfaces rápidas y accesibles, backends escalables, AWS y CI/CD.",
+    en: "From idea to production — and operating it there: fast, accessible interfaces, scalable backends, AWS and CI/CD.",
   },
 };
 
@@ -91,8 +91,9 @@ useHead({
           "Node.js",
           "TypeScript",
           "AWS",
-          "Arquitectura de microservicios",
           "Microfrontends",
+          "CI/CD",
+          "Arquitectura de microservicios",
         ],
       }),
     },

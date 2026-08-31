@@ -69,7 +69,13 @@
               {{ t(ui.experience.seeCase) }}
             </a>
 
+            <!--
+              `link` es opcional: sin `v-if`, un puesto sin sitio renderizaba
+              un ancla con href="undefined" que se veía normal y no llevaba
+              a ninguna parte.
+            -->
             <a
+              v-if="job.link"
               :href="job.link"
               target="_blank"
               rel="noopener noreferrer"

@@ -5,6 +5,14 @@ Fuente única de la hoja de vida de Yeiler.
 Los dos PDFs publicados en `public/documents/` se generan de aquí con
 `build_cv.py`. Antes no existía fuente: los PDFs estaban sueltos y no se podían
 actualizar sin rehacerlos a mano.
+
+Coherencia con el sitio: los títulos de puesto, los nombres de empresa y las
+métricas deben coincidir con `src/data/data.ts` y `src/data/caseStudies.ts`.
+El CV se descarga desde el propio portafolio, así que una discrepancia entre
+los dos la ve cualquiera que abra ambos.
+
+Hay un contrato de exclusividad vigente: ni este archivo ni el sitio pueden
+ofrecer disponibilidad para trabajo por encargo.
 """
 
 PORTFOLIO_URL = "https://portfolio-yeiler.netlify.app/"
@@ -32,27 +40,29 @@ PROFILE = (
     "Vue.js, React, Angular, microfrontends — complementada con dominio real de Backend: "
     "NestJS, Python, C# .NET, APIs RESTful y bases de datos relacionales y no relacionales. "
     "Visión completa del ciclo de vida del software: arquitectura, patrones de diseño, "
-    "clean code, despliegue en AWS y pipelines CI/CD. Alta productividad con herramientas "
-    "de IA y modelos de lenguaje, incluyendo creación de MCP servers y skills personalizados."
+    "clean code, despliegue en AWS y pipelines CI/CD. Opero un producto propio en producción, "
+    "lo que suma soporte y operación al desarrollo. Alta productividad con herramientas de IA "
+    "y modelos de lenguaje, integrando MCP servers y skills personalizados al flujo de trabajo."
 )
 
 PROFILE_SHORT = (
     "Ingeniero de Sistemas Full Stack con más de 3 años de experiencia en proyectos de alto "
     "impacto para el sector público y privado (ICFES, Minsalud, UGPP, sector financiero). "
     "Fortaleza en Frontend —Vue.js, React, Angular, microfrontends— con dominio real de "
-    "Backend (NestJS, Python, C# .NET) e infraestructura cloud en AWS. Alta productividad "
-    "con IA y LLMs: MCP servers y skills personalizados."
+    "Backend (NestJS, Python, C# .NET) e infraestructura cloud en AWS. Producto propio en "
+    "producción, del desarrollo a la operación. Alta productividad con IA y LLMs: MCP servers "
+    "y skills integrados al flujo de trabajo."
 )
 
 EXPERIENCE = [
     {
-        "role": "Full Stack Developer",
+        "role": "Desarrollador Full Stack",
         "company": "Alegra",
         "period": "Dic. 2025 – Actualidad",
         "bullets": [
-            "Desarrollo y mantenimiento de microfrontends en Vue.js siguiendo arquitectura modular de alto rendimiento.",
+            "Desarrollo y mantenimiento de microfrontends en Vue.js con arquitectura modular de alto rendimiento; responsable de 2 microfrontends y trabajo transversal en los de otros equipos.",
             "Gestión de arquitectura de dependencias, compatibilidad de librerías y estrategias de integración entre módulos.",
-            "Creación de MCP servers (Model Context Protocol) y skills personalizados para potenciar flujos con IA.",
+            "Integración de MCP servers (Model Context Protocol) y skills personalizados al flujo de desarrollo; MCP server propio para conectarlo con Google Chat.",
             "Uso avanzado de modelos de lenguaje (LLMs): integración, prompting estratégico y automatización de tareas de desarrollo.",
             "Gestión de infraestructura en AWS: configuración de servicios cloud, entornos y despliegues.",
             "Implementación y optimización de pipelines CI/CD para entrega continua y despliegues automatizados.",
@@ -61,7 +71,7 @@ EXPERIENCE = [
         ],
     },
     {
-        "role": "Full Stack Developer",
+        "role": "Desarrollador Full Stack",
         "company": "Fryends",
         "period": "May. 2025 – Sep. 2025",
         "bullets": [
@@ -72,28 +82,28 @@ EXPERIENCE = [
         ],
     },
     {
-        "role": "Consultor de Desarrollo Frontend",
-        "company": "Ikitech Solutions SAS",
+        "role": "Desarrollador Frontend",
+        "company": "IkiTech Solutions",
         "period": "Ene. 2025 – Feb. 2025",
         "bullets": [
-            "Frontend en React (Next.js) para Monokera (sector financiero).",
+            "Frontend en React (Next.js) para Monokera (sector financiero), dentro de la línea de staffing especializado de IkiTech.",
             "Gestión de estado asincrónico con TanStack Query; pruebas unitarias con Jest.",
             "Gestión de flujos colaborativos con Git y estrategia de branching.",
         ],
     },
     {
-        "role": "Full Stack Developer",
-        "company": "M&T Consulting SAS",
+        "role": "Desarrollador Full Stack",
+        "company": "M&T Consulting",
         "period": "Jul. 2024 – Feb. 2025",
         "bullets": [
             "Proyecto ICFES: backend NestJS para generación masiva de PDFs de resultados académicos.",
-            "Proyecto Minsalud: frontend Vue 3 + Pinia con gestión de roles y módulos públicos.",
+            "Proyecto Minsalud: frontend Vue 3 + Pinia sobre el registro nacional de prestadores (61.000+ prestadores y 76.000+ sedes), con gestión de roles y módulos públicos.",
             "Liderazgo técnico en frontend dentro de equipo de 3 desarrolladores; entrega dentro de cronograma.",
         ],
     },
     {
-        "role": "Backend Developer Freelance",
-        "company": "UnoYCeroDigital SAS",
+        "role": "Desarrollador Backend",
+        "company": "UnoYCero Digital",
         "period": "Ene. 2024 – Ene. 2025",
         "bullets": [
             "Sistema de autenticación en Python con OAuth2 y JWT adoptado como estándar en proyectos futuros.",
@@ -101,7 +111,7 @@ EXPERIENCE = [
         ],
     },
     {
-        "role": "Software Developer",
+        "role": "Desarrollador Frontend & Soporte",
         "company": "Global e-Health",
         "period": "Ago. 2023 – Sep. 2024",
         "bullets": [
@@ -141,8 +151,8 @@ SKILLS = [
     ),
     (
         "IA & LLMs",
-        "Uso avanzado de modelos de lenguaje · Creación de MCP servers · Desarrollo de Skills "
-        "personalizados · Integración y prompting estratégico",
+        "Uso avanzado de modelos de lenguaje · Integración de MCP servers y skills personalizados "
+        "al flujo de desarrollo · MCP server propio (Google Chat) · Prompting estratégico",
     ),
     (
         "Herramientas",
@@ -162,7 +172,7 @@ SKILLS_SIDEBAR = [
     "Pipelines CI/CD, Nginx, Ubuntu Server",
     "PostgreSQL, MongoDB, Redis, SQL Server",
     "Jest, Vitest, Playwright, Cypress",
-    "MCP servers y skills para flujos con IA",
+    "MCP servers y skills integrados al flujo",
 ]
 
 EDUCATION = {

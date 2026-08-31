@@ -1,8 +1,16 @@
 import type { NavigationOption, SocialLink } from "@/utils/types";
-import { jobs, techCategories } from "@/data/data";
+import { careerStart, jobs } from "@/data/data";
+import { skillGroups } from "@/data/skills";
+import { monthsBetween } from "@/utils/duration";
 
-/** Total de tecnologías listadas en la sección Tech Stack. */
-const techCount = techCategories.reduce((n, c) => n + c.techs.length, 0);
+/**
+ * Total de tecnologías del stat del hero.
+ *
+ * Antes se derivaba de `techCategories`, cuya sección está comentada en
+ * `Home.vue`: el número apuntaba a algo que el visitante no podía bajar a
+ * comprobar. Ahora sale de `skillGroups`, que sí está en la página.
+ */
+const techCount = skillGroups.reduce((n, g) => n + g.items.length, 0);
 
 /**
  * URL canónica del sitio, sin barra final. Se usa para og:url, canonical,
@@ -15,14 +23,19 @@ export const SITE_URL = "https://portfolio-yeiler.netlify.app";
 /** Identidad / hero */
 export const profile = {
   name: "Yeiler Simons",
-  role: { es: "Ingeniero de Sistemas", en: "Systems Engineer" },
+  /**
+   * En español "Ingeniero de Sistemas" es el título profesional literal. En
+   * inglés "Systems Engineer" significa infraestructura/SRE fuera de Colombia,
+   * que no es el puesto que se busca: por eso el inglés no es una traducción.
+   */
+  role: { es: "Ingeniero de Sistemas", en: "Full Stack Engineer" },
   focus: {
-    es: "Full Stack · Arquitectura de microservicios",
-    en: "Full Stack · Microservice architecture",
+    es: "Full Stack de producto · Construyo y opero en producción",
+    en: "Product-minded Full Stack · I build and operate in production",
   },
   tagline: {
-    es: "Ayudo a empresas y equipos a llevar productos web de la idea a producción: interfaces rápidas y accesibles, backends escalables y arquitecturas de microservicios en AWS que sostienen el crecimiento.",
-    en: "I help companies and teams take web products from idea to production: fast, accessible interfaces, scalable backends and microservice architectures on AWS that sustain growth.",
+    es: "Ayudo a empresas y equipos a llevar productos web de la idea a producción — y a operarlos una vez ahí: interfaces rápidas y accesibles, backends escalables en AWS, CI/CD y soporte real cuando algo falla.",
+    en: "I help companies and teams take web products from idea to production — and keep them running once they are there: fast, accessible interfaces, scalable backends on AWS, CI/CD and real support when something breaks.",
   },
   location: "Santa Marta, Colombia",
   available: true,
@@ -44,11 +57,19 @@ export const profile = {
  * una cifra que la misma página contradice resta credibilidad en lugar de
  * sumarla. Ahora cada número se puede comprobar bajando a su sección.
  *
- * `years` sigue siendo manual porque depende de la fecha de inicio profesional,
- * que no está modelada.
+ * `years` se deriva de `careerStart`, pero con un suelo manual: hoy el único
+ * puesto con fechas es Alegra, así que la derivación sola daría "0+ años". En
+ * cuanto los puestos anteriores tengan `start`/`end`, la derivación supera al
+ * suelo y toma el control sin que haya que tocar nada aquí.
  */
+const YEARS_FLOOR = 3;
+const derivedYears = careerStart
+  ? Math.floor(monthsBetween(careerStart) / 12)
+  : 0;
+const years = Math.max(YEARS_FLOOR, derivedYears);
+
 export const stats = [
-  { value: "3+", labelKey: "years" as const },
+  { value: `${years}+`, labelKey: "years" as const },
   { value: String(jobs.length), labelKey: "companies" as const },
   { value: `${Math.floor(techCount / 5) * 5}+`, labelKey: "technologies" as const },
 ];
