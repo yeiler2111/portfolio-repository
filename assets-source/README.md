@@ -11,6 +11,7 @@ al sitio, pero sigue versionada para no perder las fuentes.
 | `img/imagen_mia.jpg` (7,1 MB) | — |
 | `img/imagen_mia.webp` (2,9 MB) | `public/img/imagen_mia_{240,480,768}.webp` |
 | `img/ml/correlacion_pca.png` (308 KB) | `public/img/ml/correlacion_pca.webp` (16 KB) |
+| `favicon/gen_favicon.py` | `public/{favicon.ico,apple-touch-icon.png,icon-192.png,icon-512.png,icon-maskable-512.png}` |
 
 Antes vivían en `public/img/`, así que se subían enteros en cada deploy (~10 MB)
 aunque el sitio solo usa las variantes redimensionadas.
@@ -182,3 +183,22 @@ Para el panel, además, hay que dejar la sesión lista en `sessionStorage`
 (`nicolle_demo_admin`, `nicolle_admin_authed`, `nicolle_admin_token`) y servir
 con fallback SPA, porque `/admin/dashboard/home` es una ruta en history mode.
 
+
+## Regenerar el favicon
+
+La fuente de verdad de la marca es `public/favicon.svg`: el monograma **YS** del
+header (`src/components/shared/Logo.vue`) sobre el degradado
+`primary-500 → secondary-500`. Los navegadores modernos usan ese SVG; el `.ico` y
+los PNG existen como respaldo para Safari, iOS y la instalación como PWA.
+
+`favicon/gen_favicon.py` replica la misma geometría del SVG con Pillow (no hay
+rasterizador de SVG en el proyecto), así que **cualquier cambio de trazo, color o
+radio hay que aplicarlo en los dos archivos** o el icono de la pestaña dejará de
+coincidir con el del header.
+
+```sh
+python assets-source/favicon/gen_favicon.py public
+```
+
+`icon-maskable-512.png` es aparte a propósito: va a sangre y con la marca al 80 %
+para sobrevivir al recorte circular que Android aplica a los iconos `maskable`.
