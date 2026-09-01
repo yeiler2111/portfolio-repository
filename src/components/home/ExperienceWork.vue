@@ -177,6 +177,38 @@ const goToCase = (caseId: string, event: MouseEvent): void => {
          dark:from-primary-700 dark:to-primary-900/40;
 }
 
+/*
+ * La linea se dibuja de arriba abajo conforme el puesto sube por la pantalla.
+ *
+ * Va con `animation-timeline`, no con JS: el navegador la resuelve en el
+ * compositor, fuera del hilo principal, que en movil es el recurso escaso.
+ * Donde no hay soporte la linea aparece completa, igual que hasta ahora.
+ *
+ * El rango se mide en `cover` y no en `entry` a proposito: `cover` va de "el
+ * elemento empieza a entrar" a "termina de salir", asi que se comporta igual
+ * en un movil corto que en un monitor alto. Con `entry` los puestos altos no
+ * llegaban a completar el trazo en pantallas pequenas.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .marker-line {
+      transform-origin: top;
+      animation: draw-line linear both;
+      animation-timeline: view();
+      animation-range: cover 5% cover 45%;
+    }
+  }
+}
+
+@keyframes draw-line {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
 /* Sin tarjeta: el timeline es una lista, no una pila de cajas. */
 .job {
   @apply flex-1 pb-1;
