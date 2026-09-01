@@ -12,7 +12,8 @@
           v-for="(group, index) in skillGroups"
           :key="group.id"
           v-reveal="index * 90"
-          class="card card-hover skill-card"
+          v-spotlight
+          class="card card-hover skill-card lg-spotlight"
         >
           <div class="skill-head">
             <div class="skill-icon">
@@ -24,7 +25,7 @@
             </div>
           </div>
 
-          <ul class="skill-tags">
+          <ul class="skill-tags lg-cascade">
             <li
               v-for="item in group.items"
               :key="itemLabel(item)"

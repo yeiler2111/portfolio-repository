@@ -209,6 +209,78 @@ const goToCase = (caseId: string, event: MouseEvent): void => {
   }
 }
 
+/* ============================================================
+   Escritorio: el timeline se compone al bajar
+   ============================================================ */
+@media (min-width: 1024px) {
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      /*
+       * Cada puesto llega desde la derecha, en la misma direccion en la que
+       * avanza la linea. El rango arranca antes que el de `draw-line` para
+       * que la tarjeta ya este colocada cuando el trazo la alcanza.
+       */
+      .job {
+        animation: job-in linear both;
+        animation-timeline: view();
+        animation-range: cover 2% cover 26%;
+      }
+
+      /* El punto crece justo cuando el trazo llega a su altura. */
+      .marker-dot {
+        animation: dot-in linear both;
+        animation-timeline: view();
+        animation-range: cover 4% cover 24%;
+      }
+    }
+  }
+
+  /*
+   * El unico bucle infinito del sitio, y por eso va acotado: son 6 px de punto
+   * en el puesto actual. Comunica "sigo aqui" y su area es tan pequena que el
+   * repintado no se nota, pero no se replica en ningun otro sitio.
+   */
+  @media (prefers-reduced-motion: no-preference) {
+    .job-current-dot {
+      animation: live-pulse 2.4s ease-in-out infinite;
+    }
+  }
+}
+
+@keyframes job-in {
+  from {
+    opacity: 0.3;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes dot-in {
+  from {
+    opacity: 0.45;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes live-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.55;
+  }
+}
+
 /* Sin tarjeta: el timeline es una lista, no una pila de cajas. */
 .job {
   @apply flex-1 pb-1;

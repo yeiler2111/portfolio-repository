@@ -57,6 +57,106 @@
 }
 
 /* ============================================================
+   Efectos de pantalla grande
+
+   Todo lo de este bloque es exclusivo de escritorio y esta es la unica
+   definicion del gate en el proyecto: si hay que ajustar el umbral, se ajusta
+   aqui y no en cinco componentes.
+
+   Dos puertas distintas, porque protegen de cosas distintas:
+
+   - ENTRADA (`min-width: 1024px`): efectos ligados al scroll o al reveal.
+     No dependen de que exista un cursor, solo de que haya sitio para lucirlos.
+   - CURSOR (`+ hover: hover + pointer: fine`): efectos que siguen al raton.
+     En tactil no solo sobran: el `:hover` se queda pegado tras un tap y el
+     brillo se congelaria en el ultimo punto tocado.
+
+   Por debajo de 1024 px no se emite ni una regla, asi que el movil se queda
+   exactamente como estaba. Eso incluye los `opacity: 0` de la cascada: fuera
+   del media query no existen, y no hay forma de que algo quede invisible.
+   ============================================================ */
+
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  /*
+   * Cascada interna. La tarjeta ya entra con `v-reveal`; esto escalona ademas
+   * sus hijos para que el contenido se componga solo, en vez de aparecer como
+   * un bloque.
+   *
+   * Se cuelga de `.reveal`, no del contenedor a secas, y ese detalle importa:
+   * si la directiva no llego a aplicarse (sin IntersectionObserver, por
+   * ejemplo) tampoco hay `.reveal`, asi que los hijos nunca se esconden. El
+   * efecto se pierde, el contenido no.
+   */
+  .reveal .lg-cascade > * {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.reveal-visible .lg-cascade > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  /*
+   * El retardo se reparte por posicion. Se corta en el septimo hijo a
+   * proposito: mas alla el ultimo elemento entraria medio segundo tarde y la
+   * cascada dejaria de leerse como una, que es el mismo motivo por el que
+   * `v-reveal` topa su stagger en 240 ms.
+   */
+  .reveal.reveal-visible .lg-cascade > *:nth-child(1) { transition-delay: 90ms; }
+  .reveal.reveal-visible .lg-cascade > *:nth-child(2) { transition-delay: 150ms; }
+  .reveal.reveal-visible .lg-cascade > *:nth-child(3) { transition-delay: 210ms; }
+  .reveal.reveal-visible .lg-cascade > *:nth-child(4) { transition-delay: 270ms; }
+  .reveal.reveal-visible .lg-cascade > *:nth-child(5) { transition-delay: 330ms; }
+  .reveal.reveal-visible .lg-cascade > *:nth-child(6) { transition-delay: 390ms; }
+  .reveal.reveal-visible .lg-cascade > *:nth-child(n + 7) { transition-delay: 430ms; }
+}
+
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  /*
+   * Foco que sigue al cursor. Las coordenadas las publica `v-spotlight`; el
+   * fallback 50% deja el brillo centrado mientras el raton todavia no ha
+   * entrado, de modo que nunca hay un salto desde la esquina.
+   *
+   * Va en un pseudoelemento y no en el fondo de la tarjeta para no pisar el
+   * `bg-white`/`dark:bg-gray-900` de `.card`, y con `opacity` en la transicion
+   * en lugar de aparecer de golpe.
+   */
+  .lg-spotlight {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .lg-spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    background: radial-gradient(
+      42% 60% at var(--mx, 50%) var(--my, 50%),
+      rgb(var(--color-primary-500) / 0.1),
+      transparent 72%
+    );
+  }
+
+  .lg-spotlight:hover::before {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lg-spotlight::before {
+    display: none;
+  }
+}
+
+/* ============================================================
    Design Tokens
    Paleta cohesionada: azul (primary) + índigo (secondary).
    Acento violeta reservado para detalles puntuales.

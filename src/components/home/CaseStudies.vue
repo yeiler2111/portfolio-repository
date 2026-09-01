@@ -18,7 +18,8 @@
         :id="`case-${cs.id}`"
         :key="cs.id"
         v-reveal="index * 110"
-        class="card card-hover case"
+        v-spotlight
+        class="card card-hover case lg-spotlight"
       >
         <!-- Encabezado -->
         <header class="case-head">
@@ -53,7 +54,7 @@
             <span class="case-label case-label-arch">
               <Layers :size="15" /> {{ t(ui.cases.architecture) }}
             </span>
-            <ul class="case-list">
+            <ul class="case-list lg-cascade">
               <li v-for="(item, i) in t(cs.architecture)" :key="i">{{ item }}</li>
             </ul>
           </div>
@@ -62,7 +63,7 @@
             <span class="case-label case-label-outcome">
               <TrendingUp :size="15" /> {{ t(ui.cases.outcome) }}
             </span>
-            <ul class="case-list case-list-outcome">
+            <ul class="case-list case-list-outcome lg-cascade">
               <li v-for="(item, i) in t(cs.outcome)" :key="i">{{ item }}</li>
             </ul>
           </div>
@@ -70,7 +71,7 @@
 
         <!-- Stack + enlace -->
         <footer class="case-foot">
-          <div class="case-stack">
+          <div class="case-stack lg-cascade">
             <span v-for="tech in cs.stack" :key="tech" class="chip">{{ tech }}</span>
           </div>
           <a

@@ -1,5 +1,5 @@
 <template>
-  <section class="hero" aria-label="Presentación">
+  <section v-spotlight class="hero" aria-label="Presentación">
     <!-- Fondo decorativo sutil -->
     <div class="hero-glow" aria-hidden="true"></div>
 
@@ -159,6 +159,60 @@ onBeforeUnmount(() => document.removeEventListener("click", handleClickOutside))
   background:
     radial-gradient(60% 50% at 15% 20%, rgb(var(--color-primary-500) / 0.1), transparent 70%),
     radial-gradient(50% 50% at 85% 30%, rgb(var(--color-secondary-500) / 0.1), transparent 70%);
+}
+
+/* ============================================================
+   Escritorio: el fondo del hero reacciona
+   ============================================================ */
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  @media (prefers-reduced-motion: no-preference) {
+    /*
+     * Los dos halos derivan con el cursor. El desplazamiento se queda en un
+     * 12 % del recorrido a proposito: lo justo para que el fondo respire y
+     * acompane al raton sin convertirse en el protagonista de una zona que
+     * tiene que leerse, no mirarse.
+     *
+     * `--mx`/`--my` las publica `v-spotlight` en la seccion; el 50 % de
+     * respaldo mantiene los halos en su sitio original mientras el cursor no
+     * ha entrado, asi que no hay salto en el primer movimiento.
+     *
+     * Se usa la propiedad `translate` y no `transform`, y no es un capricho:
+     * el parallax de mas abajo anima `transform`, y una animacion gana siempre
+     * a una declaracion. Escritas las dos en la misma propiedad, el efecto de
+     * cursor no llegaria a verse nunca. `translate` se compone aparte, asi que
+     * los dos movimientos conviven.
+     */
+    .hero-glow {
+      translate: calc((var(--mx, 50%) - 50%) * 0.12)
+        calc((var(--my, 50%) - 50%) * 0.12);
+      transition: translate 600ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  }
+}
+
+/*
+ * Parallax al bajar: el fondo sube mas despacio que el contenido. Va con
+ * `scroll()` y no con `view()` porque el hero ocupa el viewport entero y su
+ * propio recorrido de entrada no existe: lo que interesa es el scroll de la
+ * pagina.
+ */
+@media (min-width: 1024px) {
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .hero-glow {
+        animation: hero-parallax linear both;
+        animation-timeline: scroll(root block);
+        animation-range: 0 90vh;
+      }
+    }
+  }
+}
+
+@keyframes hero-parallax {
+  to {
+    transform: translate3d(0, 14%, 0) scale(1.06);
+    opacity: 0.55;
+  }
 }
 .dark .hero-glow {
   background:

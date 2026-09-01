@@ -11,7 +11,8 @@
         v-for="(step, index) in processSteps"
         :key="step.id"
         v-reveal="index * 100"
-        class="step card card-hover"
+        v-spotlight
+        class="step card card-hover lg-spotlight"
       >
         <span class="step-ghost" aria-hidden="true">{{ index + 1 }}</span>
 
@@ -25,7 +26,7 @@
         <h3 class="step-title">{{ t(step.title) }}</h3>
         <p class="step-desc">{{ t(step.description) }}</p>
 
-        <ul class="step-deliverables">
+        <ul class="step-deliverables lg-cascade">
           <li v-for="d in t(step.deliverables)" :key="d">
             <Check :size="14" class="shrink-0" />
             {{ d }}

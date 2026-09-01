@@ -3,6 +3,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import './assets/tailwind.css'
 import { reveal } from './directives/reveal'
+import { spotlight } from './directives/spotlight'
 import { router } from './router'
 
 const app = createApp(App)
@@ -17,5 +18,6 @@ const head = createHead()
 app.use(router)
 app.use(head)
 app.directive('reveal', reveal)
+app.directive('spotlight', spotlight)
 
 app.mount('#app')
